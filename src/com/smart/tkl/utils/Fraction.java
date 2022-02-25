@@ -1,5 +1,8 @@
 package com.smart.tkl.utils;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+
 public class Fraction {
     private final long p;
     private final long q;
@@ -27,5 +30,9 @@ public class Fraction {
     @Override
     public String toString() {
         return "{p=" + p + ", q=" + q + "}";
+    }
+
+    public BigDecimal toValue() {
+        return new BigDecimal(p).divide(new BigDecimal(q), MathContext.DECIMAL128);
     }
 }

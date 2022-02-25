@@ -51,6 +51,24 @@ public class MathUtils {
         return new Fraction(p, q);
     }
 
+    public static BigDecimalFraction fromContinuedFractionsToBigDecimal(List<Long> fractions) {
+        BigDecimal[] previousP = new BigDecimal[]{BigDecimal.ONE, BigDecimal.valueOf(fractions.get(0))};
+        BigDecimal[] previousQ = new BigDecimal[]{BigDecimal.ZERO, BigDecimal.ONE};
+        BigDecimal p = previousP[1];
+        BigDecimal q = previousQ[1];
+
+        for(int i = 1; i < fractions.size(); i++) {
+            p = BigDecimal.valueOf(fractions.get(i)).multiply(previousP[1]).add(previousP[0]);
+            q = BigDecimal.valueOf(fractions.get(i)).multiply(previousQ[1]).add(previousQ[0]);
+
+            previousP[0] = previousP[1];
+            previousP[1] = p;
+            previousQ[0] = previousQ[1];
+            previousQ[1] = q;
+        }
+        return new BigDecimalFraction(p, q);
+    }
+
 
     public static List<Long> toContinuedFractions(Fraction f) {
         return toContinuedFractions(f.getNumerator(), f.getDenominator());
