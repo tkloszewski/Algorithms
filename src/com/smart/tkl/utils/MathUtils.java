@@ -6,6 +6,7 @@ import java.util.*;
 public class MathUtils {
 
     public static void main(String[] args) {
+        System.out.println("Maximum sub array index: " + Arrays.toString(getMaxSubArrayIndex(new int[]{2, 1, 3, 4, -1, 2, 1, 5, -4, -20, 21, 2})));
         System.out.println("Linear diophantine equation: " + solveLinearEquation(5, 3, 13));
         System.out.println("Modulo power 2639^3648 mod 7297: " + moduloPower(2639, 3648, 7279));
         System.out.println("Is permutation: " + formDigitPermutations(1234567890, 3021987465L));
@@ -704,14 +705,25 @@ public class MathUtils {
         return value;
     }
 
-    public static boolean containsAtLeastOne(List<Integer> list1, List<Integer> list2) {
-        for(Integer num : list2) {
-            if(list1.contains(num)) {
-                return true;
-            }
+
+    public static int[] getMaxSubArrayIndex(int[] tab) {
+        int currentSum = 0, maxSum = Integer.MIN_VALUE, left = 0, right = tab.length - 1;
+        int shift = left;
+        for(int i = 0; i < tab.length; i++) {
+           currentSum += tab[i];
+           if(currentSum > maxSum) {
+              maxSum = currentSum;
+              left = shift;
+              right = i;
+           }
+           else if(currentSum < 0) {
+               currentSum = 0;
+               shift = i + 1;
+           }
         }
-        return false;
+        return new int[]{left, right};
     }
+
 
     private static List<Integer> rotateLeft(List<Integer> digits) {
         int firstNum = digits.get(0);
