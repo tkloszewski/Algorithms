@@ -2,7 +2,6 @@ package com.smart.tkl.test;
 
 import com.smart.tkl.CombinatoricsUtils;
 
-import javax.jnlp.IntegrationService;
 import java.util.*;
 
 public class GenericTaskSolver {

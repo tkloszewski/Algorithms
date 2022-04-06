@@ -1,6 +1,5 @@
 package com.smart.tkl.hash;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 public class RabinKarpPatternMatching {
 
