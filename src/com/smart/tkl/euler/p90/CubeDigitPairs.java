@@ -16,23 +16,10 @@ public class CubeDigitPairs {
         int count = 0;
         
         for(int i = 0; i < combinations.size(); i++) {
-            for(int j = i + 1; j < combinations.size(); j++) {
-                int[] combination1 = combinations.get(i);
-                int[] combination2 = combinations.get(j);
-                
-                Set<Integer> arrangement1  = new HashSet<>();
-                Set<Integer> arrangement2  = new HashSet<>();
-                
-                for (int num : combination1) {
-                    arrangement1.add(num);
-                }
-                for (int num : combination2) {
-                    arrangement2.add(num);
-                }
-                
-                extendArrangement(arrangement1);
-                extendArrangement(arrangement2);                
-                
+            for(int j = i + 1; j < combinations.size(); j++) {               
+                Set<Integer> arrangement1  = toExtendedSet(combinations.get(i));
+                Set<Integer> arrangement2  = toExtendedSet(combinations.get(j));              
+              
                 if(isValidArrangement(arrangement1, arrangement2)) {
                     count++;                    
                 }               
@@ -42,7 +29,12 @@ public class CubeDigitPairs {
         System.out.println("Count: " + count);
     }
     
-    private static Set<Integer> extendArrangement(Set<Integer> arrangement) {
+    
+    private static Set<Integer> toExtendedSet(int[] combination) {
+        Set<Integer> arrangement  = new HashSet<>();
+        for (int num : combination) {
+            arrangement.add(num);
+        }
         if(arrangement.contains(6) && !arrangement.contains(9)) {
             arrangement.add(9);
         }
@@ -50,7 +42,8 @@ public class CubeDigitPairs {
             arrangement.add(6);
         }
         return arrangement;
-    }
+    }    
+    
     
     private static boolean isValidArrangement(Set<Integer> arrangement1, Set<Integer> arrangement2) {   
         int[][] squareCombinations = {{0, 1}, {0, 4}, {0, 9}, {1, 6}, {2, 5}, {3, 6}, {4, 6}, {6, 4}, {8, 1}};
