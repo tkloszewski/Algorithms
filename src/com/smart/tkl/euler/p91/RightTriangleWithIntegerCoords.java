@@ -15,7 +15,7 @@ public class RightTriangleWithIntegerCoords {
         int count = triangleWithIntegerCoords.count();
         int fastCount = triangleWithIntegerCoords.fastCount(); 
         System.out.println("Count: " + count);
-        System.out.println("Fast count: " + fastCount);
+        System.out.println("Fast count: " + fastCount);        
     }
     
     public int count() {
