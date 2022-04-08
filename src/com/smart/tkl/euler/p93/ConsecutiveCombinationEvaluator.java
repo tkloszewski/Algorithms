@@ -41,11 +41,11 @@ public class ConsecutiveCombinationEvaluator {
         if(this.validValues == null) {
            this.validValues = getAllValidaValues(); 
         }
-        int max = 1;
-        while (validValues.contains(max)) {
+        int max = 0;
+        while (validValues.contains(max + 1)) {
             max++;
         }        
-        return new ConsecutiveCombination(combination, validValues, max - 1);
+        return new ConsecutiveCombination(combination, validValues, max);
     }
     
     public int[] getCombination() {
