@@ -17,22 +17,7 @@ public class SquarePermutationPairsGenerator {
     }
     
     public SquarePermutationPairsGenerator() {
-    }
-    
-    public static void main(String[] args) {
-        SquarePermutationPairsGenerator pairsGenerator = new SquarePermutationPairsGenerator();
-        
-        long time1 = System.currentTimeMillis();
-        List<NumberPermutationPair> pairs = pairsGenerator.generatePairs(4);
-        long time2 = System.currentTimeMillis();
-        System.out.println("Time in ms: " + (time2 - time1));
-        System.out.println("Pairs size: " + pairs.size());
-        
-        
-        for(NumberPermutationPair pair : pairs) {
-            System.out.println("Pair: " + pair);
-        }
-    }
+    }    
     
     public List<NumberPermutationPair> generatePairs(int digitLength) {
         List<NumberPermutationPair> result = new ArrayList<>();
