@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalLong;
+import java.util.stream.Collectors;
 
 public class AnagramicSquares {
     
@@ -12,17 +14,20 @@ public class AnagramicSquares {
     
     private final WordReader wordReader;
     private final WordPermutationPairsGenerator wordPermutationGenerator;
-    private final SquarePermutationPairsGenerator squarePermutationGenerator;    
+    private final SquarePermutationPairsGenerator squarePermutationGenerator;
     
     public static void main(String[] args) {
         try {
             AnagramicSquares anagramicSquares = new AnagramicSquares();
+            long time1 = System.currentTimeMillis();
             long maxSquare = anagramicSquares.findMaxSquare();
-            System.out.println("Max square: " + maxSquare);
+            long time2 = System.currentTimeMillis();            
+            
+            System.out.println("Max square: " + maxSquare + " Time in ms: " + (time2 - time1));
         }
         catch (Exception e) {
             e.printStackTrace();
-        }       
+        }
     }
     
     public AnagramicSquares() throws Exception {
@@ -31,13 +36,13 @@ public class AnagramicSquares {
         this.squarePermutationGenerator = new SquarePermutationPairsGenerator();
     }
     
-    public long findMaxSquare() {        
-        Optional<Long> maxSquareOpt = Optional.empty();    
+    public long findMaxSquare() {
+        Optional<Long> maxSquareOpt = Optional.empty();
         while (maxSquareOpt.isEmpty()) {
             List<WordPermutationPair> wordPermutationPairs = new ArrayList<>();
-            int currentLength = 0;    
+            int currentLength = 0;
             while (wordPermutationPairs.size() == 0) {
-                currentLength = wordPermutationGenerator.getCurrentLength();    
+                currentLength = wordPermutationGenerator.getCurrentLength();
                 if(!wordPermutationGenerator.hasNext()) {
                     break;
                 }
@@ -54,46 +59,63 @@ public class AnagramicSquares {
     
     private Optional<Long> getMaxSquareOpt(int length, List<WordPermutationPair> wordPermutationPairs) {
         long maxSquare = 0;
-        List<NumberPermutationPair> squarePermutationPairs = squarePermutationGenerator.generatePairs(length);
+        
+        Map<Long, List<HashedPermutation>> hashedPermutationMap = squarePermutationGenerator.generateHashedPermutation(length);        
+        
         for(WordPermutationPair wordPair : wordPermutationPairs) {
-            for(NumberPermutationPair squarePair : squarePermutationPairs) {
-                if(matches(squarePair, wordPair)) {
-                   if(maxSquare < squarePair.max) {
-                      maxSquare = squarePair.max; 
-                   }
-                }
-            }
-        }
+            for(Long hash : hashedPermutationMap.keySet()) {
+               Optional<Long> optMax = computeMaxSquare(hashedPermutationMap.get(hash), wordPair);
+               maxSquare = Math.max(optMax.orElse(0L), maxSquare);
+            }             
+        }        
+        
         return maxSquare != 0 ? Optional.of(maxSquare) : Optional.empty();
     }
     
-    private static boolean matches(NumberPermutationPair squarePair, WordPermutationPair wordPair) {
-        if(squarePair.length != wordPair.length) {
-           return false; 
-        }
+    private Optional<Long> computeMaxSquare(List<HashedPermutation> hashedPermutations, WordPermutationPair wordPermutationPair) {        
+        List<HashedPermutationWithWord> filteredPermutations1 = hashedPermutations
+                .stream().map(p -> {
+                    String word = wordPermutationPair.pair[0];
+                    Optional<Map<Integer, Integer>> wordToDigitMapOpt = getWordToDigitMapping(word, p.digits);
+                    return wordToDigitMapOpt.map(
+                            integerIntegerMap -> new HashedPermutationWithWord(p, word, integerIntegerMap));
+                })
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
         
-        boolean foundMatch = false;
+        List<HashedPermutationWithWord> filteredPermutations2 = hashedPermutations
+                .stream().map(p -> {
+                    String word = wordPermutationPair.pair[1];
+                    Optional<Map<Integer, Integer>> wordToDigitMapOpt = getWordToDigitMapping(word, p.digits);
+                    return wordToDigitMapOpt.map(
+                            integerIntegerMap -> new HashedPermutationWithWord(p, word, integerIntegerMap));
+                })
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
         
-        Optional<Map<Integer, Integer>> wordToDigitMapOpt = getWordToDigitMapping(wordPair.pair[0], squarePair.digitsPair[0]);
-        if(wordToDigitMapOpt.isEmpty()) {
-           wordToDigitMapOpt = getWordToDigitMapping(wordPair.pair[0], squarePair.digitsPair[1]);
-           if(wordToDigitMapOpt.isPresent()) {
-              foundMatch = matchesWordToDigitMap(wordToDigitMapOpt.get(), wordPair.pair[1], squarePair.digitsPair[0]); 
-           }
-        }
-        else {
-            foundMatch = matchesWordToDigitMap(wordToDigitMapOpt.get(), wordPair.pair[1], squarePair.digitsPair[1]);
-        }
+        long maxSquare = 0;
+        for(HashedPermutationWithWord hw1 : filteredPermutations1) {
+            for(HashedPermutationWithWord hw2 : filteredPermutations2) {
+                if(hw1.value != hw2.value) {
+                    long localMax = Math.max(hw1.value, hw2.value);
+                    if(maxSquare < localMax && matchesWordToDigitMap(hw1.wordToDigitMap, hw2.word, hw2.digits)) {
+                       maxSquare = localMax; 
+                    }
+                }
+            }
+        }        
         
-        return foundMatch;
-    }
+        return maxSquare > 0 ? Optional.of(maxSquare) : Optional.empty();
+    }   
     
     private static boolean matchesWordToDigitMap(Map<Integer, Integer> map, String word, List<Integer> digits) {
         for(int i = 0; i < word.length(); i++) {
             int key = word.charAt(i);
             int digit = digits.get(i);
             if(!map.containsKey(key) || map.get(key) != digit) {
-               return false; 
+                return false;
             }
         }
         return true;
@@ -101,7 +123,7 @@ public class AnagramicSquares {
     
     private static Optional<Map<Integer, Integer>> getWordToDigitMapping(String word, List<Integer> digits) {
         Map<Integer, Integer> map = new LinkedHashMap<>();
-       // Set<Integer> values
+        // Set<Integer> values
         for(int i = 0; i < word.length(); i++) {
             int key = word.charAt(i);
             int digit = digits.get(i);
@@ -118,5 +140,24 @@ public class AnagramicSquares {
             }
         }
         return Optional.of(map);
-    }    
+    }
+    
+    private static class HashedPermutationWithWord {
+        
+        long value;
+        long hash;
+        List<Integer> digits;
+        String word;
+        Map<Integer, Integer> wordToDigitMap;
+        
+        public HashedPermutationWithWord(HashedPermutation hashedPermutation, String word, Map<Integer, Integer> wordToDigitMap) {
+            this.value = hashedPermutation.value;
+            this.hash = hashedPermutation.hash;
+            this.digits = hashedPermutation.digits;
+            this.word = word;
+            this.wordToDigitMap = wordToDigitMap;
+        }
+        
+        
+    }
 }
