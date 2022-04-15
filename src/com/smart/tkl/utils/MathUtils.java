@@ -189,12 +189,7 @@ public class MathUtils {
     }
 
     public static boolean formDigitPermutations(long a, long b) {
-        int[] digitFreqTab = new int[10];
-        while (a > 0) {
-            int digit = (int)(a % 10);
-            digitFreqTab[digit]++;
-            a = a / 10;
-        }
+        int[] digitFreqTab = getDigitFreqTab(a);        
         return formDigitPermutations(digitFreqTab, b);
     }
 
@@ -213,6 +208,16 @@ public class MathUtils {
         }
 
         return true;
+    }
+    
+    public static int[] getDigitFreqTab(long a) {
+        int[] digitFreqTab = new int[10];
+        while (a > 0) {
+            int digit = (int)(a % 10);
+            digitFreqTab[digit]++;
+            a = a / 10;
+        }
+        return digitFreqTab;
     }
 
     public static long combinations(int n, int r) {
@@ -628,10 +633,10 @@ public class MathUtils {
     }
 
     public static List<Integer> getDigitsReversed(long n) {
-        List<Integer> reversed = new ArrayList<>();
-        List<Integer> digits = getDigits(n);
-        for(int i = digits.size() - 1; i >= 0; i--) {
-            reversed.add(digits.get(i));
+        LinkedList<Integer> reversed = new LinkedList<>();        
+        while (n > 0) {
+            reversed.addFirst((int)n % 10);
+            n = n / 10;
         }
         return reversed;
     }
