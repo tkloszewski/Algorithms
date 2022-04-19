@@ -210,8 +210,7 @@ public class ProblemSet3 {
     }
 
     public static int sumProperDivisors(int n) {
-        List<Integer> divisors = listProperDivisors(n);
-        return divisors.stream().reduce(0, Integer::sum);
+        return MathUtils.sumProperDivisors(n);
     }
 
 
