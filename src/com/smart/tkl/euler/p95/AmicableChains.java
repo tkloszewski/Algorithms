@@ -66,7 +66,7 @@ public class AmicableChains {
         generatedElements.add(n);
         chain.add(n);
         
-        int properDivisorSum = sieve[n];
+        int properDivisorSum = sieve[n] ;
         while (properDivisorSum <= limit && !generatedElements.contains(properDivisorSum)) {
             generatedElements.add(properDivisorSum);
             chain.add(properDivisorSum);
@@ -112,10 +112,7 @@ public class AmicableChains {
         int[] sieve = new int[limit + 1];
         for(int i = 1; i <= limit / 2; i++) {
             for(int j = 2 * i; j <= limit; j += i) {
-                sieve[j] += i;
-                if(sieve[j] < 0) {
-                   System.out.println("Sieve overflow!!!!"); 
-                }
+                sieve[j] += i;                
             }
         }
         return sieve;
