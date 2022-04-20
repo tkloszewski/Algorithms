@@ -24,6 +24,7 @@ public class AmicableChains {
         long time2 = System.currentTimeMillis();
     
         System.out.println("Min element of longest chain: " + min + " Time in ms: " + (time2 - time1));
+        System.out.println("Chain map size: " + amicableChains.chainMap.size());
     }
     
     public AmicableChains(int limit) {
