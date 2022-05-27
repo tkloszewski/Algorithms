@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class AnagramicSquares {
     
-    private static final String PATH = "C:\\Projects\\microservices\\Algorithms\\src\\com\\smart\\tkl\\euler\\p98\\p098_words.txt";
+    private static final String PATH = "C:\\Projects\\personal\\Algorithms\\src\\com\\smart\\tkl\\euler\\p98\\p098_words.txt";
     
     private final WordReader wordReader;
     private final WordPermutationPairsGenerator wordPermutationGenerator;

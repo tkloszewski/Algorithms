@@ -24,7 +24,7 @@ public class MatrixPathSum4Ways {
             {805, 732, 524, 37,  331}
     };
 
-    private static final String MATRIX_80_80_FILE_PATH = "C:\\Projects\\microservices\\Algorithms\\src\\com\\smart\\tkl\\euler\\p83\\p083_matrix.txt";
+    private static final String MATRIX_80_80_FILE_PATH = "C:\\Projects\\personal\\Algorithms\\src\\com\\smart\\tkl\\euler\\p83\\p083_matrix.txt";
 
     private static final int[] ROW_VECTOR = {-1, 0, 1, 0};
     private static final int[] COL_VECTOR = {0, -1, 0, 1};

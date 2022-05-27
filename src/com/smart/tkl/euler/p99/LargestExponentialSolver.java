@@ -5,7 +5,7 @@ import java.util.List;
 
 public class LargestExponentialSolver {
     
-    private static final String PATH = "C:\\Projects\\microservices\\Algorithms\\src\\com\\smart\\tkl\\euler\\p99\\p099_base_exp.txt";
+    private static final String PATH = "C:\\Projects\\personal\\Algorithms\\src\\com\\smart\\tkl\\euler\\p99\\p099_base_exp.txt";
     
     public static void main(String[] args) {
         LargestExponentialSolver largestExponentialSolver = new LargestExponentialSolver();    

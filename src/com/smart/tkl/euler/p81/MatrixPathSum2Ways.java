@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class MatrixPathSum2Ways {
 
-    private static final String MATRIX_80_80_FILE_PATH = "C:\\Projects\\microservices\\Algorithms\\src\\com\\smart\\tkl\\euler\\p81\\p081_matrix.txt";
+    private static final String MATRIX_80_80_FILE_PATH = "C:\\Projects\\personal\\Algorithms\\src\\com\\smart\\tkl\\euler\\p81\\p081_matrix.txt";
 
     private static final int[][] TEST_MATRIX = {
             {131, 673, 234, 103, 18},

@@ -29,14 +29,14 @@ public class DigitFactorialChains {
                 System.out.printf("Digit factorials chains count: %d. Solution took %d ms \n", count, (time2 - time1));
 
 
-                time1 = System.currentTimeMillis();
+                /*time1 = System.currentTimeMillis();
                 int slowCount = digitFactorialChains.slowCount();
                 time2 = System.currentTimeMillis();
                 System.out.printf("Digit factorials chains slow count: %d. Solution took %d ms \n", slowCount, (time2 - time1));
 
                 if(slowCount != count) {
                     System.out.println("Unequal!! ");
-                }
+                }*/
             }
         }
     }

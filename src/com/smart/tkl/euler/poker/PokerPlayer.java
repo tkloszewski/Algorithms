@@ -8,8 +8,8 @@ import java.util.List;
 
 public class PokerPlayer {
 
-    private static final String POKER_FILE_PATH = "C:\\Projects\\microservices\\Algorithms\\src\\com\\smart\\tkl\\euler\\poker\\p054_poker.txt";
-    private static final String POKER_TEST_FILE_PATH = "C:\\Projects\\microservices\\Algorithms\\src\\com\\smart\\tkl\\euler\\poker\\test_poker.txt";
+    private static final String POKER_FILE_PATH = "C:\\Projects\\personal\\Algorithms\\src\\com\\smart\\tkl\\euler\\poker\\p054_poker.txt";
+    private static final String POKER_TEST_FILE_PATH = "C:\\Projects\\personal\\Algorithms\\src\\com\\smart\\tkl\\euler\\poker\\test_poker.txt";
 
     private final HandsReader handsReader = new HandsReader(POKER_FILE_PATH);
     private final CardComparator cardComparator = new CardComparator();
