@@ -1,6 +1,7 @@
 package com.smart.tkl.graph.standard;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DirectedGraph {
 
@@ -24,6 +25,12 @@ public class DirectedGraph {
         }
     }
 
+    public List<StandardVertex> getAdjacentVertices(StandardVertex vertex) {
+        return Optional.ofNullable(adjacencyMap.get(vertex))
+                .map(edges -> edges.stream().map(e -> e.to).collect(Collectors.toList()))
+                .orElse(List.of());
+    }
+
     public boolean containsVertex(StandardVertex vertex) {
         return vertices.contains(vertex);
     }
@@ -38,5 +45,14 @@ public class DirectedGraph {
 
     public Map<StandardVertex, List<StandardEdge>> getAdjacencyMap() {
         return adjacencyMap;
+    }
+
+    public StandardEdge getEdge(StandardVertex from, StandardVertex to) {
+        for(StandardEdge edge : edges) {
+            if(edge.from.equals(from) && edge.to.equals(to)) {
+               return edge;
+            }
+        }
+        return null;
     }
 }

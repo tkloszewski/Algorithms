@@ -1,6 +1,13 @@
 package com.smart.tkl.graph.standard;
 
+import com.smart.tkl.graph.standard.cycle.CycleDetector;
+import com.smart.tkl.graph.standard.cycle.GraphCycle;
+import com.smart.tkl.graph.standard.visit.DFSVisitor;
+import com.smart.tkl.graph.standard.visit.GraphVisitor;
+import com.smart.tkl.graph.standard.visit.VisitorResult;
+
 import java.util.List;
+import java.util.Optional;
 
 public class ShortestPathTester {
 
@@ -46,5 +53,15 @@ public class ShortestPathTester {
            System.out.println("Negative Infinity path: " + path);
         }
 
+        path = pathFinder.find(new StandardVertex(9), source);
+        System.out.println("Path to source: " + path);
+
+        GraphVisitor visitor = new DFSVisitor(graph);
+        VisitorResult visitorResult = visitor.visitFrom(source);
+        System.out.println("Visitor result: " + visitorResult);
+
+        CycleDetector cycleDetector = new CycleDetector(graph);
+        Optional<GraphCycle> cycleOpt = cycleDetector.detectCycle();
+        System.out.println("Cycle: " + cycleOpt);
     }
 }

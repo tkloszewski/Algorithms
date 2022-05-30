@@ -59,6 +59,9 @@ public class BFShortestPathFinder implements ShortestPathFinder {
         if(MIN.equals(cost)) {
            return StandardPath.NEGATIVE_INFINITY;
         }
+        if(MAX.equals(cost)) {
+            return StandardPath.NONE;
+        }
 
         LinkedList<StandardVertex> path = new LinkedList<>();
         StandardVertex prevVertex = dest;
