@@ -26,8 +26,8 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
         costMap.put(source, BigDecimal.ZERO);
 
         StandardVertex current = source;
-        Set<StandardVertex> visited = new HashSet<>();
-        visited.add(source);
+        Set<StandardVertex> processed = new HashSet<>();
+        processed.add(source);
 
         while (true) {
             for(StandardVertex vertex : graph.getAdjacentVertices(current)) {
@@ -39,12 +39,12 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
                    previousMap.put(vertex, current);
                 }
             }
-            Optional<StandardVertex> nextMinCostVertex = findMinCostVertex(visited, costMap);
+            Optional<StandardVertex> nextMinCostVertex = findMinCostVertex(processed, costMap);
             if(nextMinCostVertex.isEmpty()) {
                break;
             }
             current = nextMinCostVertex.get();
-            visited.add(current);
+            processed.add(current);
         }
 
         StandardVertex prev = previousMap.get(dest);
@@ -61,11 +61,11 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
         return new StandardPath(pathVertices, costMap.get(dest));
     }
 
-    private Optional<StandardVertex> findMinCostVertex(Set<StandardVertex> visited, Map<StandardVertex, BigDecimal> costMap) {
+    private Optional<StandardVertex> findMinCostVertex(Set<StandardVertex> processed, Map<StandardVertex, BigDecimal> costMap) {
         StandardVertex minCostVertex = null;
         BigDecimal minCost = MAX;
         for(StandardVertex vertex : costMap.keySet()) {
-            if(!visited.contains(vertex)) {
+            if(!processed.contains(vertex)) {
                BigDecimal cost = costMap.get(vertex);
                if(cost.compareTo(minCost) < 0) {
                   minCost = cost;
