@@ -2,6 +2,6 @@ package com.smart.tkl.graph.standard;
 
 public interface ShortestPathFinder {
 
-     StandardPath find(StandardVertex vertex1, StandardVertex vertex2);
+     StandardPath find(StandardVertex source, StandardVertex dest);
 
 }

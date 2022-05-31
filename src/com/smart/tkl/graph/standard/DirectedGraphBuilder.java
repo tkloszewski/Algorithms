@@ -8,12 +8,16 @@ public class DirectedGraphBuilder {
     private final List<StandardEdge> edges = new LinkedList<>();
     private final List<Set<StandardVertex>> connectedSets = new ArrayList<>();
 
+    public DirectedGraphBuilder addEdge(String vertexId1, String vertexId2, int cost) {
+        return addEdge(new StandardEdge(new StandardVertex(vertexId1), new StandardVertex(vertexId2), BigDecimal.valueOf(cost)));
+    }
+
     public DirectedGraphBuilder addEdge(int vertexId1, int vertexId2, int cost) {
-        return performAddEdge(new StandardEdge(new StandardVertex(vertexId1), new StandardVertex(vertexId2), BigDecimal.valueOf(cost)));
+        return addEdge(vertexId1, vertexId2, BigDecimal.valueOf(cost));
     }
 
     public DirectedGraphBuilder addEdge(int vertexId1, int vertexId2, BigDecimal cost) {
-        return performAddEdge(new StandardEdge(new StandardVertex(vertexId1), new StandardVertex(vertexId2), cost));
+        return addEdge(new StandardEdge(new StandardVertex(vertexId1), new StandardVertex(vertexId2), cost));
     }
 
     public DirectedGraphBuilder addEdge(StandardEdge edge) {

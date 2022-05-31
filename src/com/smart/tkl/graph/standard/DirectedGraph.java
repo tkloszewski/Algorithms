@@ -1,11 +1,13 @@
 package com.smart.tkl.graph.standard;
 
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class DirectedGraph {
 
     private final List<StandardEdge> edges;
+    private final Map<EdgeKey, StandardEdge> edgeMap;
     private final Set<StandardVertex> vertices = new LinkedHashSet<>();
     private final Map<StandardVertex, List<StandardEdge>> adjacencyMap = new HashMap<>();
 
@@ -23,6 +25,7 @@ public class DirectedGraph {
                 adjacencyMap.get(edge.from).add(edge);
             }
         }
+        this.edgeMap = edges.stream().collect(Collectors.toMap(e -> new EdgeKey(e.from, e.to), e -> e));
     }
 
     public List<StandardVertex> getAdjacentVertices(StandardVertex vertex) {
@@ -48,11 +51,30 @@ public class DirectedGraph {
     }
 
     public StandardEdge getEdge(StandardVertex from, StandardVertex to) {
-        for(StandardEdge edge : edges) {
-            if(edge.from.equals(from) && edge.to.equals(to)) {
-               return edge;
-            }
+        return edgeMap.get(new EdgeKey(from, to));
+    }
+
+    private static class EdgeKey {
+        StandardVertex from;
+        StandardVertex to;
+
+        public EdgeKey(StandardVertex from, StandardVertex to) {
+            this.from = from;
+            this.to = to;
         }
-        return null;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            EdgeKey edgeKey = (EdgeKey) o;
+            return Objects.equals(from, edgeKey.from) &&
+                    Objects.equals(to, edgeKey.to);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(from, to);
+        }
     }
 }

@@ -15,7 +15,11 @@ public class ShortestPathTester {
             {0, 1, 5},
             {1, 2, 20},
             {2, 3, 10},
-            {3, 2, -15},
+            {3, 10, -15},
+            {10, 11, 15},
+            {11, 12, 15},
+            {12, 13, 30},
+            {13, 2, 0},
             {2, 4, 75},
             {1, 6, 60},
             {1, 5, 30},
@@ -27,11 +31,47 @@ public class ShortestPathTester {
             {7, 8, -10}
     };
 
+    private final static Object[][] graph2 = {
+            {"A", "B", 3},
+            {"A", "C", 5},
+            {"B", "G", 4},
+            {"B", "D", 8},
+            {"C", "D", 7},
+            {"G", "F", 10},
+            {"G", "D", 2},
+            {"D", "F", 5},
+            {"D", "E", 8},
+            {"F", "E", 1}
+    };
+
     public static void main(String[] args) {
-        testGraph1();
+        testBF();
+        testDijkstra();
     }
 
-    private static void testGraph1() {
+    private static void testDijkstra() {
+        DirectedGraphBuilder directedGraphBuilder = new DirectedGraphBuilder();
+        for(int[] edge : graph1) {
+            directedGraphBuilder.addEdge(edge[0], edge[1], edge[2]);
+        }
+        DirectedGraph graph = directedGraphBuilder.build();
+        ShortestPathFinder pathFinder = new DijkstraShortestPathFinder(graph);
+        StandardVertex source = new StandardVertex(0);
+        StandardVertex dest = new StandardVertex(8);
+        StandardPath path = pathFinder.find(source, dest);
+        System.out.println("Shortest Dijkstra Path for graph1: " + path);
+
+        directedGraphBuilder = new DirectedGraphBuilder();
+        for(Object[] edge : graph2) {
+            directedGraphBuilder.addEdge((String)edge[0], (String)edge[1], (Integer)edge[2]);
+        }
+        graph = directedGraphBuilder.build();
+        pathFinder = new DijkstraShortestPathFinder(graph);
+        path = pathFinder.find(new StandardVertex("A"), new StandardVertex("E"));
+        System.out.println("Shortest Dijkstra Path for graph2: " + path);
+    }
+
+    private static void testBF() {
         DirectedGraphBuilder directedGraphBuilder = new DirectedGraphBuilder();
         for(int[] edge : graph1) {
            directedGraphBuilder.addEdge(edge[0], edge[1], edge[2]);
