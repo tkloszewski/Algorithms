@@ -2,6 +2,7 @@ package com.smart.tkl.graph.standard;
 
 import com.smart.tkl.graph.standard.cycle.CycleDetector;
 import com.smart.tkl.graph.standard.cycle.GraphCycle;
+import com.smart.tkl.graph.standard.visit.BFSVisitor;
 import com.smart.tkl.graph.standard.visit.DFSVisitor;
 import com.smart.tkl.graph.standard.visit.GraphVisitor;
 import com.smart.tkl.graph.standard.visit.VisitorResult;
@@ -44,9 +45,50 @@ public class ShortestPathTester {
             {"F", "E", 1}
     };
 
+    private final static Object[][] graph3 = {
+            {"s", "a", 8},
+            {"s", "c", 7},
+            {"a", "d", 0},
+            {"b", "a", 0},
+            {"b", "e", 3},
+            {"c", "s", 1},
+            {"c", "d", 4},
+            {"d", "b", 1},
+            {"d", "h", 2},
+            {"f", "g", 0},
+            {"g", "c", 0},
+            {"g", "d", 1},
+            {"h", "e", 1},
+            {"h", "g", 2}
+    };
+
     public static void main(String[] args) {
-        testBF();
-        testDijkstra();
+        //testBF();
+        //testDijkstra();
+        testDijkstraAndReachability(graph3, "s");
+    }
+
+
+    private static void testDijkstraAndReachability(Object[][] graphData, String sourceId) {
+        DirectedGraphBuilder graphBuilder = new DirectedGraphBuilder();
+        for(Object[] edge : graphData) {
+            graphBuilder.addEdge((String)edge[0], (String)edge[1], (Integer)edge[2]);
+        }
+        DirectedGraph graph = graphBuilder.build();
+        StandardVertex source = new StandardVertex(sourceId);
+        for(StandardVertex vertex : graph.getVertices()) {
+            printShortestPath(graph, source, vertex);
+        }
+        BFSVisitor visitor = new BFSVisitor(graph);
+        VisitorResult visitorResult = visitor.visitFrom(source);
+        System.out.println("BFS result: " + visitorResult);
+    }
+
+    private static void printShortestPath(DirectedGraph graph, StandardVertex source, StandardVertex dest) {
+        ShortestPathFinder pathFinder = new DijkstraShortestPathFinder(graph);
+        StandardPath path = pathFinder.find(source, dest);
+        System.out.printf("Shortest Dijkstra Path for graph2 between %s and %s is %s: \n", source.getId(), dest.getId(), path);
+
     }
 
     private static void testDijkstra() {

@@ -11,6 +11,7 @@ public class StandardPath {
 
     public static final StandardPath NONE = new StandardPath(List.of(), BigDecimal.ZERO, PathType.EMPTY);
     public static final StandardPath NEGATIVE_INFINITY = new StandardPath(List.of(), BigDecimal.ZERO, PathType.NEGATIVE_INFINITY);
+    public static final StandardPath INFINITY = new StandardPath(List.of(), BigDecimal.valueOf(Double.MAX_VALUE), PathType.POSITIVE_INFINITY);
 
     public StandardPath(List<StandardVertex> path, BigDecimal cost) {
         this.path = path;

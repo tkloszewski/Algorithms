@@ -14,6 +14,9 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
 
     @Override
     public StandardPath find(StandardVertex source, StandardVertex dest) {
+        if(source.equals(dest)) {
+           return new StandardPath(List.of(), BigDecimal.ZERO);
+        }
         if(!graph.containsVertex(source) || !graph.containsVertex(dest)) {
             return StandardPath.NONE;
         }
@@ -49,7 +52,7 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
 
         StandardVertex prev = previousMap.get(dest);
         if(prev == null) {
-           return StandardPath.NONE;
+           return StandardPath.INFINITY;
         }
         LinkedList<StandardVertex> pathVertices = new LinkedList<>();
         pathVertices.addFirst(dest);
