@@ -9,22 +9,65 @@ public class BFShortestPathFinder implements ShortestPathFinder {
     private static final BigDecimal MAX = BigDecimal.valueOf(Double.MAX_VALUE);
     private static final BigDecimal MIN = BigDecimal.valueOf(Double.MIN_VALUE);
 
+    private final Map<StandardVertex, SingleSourceShortestPathResult> cachedPaths = new LinkedHashMap<>();
 
     public BFShortestPathFinder(DirectedGraph graph) {
         this.graph = graph;
     }
 
     @Override
-    public StandardPath find(StandardVertex source, StandardVertex dest) {
-        Map<StandardVertex, BigDecimal> costMap = initCostMap(graph);
-        Map<StandardVertex, StandardVertex> previousMap = new LinkedHashMap<>();
-
-        if(!graph.containsVertex(source) || !graph.containsVertex(dest)) {
-            return StandardPath.NONE;
+    public SingleSourceShortestPathResult find(StandardVertex source) {
+        if(!graph.containsVertex(source)) {
+           return null;
         }
 
-        costMap.put(source, BigDecimal.ZERO);
+        if(cachedPaths.containsKey(source)) {
+           return cachedPaths.get(source);
+        }
 
+        Map<StandardVertex, BigDecimal> costMap = initCostMap(graph);
+        Map<StandardVertex, StandardVertex> previousMap = new LinkedHashMap<>();
+        costMap.put(source, BigDecimal.ZERO);
+        fillCostAndPreviousMap(costMap, previousMap);
+
+        Map<StandardVertex, StandardPath> pathMap = new LinkedHashMap<>();
+
+        for(StandardVertex vertex : graph.getVertices()) {
+            BigDecimal cost = costMap.get(vertex);
+            if(MIN.equals(cost)) {
+                pathMap.put(vertex, StandardPath.NEGATIVE_INFINITY);
+            }
+            else if(MAX.equals(cost)) {
+                pathMap.put(vertex, StandardPath.NONE);
+            }
+            else {
+                LinkedList<StandardVertex> pathVertices = derivePath(previousMap, vertex);
+                pathMap.put(vertex, new StandardPath(pathVertices, cost));
+            }
+        }
+
+        SingleSourceShortestPathResult result = new SingleSourceShortestPathResult(source, pathMap);
+        cachedPaths.put(source, result);
+        return result;
+    }
+
+    @Override
+    public StandardPath find(StandardVertex source, StandardVertex dest) {
+        SingleSourceShortestPathResult sssPathResult = find(source);
+        return sssPathResult.getPath(dest);
+    }
+
+    private LinkedList<StandardVertex> derivePath(Map<StandardVertex, StandardVertex> previousMap, StandardVertex dest) {
+        LinkedList<StandardVertex> path = new LinkedList<>();
+        StandardVertex prevVertex = dest;
+        while (prevVertex != null) {
+            path.addFirst(prevVertex);
+            prevVertex = previousMap.get(prevVertex);
+        }
+        return path;
+    }
+
+    private void fillCostAndPreviousMap(Map<StandardVertex, BigDecimal> costMap, Map<StandardVertex, StandardVertex> previousMap) {
         for(int  i = 0; i < graph.getVertices().size() - 1; i++) {
             for(StandardEdge edge : graph.getEdges()) {
                 BigDecimal fromCost = costMap.get(edge.from);
@@ -54,23 +97,6 @@ public class BFShortestPathFinder implements ShortestPathFinder {
                 }
             }
         }
-
-        BigDecimal cost = costMap.get(dest);
-        if(MIN.equals(cost)) {
-           return StandardPath.NEGATIVE_INFINITY;
-        }
-        if(MAX.equals(cost)) {
-            return StandardPath.NONE;
-        }
-
-        LinkedList<StandardVertex> path = new LinkedList<>();
-        StandardVertex prevVertex = dest;
-        while (prevVertex != null) {
-            path.addFirst(prevVertex);
-            prevVertex = previousMap.get(prevVertex);
-        }
-
-        return new StandardPath(path, cost);
     }
 
     private Map<StandardVertex, BigDecimal> initCostMap(DirectedGraph graph) {

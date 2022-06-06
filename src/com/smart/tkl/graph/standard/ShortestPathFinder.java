@@ -4,4 +4,6 @@ public interface ShortestPathFinder {
 
      StandardPath find(StandardVertex source, StandardVertex dest);
 
+     SingleSourceShortestPathResult find(StandardVertex source);
+
 }
