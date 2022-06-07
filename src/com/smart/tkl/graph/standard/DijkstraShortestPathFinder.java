@@ -25,7 +25,7 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
 
         for(StandardVertex vertex : graph.getVertices()) {
             CostEntry costEntry = costTable.get(vertex);
-            if(costEntry.previous == null) {
+            if(costEntry == null || costEntry.previous == null) {
                pathMap.put(vertex, StandardPath.INFINITY);
             }
             else {
@@ -59,34 +59,42 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
     }
 
     private Map<StandardVertex, CostEntry> generateCostTable(StandardVertex source) {
-        Map<StandardVertex, CostEntry> costMap = new LinkedHashMap<>();
+        Map<StandardVertex, CostEntry> result = new LinkedHashMap<>();
+
+        Map<StandardVertex, CostEntry> workingMap = new LinkedHashMap<>();
         for(StandardVertex vertex : graph.getVertices()) {
-            costMap.put(vertex, new CostEntry(vertex, MAX));
+            workingMap.put(vertex, new CostEntry(vertex, MAX));
         }
         CostEntry currentCostEntry = new CostEntry(source, BigDecimal.ZERO, true);
-        costMap.put(source, currentCostEntry);
+        workingMap.put(source, currentCostEntry);
+        result.put(source, currentCostEntry);
 
         while (true) {
             for(StandardVertex vertex : graph.getAdjacentVertices(currentCostEntry.vertex)) {
                 StandardEdge edge = graph.getEdge(currentCostEntry.vertex, vertex);
-                CostEntry vertexCostEntry = costMap.get(vertex);
-                BigDecimal currentCost = currentCostEntry.cost;
-                BigDecimal newCost = currentCost.add(edge.cost);
-                if(newCost.compareTo(vertexCostEntry.cost) < 0) {
-                    vertexCostEntry.cost = newCost;
-                    vertexCostEntry.previous = currentCostEntry.vertex;
+                CostEntry vertexCostEntry = workingMap.get(vertex);
+                if (vertexCostEntry != null) {
+                    BigDecimal currentCost = currentCostEntry.cost;
+                    BigDecimal newCost = currentCost.add(edge.cost);
+                    if(newCost.compareTo(vertexCostEntry.cost) < 0) {
+                        vertexCostEntry.cost = newCost;
+                        vertexCostEntry.previous = currentCostEntry.vertex;
+                    }
                 }
             }
-            Optional<CostEntry> nextMinCostEntry = findMinCostVertex(costMap);
+            Optional<CostEntry> nextMinCostEntry = findMinCostVertex(workingMap);
             if(nextMinCostEntry.isEmpty()) {
                 break;
             }
             currentCostEntry = nextMinCostEntry.get();
             currentCostEntry.processed = true;
+            result.put(currentCostEntry.vertex, currentCostEntry);
+
+            workingMap.remove(currentCostEntry.vertex);
         }
 
 
-        return costMap;
+        return result;
     }
 
     private Optional<CostEntry> findMinCostVertex(Map<StandardVertex, CostEntry> costMap) {
@@ -104,7 +112,7 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
         return Optional.ofNullable(minCostEntry);
     }
 
-    private static class CostEntry {
+    private static class CostEntry implements Comparable<CostEntry> {
         StandardVertex vertex;
         BigDecimal cost;
         StandardVertex previous;
@@ -123,6 +131,11 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
             this.vertex = vertex;
             this.cost = cost;
             this.processed = processed;
+        }
+
+        @Override
+        public int compareTo(CostEntry o) {
+            return this.cost.compareTo(o.cost);
         }
 
         @Override
