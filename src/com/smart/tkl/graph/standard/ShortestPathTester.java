@@ -70,7 +70,7 @@ public class ShortestPathTester {
 
 
     private static void testDijkstraAndReachability(Object[][] graphData, String sourceId) {
-        DirectedGraphBuilder graphBuilder = new DirectedGraphBuilder();
+        ConnectedGraphBuilder graphBuilder = new ConnectedGraphBuilder();
         for(Object[] edge : graphData) {
             graphBuilder.addEdge((String)edge[0], (String)edge[1], (Integer)edge[2]);
         }
@@ -92,7 +92,7 @@ public class ShortestPathTester {
     }
 
     private static void testDijkstra() {
-        DirectedGraphBuilder directedGraphBuilder = new DirectedGraphBuilder();
+        ConnectedGraphBuilder directedGraphBuilder = new ConnectedGraphBuilder();
         for(int[] edge : graph1) {
             directedGraphBuilder.addEdge(edge[0], edge[1], edge[2]);
         }
@@ -103,7 +103,7 @@ public class ShortestPathTester {
         StandardPath path = pathFinder.find(source, dest);
         System.out.println("Shortest Dijkstra Path for graph1: " + path);
 
-        directedGraphBuilder = new DirectedGraphBuilder();
+        directedGraphBuilder = new ConnectedGraphBuilder();
         for(Object[] edge : graph2) {
             directedGraphBuilder.addEdge((String)edge[0], (String)edge[1], (Integer)edge[2]);
         }
@@ -114,7 +114,7 @@ public class ShortestPathTester {
     }
 
     private static void testBF() {
-        DirectedGraphBuilder directedGraphBuilder = new DirectedGraphBuilder();
+        ConnectedGraphBuilder directedGraphBuilder = new ConnectedGraphBuilder();
         for(int[] edge : graph1) {
            directedGraphBuilder.addEdge(edge[0], edge[1], edge[2]);
         }

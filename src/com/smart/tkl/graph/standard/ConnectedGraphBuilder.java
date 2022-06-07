@@ -3,24 +3,24 @@ package com.smart.tkl.graph.standard;
 import java.math.BigDecimal;
 import java.util.*;
 
-public class DirectedGraphBuilder {
+public class ConnectedGraphBuilder {
 
     private final List<StandardEdge> edges = new LinkedList<>();
     private final List<Set<StandardVertex>> connectedSets = new ArrayList<>();
 
-    public DirectedGraphBuilder addEdge(String vertexId1, String vertexId2, int cost) {
+    public ConnectedGraphBuilder addEdge(String vertexId1, String vertexId2, int cost) {
         return addEdge(new StandardEdge(new StandardVertex(vertexId1), new StandardVertex(vertexId2), BigDecimal.valueOf(cost)));
     }
 
-    public DirectedGraphBuilder addEdge(int vertexId1, int vertexId2, int cost) {
+    public ConnectedGraphBuilder addEdge(int vertexId1, int vertexId2, int cost) {
         return addEdge(vertexId1, vertexId2, BigDecimal.valueOf(cost));
     }
 
-    public DirectedGraphBuilder addEdge(int vertexId1, int vertexId2, BigDecimal cost) {
+    public ConnectedGraphBuilder addEdge(int vertexId1, int vertexId2, BigDecimal cost) {
         return addEdge(new StandardEdge(new StandardVertex(vertexId1), new StandardVertex(vertexId2), cost));
     }
 
-    public DirectedGraphBuilder addEdge(StandardEdge edge) {
+    public ConnectedGraphBuilder addEdge(StandardEdge edge) {
        return performAddEdge(edge);
     }
 
@@ -31,7 +31,7 @@ public class DirectedGraphBuilder {
         throw new IllegalStateException("Cannot build connected graph. There are " + connectedSets.size() + " disconnected vertices sets");
     }
 
-    private DirectedGraphBuilder performAddEdge(StandardEdge edge) {
+    private ConnectedGraphBuilder performAddEdge(StandardEdge edge) {
         edges.add(edge);
 
         Set<StandardVertex> newVerticesSet = Set.of(edge.from, edge.to);
