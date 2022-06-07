@@ -1,8 +1,11 @@
-package com.smart.tkl.tree.binary;
+package com.smart.tkl.tree.binary.heap;
+
+import java.lang.reflect.ParameterizedType;
 
 public class MinBinaryHeap<V extends Comparable<V>> extends BinaryHeap<V> {
 
-    public MinBinaryHeap() {
+    public MinBinaryHeap(Class<V> clazz) {
+        super(clazz);
         this.array = DEFAULT_CAPACITY_EMPTY_ELEMENT_DATA;
     }
 

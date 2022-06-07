@@ -1,4 +1,7 @@
-package com.smart.tkl.tree.binary;
+package com.smart.tkl.tree.binary.heap;
+
+import com.smart.tkl.tree.binary.heap.MaxBinaryHeap;
+import com.smart.tkl.tree.binary.heap.MinBinaryHeap;
 
 import java.util.Arrays;
 
@@ -13,7 +16,7 @@ public class HeapSort {
     }
 
     public static int[] sortDesc(int[] tab) {
-        MaxBinaryHeap<Integer> maxBinaryHeap = new MaxBinaryHeap<>();
+        MaxBinaryHeap<Integer> maxBinaryHeap = new MaxBinaryHeap<>(Integer.class);
         for(int item : tab) {
             maxBinaryHeap.insert(item);
         }
@@ -25,7 +28,7 @@ public class HeapSort {
     }
 
     public static int[] sortAsc(int[] tab) {
-        MinBinaryHeap<Integer> minBinaryHeap = new MinBinaryHeap<>();
+        MinBinaryHeap<Integer> minBinaryHeap = new MinBinaryHeap<>(Integer.class);
         for(int item : tab) {
             minBinaryHeap.insert(item);
         }

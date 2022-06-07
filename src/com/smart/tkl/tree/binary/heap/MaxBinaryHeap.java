@@ -1,8 +1,11 @@
-package com.smart.tkl.tree.binary;
+package com.smart.tkl.tree.binary.heap;
+
+import java.lang.reflect.ParameterizedType;
 
 public class MaxBinaryHeap<V extends Comparable<V>> extends BinaryHeap<V> {
 
-    public MaxBinaryHeap() {
+    public MaxBinaryHeap(Class<V> clazz) {
+        super(clazz);
         this.array = DEFAULT_CAPACITY_EMPTY_ELEMENT_DATA;
     }
 

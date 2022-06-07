@@ -1,19 +1,23 @@
-package com.smart.tkl.tree.binary;
+package com.smart.tkl.tree.binary.heap;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public abstract class BinaryHeap<V extends Comparable<V>> {
 
-    protected Object[] array;
+    protected V[] array;
     protected int size = 0;
 
     protected static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
     protected static final int DEFAULT_CAPACITY = 10;
-    protected static final Object[] DEFAULT_CAPACITY_EMPTY_ELEMENT_DATA = {};
+    protected final V[] DEFAULT_CAPACITY_EMPTY_ELEMENT_DATA;
 
-    @SuppressWarnings("unchecked")
+    public BinaryHeap(Class<V> clazz) {
+        DEFAULT_CAPACITY_EMPTY_ELEMENT_DATA = (V[])Array.newInstance(clazz, 0);
+    }
+
     public V getRoot() {
-        return array != null && array.length > 0 ? (V)array[0] : null;
+        return array != null && array.length > 0 ? array[0] : null;
     }
 
     public V deleteFirst() {
@@ -27,6 +31,10 @@ public abstract class BinaryHeap<V extends Comparable<V>> {
     public void insert(V item) {
         insertLast(item);
         heapifyUp(size - 1);
+    }
+
+    public boolean isEmpty() {
+        return array == null || array.length == 0;
     }
 
     public V get(int i) {
@@ -61,7 +69,7 @@ public abstract class BinaryHeap<V extends Comparable<V>> {
     }
 
     protected void swapItem(int i, int j) {
-        Object temp = this.array[i];
+        V temp = this.array[i];
         this.array[i] = this.array[j];
         this.array[j] = temp;
     }
@@ -83,7 +91,7 @@ public abstract class BinaryHeap<V extends Comparable<V>> {
         array = Arrays.copyOf(array, newCapacity);
     }
 
-    protected static int calculateCapacity(Object[] elementData, int minCapacity) {
+    protected int calculateCapacity(V[] elementData, int minCapacity) {
         if (elementData == DEFAULT_CAPACITY_EMPTY_ELEMENT_DATA) {
             return Math.max(DEFAULT_CAPACITY, minCapacity);
         }
