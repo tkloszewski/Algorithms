@@ -62,10 +62,23 @@ public class ShortestPathTester {
             {"h", "g", 2}
     };
 
+    private final static Object[][] graph4 = {
+            {"s", "a", 10},
+            {"s", "c", 3},
+            {"a", "b", 2},
+            {"a", "c", 1},
+            {"b", "d", 7},
+            {"c", "a", 4},
+            {"c", "b", 8},
+            {"c", "d", 2},
+            {"d", "b", 5}
+    };
+
     public static void main(String[] args) {
         testBF();
         //testDijkstra();
         testDijkstraAndReachability(graph3, "s");
+        testDijkstraAndReachability(graph4, "s");
     }
 
 
