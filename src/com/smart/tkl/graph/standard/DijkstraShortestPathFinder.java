@@ -60,14 +60,14 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
 
     private Map<StandardVertex, CostEntry> generateCostTable(StandardVertex source) {
         Map<StandardVertex, CostEntry> result = new LinkedHashMap<>();
+        CostEntry currentCostEntry = new CostEntry(source, BigDecimal.ZERO, true);
+        result.put(source, currentCostEntry);
 
         Map<StandardVertex, CostEntry> workingMap = new LinkedHashMap<>();
         for(StandardVertex vertex : graph.getVertices()) {
             workingMap.put(vertex, new CostEntry(vertex, MAX));
         }
-        CostEntry currentCostEntry = new CostEntry(source, BigDecimal.ZERO, true);
         workingMap.put(source, currentCostEntry);
-        result.put(source, currentCostEntry);
 
         while (true) {
             for(StandardVertex vertex : graph.getAdjacentVertices(currentCostEntry.vertex)) {
@@ -88,6 +88,7 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
             }
             currentCostEntry = nextMinCostEntry.get();
             currentCostEntry.processed = true;
+
             result.put(currentCostEntry.vertex, currentCostEntry);
 
             workingMap.remove(currentCostEntry.vertex);
