@@ -1,5 +1,8 @@
 package com.smart.tkl.graph.standard;
 
+import com.smart.tkl.tree.binary.heap.queue.ChangeablePriorityQueue;
+import com.smart.tkl.tree.binary.heap.queue.MinChangeablePriorityQueue;
+
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -20,7 +23,7 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
            return cashedResult.get(source);
         }
 
-        Map<StandardVertex, CostEntry> costTable = generateCostTable(source);
+        Map<StandardVertex, CostEntry> costTable = generateCostTableWithPriorityQueue(source);
         Map<StandardVertex, StandardPath> pathMap = new LinkedHashMap<>();
 
         for(StandardVertex vertex : graph.getVertices()) {
@@ -58,59 +61,38 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
         return new StandardPath(pathVertices, cost);
     }
 
-    private Map<StandardVertex, CostEntry> generateCostTable(StandardVertex source) {
+    private Map<StandardVertex, CostEntry> generateCostTableWithPriorityQueue(StandardVertex source) {
         Map<StandardVertex, CostEntry> result = new LinkedHashMap<>();
         CostEntry currentCostEntry = new CostEntry(source, BigDecimal.ZERO, true);
         result.put(source, currentCostEntry);
 
-        Map<StandardVertex, CostEntry> workingMap = new LinkedHashMap<>();
+        ChangeablePriorityQueue<CostEntry> queue = new MinChangeablePriorityQueue<>(CostEntry.class);
+        queue.insert(currentCostEntry);
         for(StandardVertex vertex : graph.getVertices()) {
-            workingMap.put(vertex, new CostEntry(vertex, MAX));
+            if (!vertex.equals(source)) {
+                queue.insert(new CostEntry(vertex, MAX));
+            }
         }
-        workingMap.put(source, currentCostEntry);
-
-        while (true) {
+        while (!queue.isEmpty()) {
             for(StandardVertex vertex : graph.getAdjacentVertices(currentCostEntry.vertex)) {
                 StandardEdge edge = graph.getEdge(currentCostEntry.vertex, vertex);
-                CostEntry vertexCostEntry = workingMap.get(vertex);
+                CostEntry vertexCostEntry = queue.get(new CostEntry(vertex));
                 if (vertexCostEntry != null) {
                     BigDecimal currentCost = currentCostEntry.cost;
                     BigDecimal newCost = currentCost.add(edge.cost);
                     if(newCost.compareTo(vertexCostEntry.cost) < 0) {
-                        vertexCostEntry.cost = newCost;
-                        vertexCostEntry.previous = currentCostEntry.vertex;
+                        CostEntry updatedCostEntry = new CostEntry(vertex, newCost);
+                        updatedCostEntry.previous = currentCostEntry.vertex;
+                        queue.updateValue(vertexCostEntry, updatedCostEntry);
                     }
                 }
             }
-            Optional<CostEntry> nextMinCostEntry = findMinCostVertex(workingMap);
-            if(nextMinCostEntry.isEmpty()) {
-                break;
-            }
-            currentCostEntry = nextMinCostEntry.get();
+            currentCostEntry = queue.deleteFirst();
             currentCostEntry.processed = true;
-
             result.put(currentCostEntry.vertex, currentCostEntry);
-
-            workingMap.remove(currentCostEntry.vertex);
         }
-
 
         return result;
-    }
-
-    private Optional<CostEntry> findMinCostVertex(Map<StandardVertex, CostEntry> costMap) {
-        CostEntry minCostEntry = null;
-        BigDecimal minCost = MAX;
-        for(CostEntry costEntry : costMap.values()) {
-            if(!costEntry.processed) {
-                BigDecimal cost = costEntry.cost;
-                if(cost.compareTo(minCost) < 0) {
-                    minCost = cost;
-                    minCostEntry = costEntry;
-                }
-            }
-        }
-        return Optional.ofNullable(minCostEntry);
     }
 
     private static class CostEntry implements Comparable<CostEntry> {
@@ -137,6 +119,19 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
         @Override
         public int compareTo(CostEntry o) {
             return this.cost.compareTo(o.cost);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            CostEntry costEntry = (CostEntry) o;
+            return vertex.equals(costEntry.vertex);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(vertex);
         }
 
         @Override

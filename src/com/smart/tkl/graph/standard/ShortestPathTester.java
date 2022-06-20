@@ -76,7 +76,7 @@ public class ShortestPathTester {
 
     public static void main(String[] args) {
         testBF();
-        //testDijkstra();
+        testDijkstra();
         testDijkstraAndReachability(graph3, "s");
         testDijkstraAndReachability(graph4, "s");
     }

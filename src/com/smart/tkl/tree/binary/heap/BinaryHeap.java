@@ -2,10 +2,13 @@ package com.smart.tkl.tree.binary.heap;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class BinaryHeap<V extends Comparable<V>> {
 
     protected V[] array;
+    protected Map<V, Integer> indexMap = new HashMap<>();
     protected int size = 0;
 
     protected static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
@@ -24,6 +27,7 @@ public abstract class BinaryHeap<V extends Comparable<V>> {
         V item = (V)array[0];
         swapItem(0, size - 1);
         array[--size] = null;
+        indexMap.remove(item);
         heapifyDown(0);
         return item;
     }
@@ -34,11 +38,20 @@ public abstract class BinaryHeap<V extends Comparable<V>> {
     }
 
     public boolean isEmpty() {
-        return array == null || array.length == 0;
+        return array == null || size == 0;
     }
 
     public V get(int i) {
-        return (V)array[i];
+        return array[i];
+    }
+
+    public int indexOf(V item) {
+        return indexMap.getOrDefault(item, -1);
+    }
+
+    public V get(V itemKey) {
+        int index = indexOf(itemKey);
+        return index != -1 ? array[index] : null;
     }
 
     protected abstract void heapifyUp(int i);
@@ -48,6 +61,7 @@ public abstract class BinaryHeap<V extends Comparable<V>> {
     protected void insertLast(V item) {
         ensureExplicitCapacity(calculateCapacity(array, size + 1));
         array[size++] = item;
+        indexMap.put(item, size - 1);
     }
 
     protected int getParent(int i) {
@@ -72,6 +86,8 @@ public abstract class BinaryHeap<V extends Comparable<V>> {
         V temp = this.array[i];
         this.array[i] = this.array[j];
         this.array[j] = temp;
+        indexMap.put(this.array[i], i);
+        indexMap.put(this.array[j], j);
     }
 
     protected void ensureExplicitCapacity(int minCapacity) {
