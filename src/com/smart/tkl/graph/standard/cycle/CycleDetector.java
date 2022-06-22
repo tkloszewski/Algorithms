@@ -10,8 +10,8 @@ import java.util.*;
 public class CycleDetector {
 
     private final DirectedGraph graph;
-    private final Map<StandardVertex, Color> colorMap = new HashMap<>();
-    private final Map<StandardVertex, StandardVertex> previousMap = new LinkedHashMap<>();
+    private Map<StandardVertex, Color> colorMap;
+    private Map<StandardVertex, StandardVertex> previousMap;
     private StandardVertex cycleStart;
     private StandardVertex cycleEnd;
 
@@ -19,33 +19,57 @@ public class CycleDetector {
         this.graph = graph;
     }
 
-    public Optional<GraphCycle> detectCycle() {
-        for(StandardVertex vertex : graph.getVertices()) {
-            colorMap.put(vertex, Color.WHITE);
-        }
+    public Optional<GraphCycle> detectNegativeCycle() {
+        initMaps();
         for(StandardVertex vertex : graph.getVertices()) {
             if(colorMap.get(vertex).equals(Color.WHITE) && dfs(vertex)) {
-               //found cycle
-                LinkedList<StandardVertex> cycleVertices = new LinkedList<>();
-
-                StandardVertex current = cycleEnd;
-                BigDecimal cost = BigDecimal.ZERO;
-
-                while (!current.equals(cycleStart)) {
-                    cycleVertices.addFirst(current);
-                    StandardVertex prev = previousMap.get(current);
-                    StandardEdge edge = graph.getEdge(prev, current);
-                    cost = cost.add(edge.getCost());
-                    current = prev;
+                //found cycle
+                GraphCycle cycle = getCycleFromReachableVertex(vertex);
+                if(cycle.getCost().compareTo(BigDecimal.ZERO) < 0) {
+                    return Optional.of(cycle);
                 }
-                StandardEdge edge = graph.getEdge(cycleEnd, cycleStart);
-                cost = cost.add(edge.getCost());
-
-                cycleVertices.addFirst(cycleStart);
-                return Optional.of(new GraphCycle(cycleVertices, cost));
             }
         }
         return Optional.empty();
+    }
+
+    public Optional<GraphCycle> detectCycle() {
+        initMaps();
+        for(StandardVertex vertex : graph.getVertices()) {
+            if(colorMap.get(vertex).equals(Color.WHITE) && dfs(vertex)) {
+               //found cycle
+                return Optional.of(getCycleFromReachableVertex(vertex));
+            }
+        }
+        return Optional.empty();
+    }
+
+    private void initMaps() {
+        colorMap = new HashMap<>();
+        previousMap = new LinkedHashMap<>();
+        for(StandardVertex vertex : graph.getVertices()) {
+            colorMap.put(vertex, Color.WHITE);
+        }
+    }
+
+    private GraphCycle getCycleFromReachableVertex(StandardVertex vertex) {
+        LinkedList<StandardVertex> cycleVertices = new LinkedList<>();
+
+        StandardVertex current = cycleEnd;
+        BigDecimal cost = BigDecimal.ZERO;
+
+        while (!current.equals(cycleStart)) {
+            cycleVertices.addFirst(current);
+            StandardVertex prev = previousMap.get(current);
+            StandardEdge edge = graph.getEdge(prev, current);
+            cost = cost.add(edge.getCost());
+            current = prev;
+        }
+        StandardEdge edge = graph.getEdge(cycleEnd, cycleStart);
+        cost = cost.add(edge.getCost());
+
+        cycleVertices.addFirst(cycleStart);
+        return new GraphCycle(cycleVertices, cost);
     }
 
     private boolean dfs(StandardVertex vertex) {

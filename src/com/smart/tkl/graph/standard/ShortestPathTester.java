@@ -29,7 +29,8 @@ public class ShortestPathTester {
             {5, 8, 50},
             {5, 6, 5},
             {6, 7, -50},
-            {7, 8, -10}
+            {7, 8, -10},
+            {8, 7, 0}
     };
 
     private final static Object[][] graph2 = {
@@ -75,12 +76,21 @@ public class ShortestPathTester {
     };
 
     public static void main(String[] args) {
-        testBF();
+        DirectedGraph graph = buildGraph(graph1);
+        testBF(graph);
+        testCycleDetection(graph);
         testDijkstra();
         testDijkstraAndReachability(graph3, "s");
         testDijkstraAndReachability(graph4, "s");
     }
 
+    private static DirectedGraph buildGraph(int[][] graphTable) {
+        ConnectedGraphBuilder directedGraphBuilder = new ConnectedGraphBuilder();
+        for(int[] edge : graphTable) {
+            directedGraphBuilder.addEdge(edge[0], edge[1], edge[2]);
+        }
+        return directedGraphBuilder.build();
+    }
 
     private static void testDijkstraAndReachability(Object[][] graphData, String sourceId) {
         ConnectedGraphBuilder graphBuilder = new ConnectedGraphBuilder();
@@ -126,12 +136,7 @@ public class ShortestPathTester {
         System.out.println("Shortest Dijkstra Path for graph2: " + path);
     }
 
-    private static void testBF() {
-        ConnectedGraphBuilder directedGraphBuilder = new ConnectedGraphBuilder();
-        for(int[] edge : graph1) {
-           directedGraphBuilder.addEdge(edge[0], edge[1], edge[2]);
-        }
-        DirectedGraph graph = directedGraphBuilder.build();
+    private static void testBF(DirectedGraph graph) {
         ShortestPathFinder pathFinder = new BFShortestPathFinder(graph);
 
         StandardVertex source = new StandardVertex(0);
@@ -154,9 +159,13 @@ public class ShortestPathTester {
         GraphVisitor visitor = new DFSVisitor(graph);
         VisitorResult visitorResult = visitor.visitFrom(source);
         System.out.println("Visitor result: " + visitorResult);
+    }
 
+    private static void testCycleDetection(DirectedGraph graph) {
         CycleDetector cycleDetector = new CycleDetector(graph);
         Optional<GraphCycle> cycleOpt = cycleDetector.detectCycle();
         System.out.println("Cycle: " + cycleOpt);
+        cycleOpt = cycleDetector.detectNegativeCycle();
+        System.out.println("Negative cycle: " + cycleOpt);
     }
 }
