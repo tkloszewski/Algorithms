@@ -21,7 +21,7 @@ public class GraphConnectivityDetector {
 
     public ConnectivityResult checkConnectivity() {
         boolean weaklyConnected = isWeaklyConnected();
-        boolean stronglyConnected = weaklyConnected ? isStronglyConnected() : false;
+        boolean stronglyConnected = weaklyConnected && isStronglyConnected();
         return new ConnectivityResult(weaklyConnected, stronglyConnected);
     }
 
