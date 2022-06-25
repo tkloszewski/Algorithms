@@ -1,6 +1,7 @@
 package com.smart.tkl.graph.standard;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class StandardEdge {
 
@@ -24,6 +25,20 @@ public class StandardEdge {
 
     public BigDecimal getCost() {
         return cost;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StandardEdge edge = (StandardEdge) o;
+        return from.equals(edge.from) &&
+                to.equals(edge.to);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(from, to);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.smart.tkl.graph.standard.DirectedGraph;
 import com.smart.tkl.graph.standard.StandardVertex;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BFSVisitor implements GraphVisitor {
 
@@ -16,7 +17,7 @@ public class BFSVisitor implements GraphVisitor {
     @Override
     public VisitorResult visitFrom(StandardVertex source) {
         if(!graph.containsVertex(source)) {
-           return new VisitorResult(source, Map.of());
+           return new VisitorResult(source, Map.of(), List.of());
         }
         Set<StandardVertex> visited = new LinkedHashSet<>();
         Map<StandardVertex, Integer> distanceMap = new LinkedHashMap<>();
@@ -35,6 +36,11 @@ public class BFSVisitor implements GraphVisitor {
             }
             visited.add(current);
         }
-        return new VisitorResult(source ,distanceMap);
+        List<StandardVertex> unvisited = graph.getVertices()
+                .stream()
+                .filter(v -> !distanceMap.containsKey(v))
+                .collect(Collectors.toList());
+
+        return new VisitorResult(source ,distanceMap, unvisited);
     }
 }

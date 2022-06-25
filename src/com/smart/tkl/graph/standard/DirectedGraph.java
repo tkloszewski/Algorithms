@@ -10,8 +10,9 @@ public class DirectedGraph {
     private final Set<StandardVertex> vertices = new LinkedHashSet<>();
     private final Map<StandardVertex, List<StandardEdge>> adjacencyMap = new HashMap<>();
 
-    public DirectedGraph(List<StandardEdge> edges) {
-        this.edges = new LinkedList<>(edges);
+    public DirectedGraph(Collection<StandardEdge> edges) {
+        this.edgeMap = edges.stream().collect(Collectors.toMap(e -> new EdgeKey(e.from, e.to), e -> e, (e1, e2) -> e1, LinkedHashMap::new));
+        this.edges = new LinkedList<>(edgeMap.values());
         for(StandardEdge edge : edges) {
             vertices.add(edge.from);
             vertices.add(edge.to);
@@ -24,7 +25,7 @@ public class DirectedGraph {
                 adjacencyMap.get(edge.from).add(edge);
             }
         }
-        this.edgeMap = edges.stream().collect(Collectors.toMap(e -> new EdgeKey(e.from, e.to), e -> e));
+
     }
 
     public List<StandardVertex> getAdjacentVertices(StandardVertex vertex) {
@@ -35,6 +36,10 @@ public class DirectedGraph {
 
     public boolean containsVertex(StandardVertex vertex) {
         return vertices.contains(vertex);
+    }
+
+    public boolean containsEdge(StandardEdge edge) {
+        return edgeMap.containsKey(new EdgeKey(edge.from, edge.to));
     }
 
     public List<StandardEdge> getEdges() {
