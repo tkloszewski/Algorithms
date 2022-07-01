@@ -42,6 +42,7 @@ public class TrialAndErrorSudokuSolver implements SudokuSolver {
                             return result;
                         }
                     } finally {
+                        // rollback trial values if there was a duplicate or sudoku was not solved
                         if (result == null || !result.isSolved()) {
                             sudokuSquare.rollbackTrial();
                         }
