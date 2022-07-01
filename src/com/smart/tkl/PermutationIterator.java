@@ -11,6 +11,7 @@ public class PermutationIterator implements Iterator<int[]> {
     private final int[] current;
     private long count = 0;
     private final long limit;
+    private final int length;
 
     private final int[] c;
     private int pos;
@@ -29,6 +30,7 @@ public class PermutationIterator implements Iterator<int[]> {
     public PermutationIterator(int[] tab) {
         this.current = tab.clone();
         this.limit = MathUtils.factorial(tab.length);
+        this.length = tab.length;
 
         this.c = new int[tab.length];
         for(int i = 0; i < c.length; i++) {
@@ -73,6 +75,10 @@ public class PermutationIterator implements Iterator<int[]> {
             swap(current, lastPos, lastCPos);
         }
         return result;
+    }
+
+    public int getLength() {
+        return length;
     }
 
     private static void swap(int[] t, int i, int j) {

@@ -1,17 +1,22 @@
 package com.smart.tkl.euler.p96.element;
 
+import com.smart.tkl.euler.p96.DuplicateValueException;
 import com.smart.tkl.euler.p96.SudokuUtils;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class SudokuColumn {
+public class SudokuColumn extends UniqueValuesSudokuElement {
 
     public final SudokuSquare square;
     public final int pos;
-    public final Set<Integer> values = new TreeSet<>();
-    public final Set<CellKey> availableCellKeys = new LinkedHashSet<>();
+
+    private final Set<Integer> values = new TreeSet<>();
+    private final Set<Integer> trialValues = new TreeSet<>();
+
+    private final Set<CellKey> availableCellKeys = new LinkedHashSet<>();
+    private final Set<CellKey> removedTrialAvailableCellKeys = new LinkedHashSet<>();
 
     public SudokuColumn(SudokuSquare square, int pos) {
         this.square = square;
@@ -19,18 +24,32 @@ public class SudokuColumn {
         initAvailableCells();
     }
 
-    public boolean addValueAt(Integer value, int i) {
-        boolean added = this.values.add(value);
-        availableCellKeys.remove(new CellKey(i, pos));
-        return added;
+    public void addValueAt(Integer value, int i) {
+        this.values.add(value);
+        this.availableCellKeys.remove(new CellKey(i, pos));
     }
 
-    public Set<Integer> getValues() {
-        return values;
+    @Override
+    public void tryValueAt(Integer value, int i, int j) {
+        if(!validCandidateValue(value)) {
+            throw new DuplicateValueException(new CellKey(i, j), value);
+        }
+        this.values.add(value);
+        this.trialValues.add(value);
+        this.availableCellKeys.remove(new CellKey(i, pos));
+        this.removedTrialAvailableCellKeys.add(new CellKey(i, pos));
     }
 
-    public Set<Integer> getExcluded() {
-        return SudokuUtils.toExcluded(values);
+    @Override
+    public void rollbackTrial() {
+        this.values.removeAll(trialValues);
+        this.trialValues.clear();
+        this.availableCellKeys.addAll(this.removedTrialAvailableCellKeys);
+        this.removedTrialAvailableCellKeys.clear();
+    }
+
+    public boolean validCandidateValue(Integer value) {
+        return !this.values.contains(value);
     }
 
     public Set<Integer> getExcludedForRow(int i) {
@@ -51,8 +70,21 @@ public class SudokuColumn {
         return result;
     }
 
+    @Override
+    public Set<Integer> getAvailableValues() {
+        return SudokuUtils.toExcluded(this.values);
+    }
+
     public int getPos() {
         return pos;
+    }
+
+    public Set<Integer> getValues() {
+        return values;
+    }
+
+    public Set<CellKey> getAvailableCellKeys() {
+        return availableCellKeys;
     }
 
     private void initAvailableCells() {

@@ -3,7 +3,6 @@ package com.smart.tkl.euler.p96.resolver;
 import com.smart.tkl.euler.p96.SudokuUtils;
 import com.smart.tkl.euler.p96.element.*;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -20,17 +19,17 @@ public class DirectExclusionResolver extends SudokuResolver {
         boolean valueSet = true;
         while (valueSet) {
             valueSet = false;
-            Set<SudokuCell> workingCells = new LinkedHashSet<>(sudokuSquare.availableCells);
-            for (SudokuCell cell : workingCells) {
-                cell.candidates = resolveCandidates(cell);
-                if (cell.candidates.size() == 1) {
-                    cell.value = cell.candidates.iterator().next();
+            Set<CellKey> workingCells = new LinkedHashSet<>(sudokuSquare.availableCellKeys);
+            for (CellKey currentCellKey : workingCells) {
+                SudokuCell currentCell = sudokuSquare.getCell(currentCellKey);
+                Set<Integer> candidates = resolveCandidates(currentCell);
+                if (candidates.size() == 1) {
+                    Integer value = candidates.iterator().next();
 
-                    System.out.println("Direct exclusion resolver found: " + cell.value + " at: " + cell.key);
+                    System.out.println("Direct exclusion resolver found: " + value + " at: " + currentCellKey);
 
-                    cell.candidates = new HashSet<>();
-                    resolvedCells.add(cell);
-                    cellValueSet(cell);
+                    resolvedCells.add(currentCell);
+                    cellValueSet(currentCell, value);
                     valueSet = true;
                     break;
                 }

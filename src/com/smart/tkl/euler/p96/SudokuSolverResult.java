@@ -1,5 +1,6 @@
 package com.smart.tkl.euler.p96;
 
+import com.smart.tkl.euler.p96.element.CellKey;
 import com.smart.tkl.euler.p96.element.SudokuCell;
 import com.smart.tkl.euler.p96.element.SudokuSquare;
 
@@ -9,10 +10,14 @@ public class SudokuSolverResult {
 
     private final SudokuSquare square;
     private final Set<SudokuCell> resolvedCells;
+    private final boolean solved;
+    private Integer topLeft3DigitNumber;
 
     public SudokuSolverResult(SudokuSquare square, Set<SudokuCell> resolvedCells) {
         this.square = square;
         this.resolvedCells = resolvedCells;
+        this.solved = square.availableCellKeys.isEmpty();
+        this.topLeft3DigitNumber = this.solved ? resolveNumber() : null;
     }
 
     @Override
@@ -29,5 +34,21 @@ public class SudokuSolverResult {
 
     public Set<SudokuCell> getResolvedCells() {
         return resolvedCells;
+    }
+
+    public boolean isSolved() {
+        return solved;
+    }
+
+    public Integer getTopLeft3DigitNumber() {
+        return topLeft3DigitNumber;
+    }
+
+    private Integer resolveNumber() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(square.getCell(new CellKey(0,0)).getValue());
+        sb.append(square.getCell(new CellKey(0,1)).getValue());
+        sb.append(square.getCell(new CellKey(0,2)).getValue());
+        return Integer.parseInt(sb.toString());
     }
 }

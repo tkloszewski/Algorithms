@@ -44,9 +44,8 @@ public class SubSquareCommonExclusionResolver extends SudokuResolver {
 
                 System.out.println("SubSquareResolver: Found common excluded: " + commonExcludedValue + " at: " + currentKey);
 
-                SudokuCell cell = sudokuSquare.cells[currentKey.i][currentKey.j];
-                cell.value = commonExcludedValue;
-                cellValueSet(cell);
+                SudokuCell cell = sudokuSquare.getCell(currentKey);
+                cellValueSet(cell, commonExcludedValue);
                 result.add(cell);
             }
         }

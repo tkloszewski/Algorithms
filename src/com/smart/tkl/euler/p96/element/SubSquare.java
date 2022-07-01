@@ -1,18 +1,24 @@
 package com.smart.tkl.euler.p96.element;
 
+import com.smart.tkl.euler.p96.DuplicateValueException;
+import com.smart.tkl.euler.p96.SudokuUtils;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class SubSquare {
+public class SubSquare extends UniqueValuesSudokuElement {
 
     public final int m,n;
 
     public final SudokuSquare square;
-    public final Set<Integer> values = new TreeSet<>();
     public final SubRow[] subRows = new SubRow[3];
     public final SubColumn[] subColumns = new SubColumn[3];
+
+    public final Set<Integer> values = new TreeSet<>();
+    private final Set<Integer> trialValues = new TreeSet<>();
     public final Set<CellKey> availableCellKeys = new LinkedHashSet<>();
+    private final Set<CellKey> removedTrialAvailableCellKeys = new LinkedHashSet<>();
 
     public SubSquare(int m, int n, SudokuSquare square) {
         this.m = m;
@@ -21,29 +27,54 @@ public class SubSquare {
         initAvailableCells();
     }
 
-    public boolean addValueAt(Integer value, int i, int j) {
-        boolean result = true;
-        boolean added = this.values.add(value);
-        if(!added) {
-           System.out.println("Duplicate added to subsquare: " + value + " at [" + i + "," + j + "]");
-           result = false;
-        }
-        added = this.subRows[i % 3].addValue(value);
-        if(!added) {
-            System.out.println("Duplicate added to subrow: " + value + " at [" + i + "," + j + "]");
-            System.out.println("Subrow values: " + this.subRows[i % 3]);
-            result = false;
-        }
-        added = this.subColumns[j % 3].addValue(value);
-        if(!added) {
-            System.out.println("Duplicate added to subcolumn: " + value + " at [" + i + "," + j + "]");
-            System.out.println("Subrow values: " + this.subColumns[j % 3]);
-            result = false;
-        }
-
+    public void addValueAt(Integer value, int i, int j) {
+        this.values.add(value);
+        this.subRows[i % 3].addValue(value);
+        this.subColumns[j % 3].addValue(value);
         this.availableCellKeys.remove(new CellKey(i, j));
+    }
 
+    public boolean validCandidateValueAt(Integer value, int i, int j) {
+        boolean result = !this.values.contains(value);
+        /*if(result) {
+            Set<Integer> subRowExcluded = this.subRows[i % 3].getExcluded();
+            Set<Integer> subColumnExcluded = this.subColumns[j % 3].getExcluded();
+            if(subRowExcluded.contains(value) || subColumnExcluded.contains(value)){
+                result = false;
+            }
+        }*/
         return result;
+    }
+
+    @Override
+    public void tryValueAt(Integer value, int i, int j) {
+        if(!validCandidateValueAt(value, i, j)) {
+            throw new DuplicateValueException(new CellKey(i, j), value);
+        }
+        this.values.add(value);
+        this.trialValues.add(value);
+        this.subRows[i % 3].tryValueAt(value, i ,j);
+        this.subColumns[j % 3].tryValueAt(value, i, j);
+        this.availableCellKeys.remove(new CellKey(i, j));
+        this.removedTrialAvailableCellKeys.add(new CellKey(i, j));
+    }
+
+    @Override
+    public void rollbackTrial() {
+        this.values.removeAll(trialValues);
+        this.trialValues.clear();
+        this.availableCellKeys.addAll(this.removedTrialAvailableCellKeys);
+        this.removedTrialAvailableCellKeys.clear();
+    }
+
+    @Override
+    public Set<Integer> getAvailableValues() {
+        return SudokuUtils.toExcluded(this.values);
+    }
+
+    @Override
+    public Set<CellKey> getAvailableCellKeys() {
+        return this.availableCellKeys;
     }
 
     public Set<Integer> getValues() {

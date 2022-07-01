@@ -33,7 +33,7 @@ public class RowCommonExclusionResolver extends SudokuResolver {
 
     private Set<SudokuCell> resolveRowCellsByExclusion(SudokuRow row) {
         Set<SudokuCell> result = new LinkedHashSet<>();
-        for(CellKey currentKey : new LinkedHashSet<>(row.availableCellKeys)) {
+        for(CellKey currentKey : new LinkedHashSet<>(row.getAvailableCellKeys())) {
             Optional<SudokuCell> resolved = resolveRowCellsByExclusionForCell(row, currentKey);
             resolved.ifPresent(result::add);
         }
@@ -48,16 +48,15 @@ public class RowCommonExclusionResolver extends SudokuResolver {
 
             System.out.println("RowExclusionResolver: Found common excluded: " + commonExcludedValue + " at: " + currentKey);
 
-            SudokuCell cell = sudokuSquare.cells[currentKey.i][currentKey.j];
-            cell.value = commonExcludedValue;
-            cellValueSet(cell);
+            SudokuCell cell = sudokuSquare.getCell(currentKey);
+            cellValueSet(cell, commonExcludedValue);
             result = Optional.of(cell);
         }
         return result;
     }
 
     private Set<Integer> getRowCommonExcludedValuesForCell(SudokuRow row, CellKey currentKey) {
-        Set<CellKey> availableKeys = new LinkedHashSet<>(row.availableCellKeys);
+        Set<CellKey> availableKeys = new LinkedHashSet<>(row.getAvailableCellKeys());
         availableKeys.remove(currentKey);
         List<Set<Integer>> excludedSets = new LinkedList<>();
         for(CellKey cellKey : availableKeys) {

@@ -3,7 +3,7 @@ package com.smart.tkl.euler.p96.element;
 import java.util.Objects;
 import java.util.Set;
 
-public class SudokuCell {
+public class SudokuCell extends SudokuElement {
 
     public final CellKey key;
     public final SubSquare subSquare;
@@ -11,9 +11,9 @@ public class SudokuCell {
     public final SubColumn subColumn;
     public final SudokuRow row;
     public final SudokuColumn column;
-    public Set<Integer> candidates;
 
-    public int value = 0;
+    private int value = 0;
+    private Integer triedValue;
 
     public static SudokuCell of(int i, int j) {
         return new SudokuCell(i, j);
@@ -30,6 +30,26 @@ public class SudokuCell {
 
     private SudokuCell(int i, int j) {
         this(i, j, null, null, null, null, null);
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    @Override
+    public void tryValueAt(Integer value, int i, int j) {
+        this.triedValue = value;
+        this.value = triedValue;
+    }
+
+    @Override
+    public void rollbackTrial() {
+        this.value = 0;
+        this.triedValue = null;
     }
 
     public int getI() {

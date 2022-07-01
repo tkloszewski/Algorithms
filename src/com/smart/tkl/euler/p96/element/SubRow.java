@@ -7,12 +7,13 @@ import java.util.TreeSet;
 
 import static com.smart.tkl.euler.p96.SudokuUtils.*;
 
-public class SubRow {
+public class SubRow extends SudokuElement {
 
     public final int pos;
     public final SudokuRow row;
     public final SubSquare subSquare;
     public final Set<Integer> values = new TreeSet<>();
+    final Set<Integer> trialValues = new TreeSet<>();
 
     private Set<Integer> guaranteedValues;
 
@@ -22,12 +23,28 @@ public class SubRow {
         this.subSquare = subSquare;
     }
 
-    public boolean addValue(Integer value) {
-        return this.values.add(value);
+    public void addValue(Integer value) {
+        this.values.add(value);
+    }
+
+    @Override
+    public void tryValueAt(Integer value, int i, int j) {
+        this.values.add(value);
+        this.trialValues.add(value);
+    }
+
+    @Override
+    public void rollbackTrial() {
+        this.values.removeAll(trialValues);
+        this.trialValues.clear();
     }
 
     @SuppressWarnings("unchecked")
     public Set<Integer> getGuaranteedValues() {
+        return getGuaranteedValues(2);
+    }
+
+    public Set<Integer> getGuaranteedValues(int level) {
         Set<Integer> result;
         if(values.size() == 3) {
             result = new TreeSet<>(values);
@@ -36,12 +53,12 @@ public class SubRow {
             int pos1 = (pos + 1) % 3;
             int pos2 = (pos + 2) % 3;
 
-            Set<Integer> set1 = getSubRowValues(subSquare, pos1);
-            Set<Integer> set2 = getSubRowValues(subSquare, pos2);
-            Set<Integer> set3 = getSubRowValues(subSquare.m, (subSquare.n + 1) % 3, pos1);
-            Set<Integer> set4 = getSubRowValues(subSquare.m, (subSquare.n + 2) % 3, pos1);
-            Set<Integer> set5 = getSubRowValues(subSquare.m, (subSquare.n + 1) % 3, pos2);
-            Set<Integer> set6 = getSubRowValues(subSquare.m, (subSquare.n + 2) % 3, pos2);
+            Set<Integer> set1 = getSubRowValuesOrGuaranteedValues(subSquare, pos1, level);
+            Set<Integer> set2 = getSubRowValuesOrGuaranteedValues(subSquare, pos2, level);
+            Set<Integer> set3 = getSubRowValuesOrGuaranteedValues(subSquare.m, (subSquare.n + 1) % 3, pos1, level);
+            Set<Integer> set4 = getSubRowValuesOrGuaranteedValues(subSquare.m, (subSquare.n + 2) % 3, pos1, level);
+            Set<Integer> set5 = getSubRowValuesOrGuaranteedValues(subSquare.m, (subSquare.n + 1) % 3, pos2, level);
+            Set<Integer> set6 = getSubRowValuesOrGuaranteedValues(subSquare.m, (subSquare.n + 2) % 3, pos2, level);
 
             Set<Integer> guaranteedValues = new TreeSet<>();
             if(set1.size() == 3 && set2.size() == 3) {
@@ -110,6 +127,19 @@ public class SubRow {
 
     private Set<Integer> getSubRowValues(int m, int n, int pos) {
         return getSubRowValues(subSquare.square.subSquares[m][n], pos);
+    }
+
+    private Set<Integer> getSubRowValuesOrGuaranteedValues(int m, int n, int pos, int level) {
+        return getSubRowValuesOrGuaranteedValues(subSquare.square.subSquares[m][n], pos, level);
+    }
+
+    private Set<Integer> getSubRowValuesOrGuaranteedValues(SubSquare subSquare, int pos, int level) {
+        return level > 0 ? getSubRowGuaranteedValues(subSquare ,pos, level) :
+                getSubRowValues(subSquare, pos);
+    }
+
+    private Set<Integer> getSubRowGuaranteedValues(SubSquare subSquare, int pos, int level) {
+        return subSquare.subRows[pos].getGuaranteedValues(level - 1);
     }
 
     private Set<Integer> getSubRowValues(SubSquare subSquare, int pos) {

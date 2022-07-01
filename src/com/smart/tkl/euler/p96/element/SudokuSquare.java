@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class SudokuSquare {
+public class SudokuSquare extends SudokuElement {
 
     public final int[][] originalSquare;
     public final SudokuCell[][] cells = new SudokuCell[9][9];
@@ -12,7 +12,10 @@ public class SudokuSquare {
     public final SudokuColumn[] columns = new SudokuColumn[9];
     public final SubSquare[][] subSquares = new SubSquare[3][3];
 
-    public final Set<SudokuCell> availableCells = new LinkedHashSet<>();
+    public final Set<CellKey> availableCellKeys = new LinkedHashSet<>();
+    private final Set<CellKey> removedTrialAvailableCellKeys = new LinkedHashSet<>();
+
+    private boolean trialMode;
 
     public SudokuSquare(int[][] originalSquare) {
         this.originalSquare = originalSquare;
@@ -35,16 +38,76 @@ public class SudokuSquare {
                 SubSquare subSquare = subSquares[i / 3][j / 3];
                 cells[i][j] = new SudokuCell(i, j, subSquare, subSquare.subRows[i % 3], subSquare.subColumns[j % 3], rows[i], columns[j]);
                 if(value == 0) {
-                   availableCells.add(cells[i][j]);
+                    availableCellKeys.add(cells[i][j].key);
                 }
                 else {
-                    cells[i][j].value = value;
+                    cells[i][j].setValue(value);
                     rows[i].addValueAt(value, j);
                     columns[j].addValueAt(value, i);
                     subSquare.addValueAt(value, i, j);
                 }
             }
         }
+    }
+
+    public SudokuCell getCell(CellKey cellKey) {
+        return this.cells[cellKey.i][cellKey.j];
+    }
+
+    public boolean validCandidateValueAt(Integer value, int i, int j) {
+        SudokuRow row = this.rows[i];
+        SudokuColumn column = this.columns[j];
+        SubSquare subSquare = this.subSquares[i / 3][j / 3];
+
+        boolean valid = row.validCandidateValue(value);
+        valid = valid && column.validCandidateValue(value);
+        boolean result = valid && subSquare.validCandidateValueAt(value, i, j);
+        return result;
+    }
+
+    public void setValue(SudokuCell cell, Integer value) {
+        if(isTrialMode()) {
+            tryValueAt(value, cell.key.i, cell.key.j);
+        }
+        else {
+            cell.setValue(value);
+            cell.subSquare.addValueAt(value, cell.key.i, cell.key.j);
+            cell.row.addValueAt(value, cell.key.j);
+            cell.column.addValueAt(value, cell.key.i);
+            this.availableCellKeys.remove(cell.key);
+        }
+    }
+
+    @Override
+    public void tryValueAt(Integer value, int i, int j) {
+        SudokuCell cell = getCell(new CellKey(i, j));
+        cell.tryValueAt(value, -1, -1);
+        cell.subSquare.tryValueAt(value, cell.key.i, cell.key.j);
+        cell.row.tryValueAt(value, cell.key.i, cell.key.j);
+        cell.column.tryValueAt(value, cell.key.i, cell.key.j);
+        this.availableCellKeys.remove(cell.key);
+        this.removedTrialAvailableCellKeys.add(cell.key);
+    }
+
+    @Override
+    public void rollbackTrial() {
+        for(SubSquare[] subSquareRow : subSquares) {
+            for(SubSquare subSquare : subSquareRow) {
+                subSquare.rollbackTrial();
+            }
+        }
+        for(SudokuRow row : rows) {
+            row.rollbackTrial();
+        }
+        for(SudokuColumn column : columns) {
+            column.rollbackTrial();
+        }
+        for(CellKey removedTrialAvailableKey : removedTrialAvailableCellKeys) {
+            SudokuCell cell = getCell(removedTrialAvailableKey);
+            cell.rollbackTrial();
+        }
+        this.availableCellKeys.addAll(this.removedTrialAvailableCellKeys);
+        this.removedTrialAvailableCellKeys.clear();
     }
 
     @Override
@@ -55,5 +118,25 @@ public class SudokuSquare {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public SudokuSquare toTrialModeSquare() {
+        int[][] square = new int[9][9];
+        for(SudokuCell[] cellRow : cells) {
+            for(SudokuCell cell : cellRow) {
+                square[cell.key.i][cell.key.j] = cell.getValue();
+            }
+        }
+        SudokuSquare trialModeSquare = new SudokuSquare(square);
+        trialModeSquare.setTrialMode(true);
+        return trialModeSquare;
+    }
+
+    public boolean isTrialMode() {
+        return trialMode;
+    }
+
+    public void setTrialMode(boolean trialMode) {
+        this.trialMode = trialMode;
     }
 }

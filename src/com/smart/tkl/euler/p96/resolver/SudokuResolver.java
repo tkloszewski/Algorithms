@@ -17,10 +17,7 @@ public abstract class SudokuResolver {
 
     public abstract ResolverType getType();
 
-    protected void cellValueSet(SudokuCell cell) {
-        cell.subSquare.addValueAt(cell.value, cell.key.i, cell.key.j);
-        cell.row.addValueAt(cell.value, cell.key.j);
-        cell.column.addValueAt(cell.value, cell.key.i);
-        sudokuSquare.availableCells.remove(cell);
+    protected void cellValueSet(SudokuCell cell, Integer value) {
+        sudokuSquare.setValue(cell, value);
     }
 }
