@@ -4,6 +4,18 @@ import com.smart.tkl.euler.p96.element.SudokuSquare;
 
 public class DelegateSudokuSolver implements SudokuSolver {
 
+    private static final int[][] wikiExample = {
+            {5, 3, 0, 0, 7, 0, 0, 0, 0},
+            {6, 0, 0, 1, 9, 5, 0, 0, 0},
+            {0, 9, 8, 0, 0, 0, 0, 6, 0},
+            {8, 0, 0, 0, 6, 0, 0, 0, 3},
+            {4, 0, 0, 8, 0, 3, 0, 0, 1},
+            {7, 0, 0, 0, 2, 0, 0, 0, 6},
+            {0, 6, 0, 0, 0, 0, 2, 8, 0},
+            {0, 0, 0, 4, 1, 9, 0, 0, 5},
+            {0, 0, 0, 0, 8, 0, 0, 7, 9},
+    };
+
     private static final int[][] expert1 = {
             {0, 0, 0, 0, 0, 3, 0, 0, 0},
             {2, 3, 0, 6, 0, 0, 0, 0, 0},
@@ -49,8 +61,9 @@ public class DelegateSudokuSolver implements SudokuSolver {
         System.out.println("Solved sudoku expert: \n" + solverResult.getSquare());
         solverResult = sudokuSolver.solve(new SudokuSquare(evil1));
         System.out.println("Solved sudoku evil: \n" + solverResult.getSquare());
-        solverResult = sudokuSolver.solve(new SudokuSquare(extreme1));
-        System.out.println("Solved sudoku extreme: \n" + solverResult.getSquare());
+        solverResult = sudokuSolver.solve(new SudokuSquare(wikiExample));
+        System.out.println("Solved sudoku wiki example: \n" + solverResult.getSquare());
+
     }
 
     public SudokuSolverResult solve(SudokuSquare sudokuSquare) {
