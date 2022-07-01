@@ -42,10 +42,14 @@ public class SudokuColumn extends UniqueValuesSudokuElement {
 
     @Override
     public void rollbackTrial() {
-        this.values.removeAll(trialValues);
-        this.trialValues.clear();
-        this.availableCellKeys.addAll(this.removedTrialAvailableCellKeys);
-        this.removedTrialAvailableCellKeys.clear();
+        if (trialValues.size() > 0) {
+            this.values.removeAll(trialValues);
+            this.trialValues.clear();
+        }
+        if (removedTrialAvailableCellKeys.size() > 0) {
+            this.availableCellKeys.addAll(this.removedTrialAvailableCellKeys);
+            this.removedTrialAvailableCellKeys.clear();
+        }
     }
 
     public boolean validCandidateValue(Integer value) {

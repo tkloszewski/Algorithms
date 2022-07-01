@@ -61,10 +61,20 @@ public class SubSquare extends UniqueValuesSudokuElement {
 
     @Override
     public void rollbackTrial() {
-        this.values.removeAll(trialValues);
-        this.trialValues.clear();
-        this.availableCellKeys.addAll(this.removedTrialAvailableCellKeys);
-        this.removedTrialAvailableCellKeys.clear();
+        if (trialValues.size() > 0) {
+            this.values.removeAll(trialValues);
+            this.trialValues.clear();
+        }
+        if (this.removedTrialAvailableCellKeys.size() > 0) {
+            this.availableCellKeys.addAll(this.removedTrialAvailableCellKeys);
+            this.removedTrialAvailableCellKeys.clear();
+        }
+        for(SubRow subRow : subRows) {
+            subRow.rollbackTrial();
+        }
+        for(SubColumn subColumn : subColumns) {
+            subColumn.rollbackTrial();
+        }
     }
 
     @Override

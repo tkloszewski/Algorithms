@@ -34,7 +34,7 @@ public class TrialAndErrorSudokuSolver implements SudokuSolver {
                     try {
                         applyPermutation(sudokuSquare, permutation);
                         try {
-                            result = deductionSolver.solve(sudokuSquare.toTrialModeSquare());
+                            result = deductionSolver.solve(sudokuSquare);
                         } catch (DuplicateValueException e) {
                             System.out.println("Duplicate value at: " + e.getCellKey() + " value: " + e.getValue());
                         }
@@ -42,7 +42,9 @@ public class TrialAndErrorSudokuSolver implements SudokuSolver {
                             return result;
                         }
                     } finally {
-                        sudokuSquare.rollbackTrial();
+                        if (result == null || !result.isSolved()) {
+                            sudokuSquare.rollbackTrial();
+                        }
                     }
                 }
             }

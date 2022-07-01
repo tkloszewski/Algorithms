@@ -35,8 +35,10 @@ public class SubRow extends SudokuElement {
 
     @Override
     public void rollbackTrial() {
-        this.values.removeAll(trialValues);
-        this.trialValues.clear();
+        if (trialValues.size() > 0) {
+            this.values.removeAll(trialValues);
+            this.trialValues.clear();
+        }
     }
 
     @SuppressWarnings("unchecked")

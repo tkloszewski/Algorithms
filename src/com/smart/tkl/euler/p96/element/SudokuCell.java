@@ -48,8 +48,10 @@ public class SudokuCell extends SudokuElement {
 
     @Override
     public void rollbackTrial() {
-        this.value = 0;
-        this.triedValue = null;
+        if (triedValue != null) {
+            this.value = 0;
+            this.triedValue = null;
+        }
     }
 
     public int getI() {
