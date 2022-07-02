@@ -1,8 +1,7 @@
 package com.smart.tkl.euler.p96.permutation;
 
 import com.smart.tkl.PermutationIterator;
-import com.smart.tkl.euler.p96.element.CellKey;
-import com.smart.tkl.euler.p96.element.UniqueValuesSudokuElement;
+import com.smart.tkl.euler.p96.element.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,11 @@ public class ElementPermutationGenerator implements Comparable<ElementPermutatio
 
     @Override
     public int compareTo(ElementPermutationGenerator other) {
-        return this.getPermutationLength().compareTo(other.getPermutationLength());
+        int result = this.getPermutationLength().compareTo(other.getPermutationLength());
+        if(result == 0) {
+           result = compareElements(this.element, other.element);
+        }
+        return result;
     }
 
     private PermutationIterator createPermutationIterator(UniqueValuesSudokuElement uniqueValuesElement) {
@@ -51,5 +54,15 @@ public class ElementPermutationGenerator implements Comparable<ElementPermutatio
             permutation[i++] = value;
         }
         return new PermutationIterator(permutation);
+    }
+
+    private int compareElements(UniqueValuesSudokuElement element1, UniqueValuesSudokuElement element2) {
+        if(element1.getClass().equals(element2.getClass())) {
+           return 0;
+        }
+        if(element1 instanceof SubSquare || (element1 instanceof SudokuRow && element2 instanceof SudokuColumn)) {
+           return -1;
+        }
+        return 0;
     }
 }

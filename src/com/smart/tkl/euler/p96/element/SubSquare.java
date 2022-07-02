@@ -36,13 +36,13 @@ public class SubSquare extends UniqueValuesSudokuElement {
 
     public boolean validCandidateValueAt(Integer value, int i, int j) {
         boolean result = !this.values.contains(value);
-        /*if(result) {
+        if(result) {
             Set<Integer> subRowExcluded = this.subRows[i % 3].getExcluded();
             Set<Integer> subColumnExcluded = this.subColumns[j % 3].getExcluded();
             if(subRowExcluded.contains(value) || subColumnExcluded.contains(value)){
                 result = false;
             }
-        }*/
+        }
         return result;
     }
 

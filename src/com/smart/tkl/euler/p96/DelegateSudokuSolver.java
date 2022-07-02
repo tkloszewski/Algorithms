@@ -54,6 +54,18 @@ public class DelegateSudokuSolver implements SudokuSolver {
             {0, 0, 7, 3, 0, 0, 0, 0, 0},
     };
 
+    private static final int[][] evil3 = {
+            {0, 1, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 7, 2, 0, 0},
+            {5, 0, 8, 9, 0, 0, 0, 0, 4},
+            {0, 0, 0, 0, 9, 0, 0, 5, 0},
+            {4, 0, 6, 5, 0, 0, 0, 0, 8},
+            {3, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 3, 0, 6, 0, 0, 0, 0, 0},
+            {6, 0, 1, 0, 2, 0, 4, 0, 0},
+            {0, 9, 0, 0, 0, 0, 0, 0, 1},
+    };
+
     private static final int[][] extreme1 = {
             {0, 0, 0, 2, 1, 0, 0, 0, 0},
             {0, 0, 7, 3, 0, 0, 0, 0, 0},
@@ -92,6 +104,7 @@ public class DelegateSudokuSolver implements SudokuSolver {
 
     private static final List<NamedSudokuSquare> namedSquares = List.of(
             new NamedSudokuSquare(evil2, "evil2"),
+            new NamedSudokuSquare(evil3, "evil3"),
             new NamedSudokuSquare(toughest, "toughest"),
             new NamedSudokuSquare(extreme1, "extreme"),
             new NamedSudokuSquare(automorphic, "automorphic")

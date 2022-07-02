@@ -32,8 +32,8 @@ public class TrialAndErrorSudokuSolver implements SudokuSolver {
                     numOfTrials++;
                     SudokuSolverResult result = null;
                     try {
-                        applyPermutation(sudokuSquare, permutation);
                         try {
+                            applyPermutation(sudokuSquare, permutation);
                             result = deductionSolver.solve(sudokuSquare);
                         } catch (DuplicateValueException e) {
                             System.out.println("Duplicate value at: " + e.getCellKey() + " value: " + e.getValue());
