@@ -102,12 +102,51 @@ public class DelegateSudokuSolver implements SudokuSolver {
             {0, 0, 6, 0, 0, 7, 0, 0, 8},
     };
 
+    private static final int[][] inhuman1 = {
+            {0, 0, 0, 7, 0, 0, 0, 4, 0},
+            {1, 0, 9, 0, 0, 0, 6, 0, 0},
+            {7, 0, 2, 0, 0, 0, 0, 0, 0},
+            {0, 6, 4, 8, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 5, 7, 0, 0},
+            {0, 0, 7, 0, 0, 0, 8, 0, 0},
+            {0, 0, 0, 0, 3, 8, 0, 0, 0},
+            {0, 7, 0, 0, 0, 0, 0, 8, 3},
+            {0, 0, 8, 0, 0, 0, 0, 0, 0},
+    };
+
+    private static final int[][] insane1 = {
+            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 8, 7, 0, 0, 0},
+            {0, 0, 0, 0, 0, 9, 4, 7, 0},
+            {0, 4, 0, 0, 0, 0, 0, 0, 2},
+            {6, 2, 7, 4, 1, 3, 9, 5, 8},
+            {0, 8, 0, 0, 0, 2, 0, 0, 5},
+            {0, 0, 0, 1, 5, 0, 0, 0, 3},
+            {0, 0, 0, 0, 0, 0, 1, 0, 0},
+    };
+
+    private static final int[][] evil4 = {
+            {0, 0, 0, 0, 0, 0, 5, 9, 1},
+            {6, 7, 0, 5, 8, 1, 4, 0, 3},
+            {2, 0, 0, 9, 3, 0, 8, 6, 7},
+            {0, 0, 0, 1, 0, 0, 0, 0, 0},
+            {0, 0, 0, 3, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 1, 0},
+            {0, 0, 0, 0, 0, 0, 2, 0, 4},
+            {4, 9, 0, 0, 0, 0, 1, 0, 6},
+            {0, 0, 0, 4, 0, 0, 0, 0, 0},
+    };
+
     private static final List<NamedSudokuSquare> namedSquares = List.of(
             new NamedSudokuSquare(evil2, "evil2"),
-            new NamedSudokuSquare(evil3, "evil3"),
-            new NamedSudokuSquare(toughest, "toughest"),
-            new NamedSudokuSquare(extreme1, "extreme"),
-            new NamedSudokuSquare(automorphic, "automorphic")
+            new NamedSudokuSquare(evil3, "evil3")
+           // new NamedSudokuSquare(evil4, "evil4")
+            //new NamedSudokuSquare(toughest, "toughest"),
+            //new NamedSudokuSquare(extreme1, "extreme"),
+            //new NamedSudokuSquare(automorphic, "automorphic"),
+           // new NamedSudokuSquare(insane1, "insane1")
+
     );
 
     private final DeductionSudokuSolver deductionSolver = new DeductionSudokuSolver();
