@@ -24,12 +24,12 @@ public class TrialAndErrorSudokuSolver implements SudokuSolver {
 
         sudokuSquare.setTrialMode(true);
 
-        System.out.println("Partially solved sudoku: \n" + sudokuSquare);
-
+        int numOfTrials = 0;
         for(ElementPermutationGenerator permutationGenerator : permutationGenerators) {
             while (permutationGenerator.hasNextPermutation()) {
                 CellValuePermutation permutation = permutationGenerator.getNextPermutation();
                 if(isValidPermutation(sudokuSquare, permutation)) {
+                    numOfTrials++;
                     SudokuSolverResult result = null;
                     try {
                         applyPermutation(sudokuSquare, permutation);
@@ -39,7 +39,7 @@ public class TrialAndErrorSudokuSolver implements SudokuSolver {
                             System.out.println("Duplicate value at: " + e.getCellKey() + " value: " + e.getValue());
                         }
                         if(result != null && result.isSolved()) {
-                            return result;
+                            return new SudokuSolverResult(result.getSquare(), result.getResolvedCells(), numOfTrials);
                         }
                     } finally {
                         // rollback trial values if there was a duplicate or sudoku was not solved

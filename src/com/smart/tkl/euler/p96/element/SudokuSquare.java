@@ -1,5 +1,7 @@
 package com.smart.tkl.euler.p96.element;
 
+import com.smart.tkl.euler.p96.DuplicateValueException;
+
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -19,35 +21,7 @@ public class SudokuSquare extends SudokuElement {
 
     public SudokuSquare(int[][] originalSquare) {
         this.originalSquare = originalSquare;
-        for(int i = 0; i < 9; i++) {
-            rows[i] = new SudokuRow(this, i);
-            columns[i] = new SudokuColumn(this, i);
-        }
-        for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 3; j++) {
-                subSquares[i][j] = new SubSquare(i, j, this);
-                for(int k = 0; k < 3; k++) {
-                    subSquares[i][j].subRows[k] = new SubRow(k, rows[i * 3 + k], subSquares[i][j]);
-                    subSquares[i][j].subColumns[k] = new SubColumn(k, columns[j * 3 + k], subSquares[i][j]);
-                }
-            }
-        }
-        for(int i = 0; i < 9; i++) {
-            for(int j = 0; j < 9; j++) {
-                int value = originalSquare[i][j];
-                SubSquare subSquare = subSquares[i / 3][j / 3];
-                cells[i][j] = new SudokuCell(i, j, subSquare, subSquare.subRows[i % 3], subSquare.subColumns[j % 3], rows[i], columns[j]);
-                if(value == 0) {
-                    availableCellKeys.add(cells[i][j].key);
-                }
-                else {
-                    cells[i][j].setValue(value);
-                    rows[i].addValueAt(value, j);
-                    columns[j].addValueAt(value, i);
-                    subSquare.addValueAt(value, i, j);
-                }
-            }
-        }
+        initSquare(originalSquare);
     }
 
     public SudokuCell getCell(CellKey cellKey) {
@@ -61,8 +35,7 @@ public class SudokuSquare extends SudokuElement {
 
         boolean valid = row.validCandidateValue(value);
         valid = valid && column.validCandidateValue(value);
-        boolean result = valid && subSquare.validCandidateValueAt(value, i, j);
-        return result;
+        return valid && subSquare.validCandidateValueAt(value, i, j);
     }
 
     public void setValue(SudokuCell cell, Integer value) {
@@ -138,5 +111,40 @@ public class SudokuSquare extends SudokuElement {
 
     public void setTrialMode(boolean trialMode) {
         this.trialMode = trialMode;
+    }
+
+    private void initSquare(int[][] originalSquare) {
+        for(int i = 0; i < 9; i++) {
+            rows[i] = new SudokuRow(this, i);
+            columns[i] = new SudokuColumn(this, i);
+        }
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                subSquares[i][j] = new SubSquare(i, j, this);
+                for(int k = 0; k < 3; k++) {
+                    subSquares[i][j].subRows[k] = new SubRow(k, rows[i * 3 + k], subSquares[i][j]);
+                    subSquares[i][j].subColumns[k] = new SubColumn(k, columns[j * 3 + k], subSquares[i][j]);
+                }
+            }
+        }
+        for(int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                SubSquare subSquare = subSquares[i / 3][j / 3];
+                cells[i][j] = new SudokuCell(i, j, subSquare, subSquare.subRows[i % 3], subSquare.subColumns[j % 3], rows[i], columns[j]);
+                availableCellKeys.add(cells[i][j].key);
+            }
+        }
+
+        for(int i = 0; i < 9; i++) {
+            for(int j = 0; j < 9; j++) {
+                int value = originalSquare[i][j];
+                if(value != 0) {
+                    if(!validCandidateValueAt(value, i, j)) {
+                        throw new DuplicateValueException(new CellKey(i, j), value);
+                    }
+                    setValue(cells[i][j], value);
+                }
+            }
+        }
     }
 }

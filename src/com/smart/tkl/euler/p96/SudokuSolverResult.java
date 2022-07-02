@@ -11,7 +11,14 @@ public class SudokuSolverResult {
     private final SudokuSquare square;
     private final Set<SudokuCell> resolvedCells;
     private final boolean solved;
+
+    private int trialsNumber = 0;
     private Integer topLeft3DigitNumber;
+
+    public SudokuSolverResult(SudokuSquare square, Set<SudokuCell> resolvedCells, int trialsNumber) {
+        this(square, resolvedCells);
+        this.trialsNumber = trialsNumber;
+    }
 
     public SudokuSolverResult(SudokuSquare square, Set<SudokuCell> resolvedCells) {
         this.square = square;
@@ -42,6 +49,10 @@ public class SudokuSolverResult {
 
     public Integer getTopLeft3DigitNumber() {
         return topLeft3DigitNumber;
+    }
+
+    public int getTrialsNumber() {
+        return trialsNumber;
     }
 
     private Integer resolveNumber() {
