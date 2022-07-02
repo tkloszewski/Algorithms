@@ -46,7 +46,7 @@ public class ColumnCommonExclusionResolver extends SudokuResolver {
         if(commonExcludedValues.size() == 1) {
             Integer commonExcludedValue = commonExcludedValues.iterator().next();
 
-            System.out.println("ColumnExclusionResolver: Found common excluded: " + commonExcludedValue + " at: " + currentKey);
+        //    System.out.println("ColumnExclusionResolver: Found common excluded: " + commonExcludedValue + " at: " + currentKey);
 
             SudokuCell cell = sudokuSquare.getCell(currentKey);
             cellValueSet(cell, commonExcludedValue);

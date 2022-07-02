@@ -26,7 +26,7 @@ public class DirectExclusionResolver extends SudokuResolver {
                 if (candidates.size() == 1) {
                     Integer value = candidates.iterator().next();
 
-                    System.out.println("Direct exclusion resolver found: " + value + " at: " + currentCellKey);
+               //     System.out.println("Direct exclusion resolver found: " + value + " at: " + currentCellKey);
 
                     resolvedCells.add(currentCell);
                     cellValueSet(currentCell, value);

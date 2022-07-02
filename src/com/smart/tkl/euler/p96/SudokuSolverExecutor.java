@@ -115,15 +115,14 @@ public class SudokuSolverExecutor {
         int squareNum = 1;
         int sumOfAllTopLeftNumbers = 0;
         for(SudokuSquare sudokuSquare : sudokuSquares) {
-            System.out.println("Built and read square : " + squareNum + " \n" + sudokuSquare);
+            System.out.println("Built and read sudoku nr: " + squareNum + " \n" + sudokuSquare);
             SudokuSolverResult solverResult = sudokuSolver.solve(sudokuSquare);
-            System.out.println("Solved sudoku: " + squareNum + " \n" + solverResult.getSquare());
+            System.out.println("Solved sudoku nr: " + squareNum + " \n" + solverResult.getSquare());
             if(!solverResult.isSolved()) {
                unsolvedSquares.add(solverResult.getSquare());
             }
             else {
                int topLeftNumber = solverResult.getTopLeft3DigitNumber();
-               System.out.println("Top left number: " + topLeftNumber);
                sumOfAllTopLeftNumbers += topLeftNumber;
             }
             squareNum++;

@@ -30,7 +30,7 @@ public class DeductionSudokuSolver implements SudokuSolver {
                     currentResolved.addAll(resolved);
                 }
             }
-            System.out.println("Current iteration resolved: " + currentResolved);
+        //    System.out.println("Current iteration resolved: " + currentResolved);
             if(currentResolved.size() == 0) {
                 break;
             }

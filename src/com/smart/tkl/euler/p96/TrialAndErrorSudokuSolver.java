@@ -39,6 +39,7 @@ public class TrialAndErrorSudokuSolver implements SudokuSolver {
                             System.out.println("Duplicate value at: " + e.getCellKey() + " value: " + e.getValue());
                         }
                         if(result != null && result.isSolved()) {
+                            System.out.println("Solved with number of tries: " + numOfTrials);
                             return new SudokuSolverResult(result.getSquare(), result.getResolvedCells(), numOfTrials);
                         }
                     } finally {
