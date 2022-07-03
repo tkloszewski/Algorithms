@@ -138,19 +138,60 @@ public class DelegateSudokuSolver implements SudokuSolver {
             {0, 0, 0, 4, 0, 0, 0, 0, 0},
     };
 
+    private static final int[][] inhuman2 = {
+            {0, 0, 0, 7, 0, 0, 0, 4, 0},
+            {1, 0, 9, 0, 0, 0, 6, 0, 0},
+            {7, 0, 2, 0, 0, 0, 0, 0, 0},
+            {0, 6, 4, 8, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 5, 7, 0, 0},
+            {0, 0, 7, 0, 0, 0, 8, 0, 0},
+            {0, 0, 0, 0, 3, 8, 0, 0, 0},
+            {0, 7, 0, 0, 0, 0, 0, 8, 3},
+            {0, 0, 8, 0, 0, 0, 0, 0, 0},
+    };
+
+    private static final int[][] cells_17_1 = {
+            {0, 0, 0, 7, 0, 0, 0, 0, 0},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 4, 3, 0, 2, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 6},
+            {0, 0, 0, 5, 0, 9, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 4, 1, 8},
+            {0, 0, 0, 0, 8, 1, 0, 0, 0},
+            {0, 0, 2, 0, 0, 0, 0, 5, 0},
+            {0, 4, 0, 0, 0, 0, 3, 0, 0},
+    };
+
+    private static final int[][] artoInkala = {
+            {8, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 3, 6, 0, 0, 0, 0, 0},
+            {0, 7, 0, 0, 9, 0, 2, 0, 0},
+            {0, 5, 0, 0, 0, 7, 0, 0, 0},
+            {0, 0, 0, 0, 4, 5, 7, 0, 0},
+            {0, 0, 0, 1, 0, 0, 0, 3, 0},
+            {0, 0, 1, 0, 0, 0, 0, 6, 8},
+            {0, 0, 8, 5, 0, 0, 0, 1, 0},
+            {0, 9, 0, 0, 0, 0, 4, 0, 0},
+    };
+
+
     private static final List<NamedSudokuSquare> namedSquares = List.of(
-            new NamedSudokuSquare(evil2, "evil2"),
-            new NamedSudokuSquare(evil3, "evil3")
-           // new NamedSudokuSquare(evil4, "evil4")
-            //new NamedSudokuSquare(toughest, "toughest"),
-            //new NamedSudokuSquare(extreme1, "extreme"),
-            //new NamedSudokuSquare(automorphic, "automorphic"),
-           // new NamedSudokuSquare(insane1, "insane1")
+            /*new NamedSudokuSquare(evil2, "evil2"),
+            new NamedSudokuSquare(evil3, "evil3"),
+            new NamedSudokuSquare(evil4, "evil4"),
+            new NamedSudokuSquare(toughest, "toughest"),
+            new NamedSudokuSquare(extreme1, "extreme"),
+            new NamedSudokuSquare(automorphic, "automorphic"),
+            new NamedSudokuSquare(inhuman1, "inhuman1"),
+            new NamedSudokuSquare(insane1, "insane1")*/
+            //new NamedSudokuSquare(inhuman2, "inhuman2"),
+            new NamedSudokuSquare(cells_17_1, "cells_17_1"),
+            new NamedSudokuSquare(artoInkala, "artoInkala")
 
     );
 
     private final DeductionSudokuSolver deductionSolver = new DeductionSudokuSolver();
-    private final TrialAndErrorSudokuSolver trialAndErrorSolver = new TrialAndErrorSudokuSolver(deductionSolver);
+    private final DFSTrialAndErrorSudokuSolver dfsTrialAndErrorSolver = new DFSTrialAndErrorSudokuSolver(deductionSolver);
 
     public static void main(String[] args) {
         for (NamedSudokuSquare namedSquare : namedSquares) {
@@ -169,7 +210,7 @@ public class DelegateSudokuSolver implements SudokuSolver {
         SudokuSolverResult result = deductionSolver.solve(sudokuSquare);
         if(!result.isSolved()) {
             System.out.println("Partially solved: \n" + result.getSquare());
-            SudokuSolverResult trialAndErrorResult = trialAndErrorSolver.solve(sudokuSquare);
+            SudokuSolverResult trialAndErrorResult = dfsTrialAndErrorSolver.solve(sudokuSquare);
             if(trialAndErrorResult.isSolved()) {
                 return trialAndErrorResult;
             }

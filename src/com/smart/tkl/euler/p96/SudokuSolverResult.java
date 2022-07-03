@@ -55,6 +55,10 @@ public class SudokuSolverResult {
         return trialsNumber;
     }
 
+    public void setTrialsNumber(int trialsNumber) {
+        this.trialsNumber = trialsNumber;
+    }
+
     private Integer resolveNumber() {
         StringBuilder sb = new StringBuilder();
         sb.append(square.getCell(new CellKey(0,0)).getValue());

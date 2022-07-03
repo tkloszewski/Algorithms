@@ -119,11 +119,11 @@ public class SudokuSolverExecutor {
             SudokuSolverResult solverResult = sudokuSolver.solve(sudokuSquare);
             System.out.println("Solved sudoku nr: " + squareNum + " \n" + solverResult.getSquare());
             if(!solverResult.isSolved()) {
-               unsolvedSquares.add(solverResult.getSquare());
+                unsolvedSquares.add(solverResult.getSquare());
             }
             else {
-               int topLeftNumber = solverResult.getTopLeft3DigitNumber();
-               sumOfAllTopLeftNumbers += topLeftNumber;
+                int topLeftNumber = solverResult.getTopLeft3DigitNumber();
+                sumOfAllTopLeftNumbers += topLeftNumber;
             }
             squareNum++;
         }
