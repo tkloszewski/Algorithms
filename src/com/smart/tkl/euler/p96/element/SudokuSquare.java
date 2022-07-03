@@ -54,12 +54,13 @@ public class SudokuSquare extends SudokuElement {
     @Override
     public void tryValueAt(Integer value, int i, int j) {
         SudokuCell cell = getCell(new CellKey(i, j));
+        this.availableCellKeys.remove(cell.key);
+        this.removedTrialAvailableCellKeys.add(cell.key);
         cell.tryValueAt(value, -1, -1);
         cell.subSquare.tryValueAt(value, cell.key.i, cell.key.j);
         cell.row.tryValueAt(value, cell.key.i, cell.key.j);
         cell.column.tryValueAt(value, cell.key.i, cell.key.j);
-        this.availableCellKeys.remove(cell.key);
-        this.removedTrialAvailableCellKeys.add(cell.key);
+
     }
 
     @Override
