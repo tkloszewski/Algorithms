@@ -174,6 +174,18 @@ public class DelegateSudokuSolver implements SudokuSolver {
             {0, 9, 0, 0, 0, 0, 4, 0, 0},
     };
 
+    private static final int[][] cells_27_1  = {
+            {8, 1, 2, 7, 5, 3, 6, 4, 9},
+            {9, 4, 3, 6, 8, 2, 1, 7, 5},
+            {6, 7, 5, 4, 9, 1, 2, 8, 3},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
+
 
     private static final List<NamedSudokuSquare> namedSquares = List.of(
             /*new NamedSudokuSquare(evil2, "evil2"),
@@ -185,13 +197,14 @@ public class DelegateSudokuSolver implements SudokuSolver {
             new NamedSudokuSquare(inhuman1, "inhuman1"),
             new NamedSudokuSquare(insane1, "insane1")*/
             //new NamedSudokuSquare(inhuman2, "inhuman2"),
-            new NamedSudokuSquare(cells_17_1, "cells_17_1"),
-            new NamedSudokuSquare(artoInkala, "artoInkala")
+           // new NamedSudokuSquare(cells_17_1, "cells_17_1"),
+            new NamedSudokuSquare(artoInkala, "artoInkala"),
+            new NamedSudokuSquare(cells_27_1, "cells_27_1")
 
     );
 
     private final DeductionSudokuSolver deductionSolver = new DeductionSudokuSolver();
-    private final DFSTrialAndErrorSudokuSolver dfsTrialAndErrorSolver = new DFSTrialAndErrorSudokuSolver(deductionSolver);
+    private final DFSTrialAndErrorSudokuSolver dfsTrialAndErrorSolver = new DFSTrialAndErrorSudokuSolver(4, deductionSolver);
 
     public static void main(String[] args) {
         for (NamedSudokuSquare namedSquare : namedSquares) {
