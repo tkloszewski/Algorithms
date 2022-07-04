@@ -188,16 +188,16 @@ public class DelegateSudokuSolver implements SudokuSolver {
 
 
     private static final List<NamedSudokuSquare> namedSquares = List.of(
-            /*new NamedSudokuSquare(evil2, "evil2"),
+            new NamedSudokuSquare(evil2, "evil2"),
             new NamedSudokuSquare(evil3, "evil3"),
             new NamedSudokuSquare(evil4, "evil4"),
             new NamedSudokuSquare(toughest, "toughest"),
             new NamedSudokuSquare(extreme1, "extreme"),
             new NamedSudokuSquare(automorphic, "automorphic"),
             new NamedSudokuSquare(inhuman1, "inhuman1"),
-            new NamedSudokuSquare(insane1, "insane1")*/
-            //new NamedSudokuSquare(inhuman2, "inhuman2"),
-           // new NamedSudokuSquare(cells_17_1, "cells_17_1"),
+            new NamedSudokuSquare(insane1, "insane1"),
+            new NamedSudokuSquare(inhuman2, "inhuman2"),
+            new NamedSudokuSquare(cells_17_1, "cells_17_1"),
             new NamedSudokuSquare(artoInkala, "artoInkala"),
             new NamedSudokuSquare(cells_27_1, "cells_27_1")
 
