@@ -58,7 +58,7 @@ public class DFSTrialAndErrorSudokuSolver implements SudokuSolver {
                                 SudokuSquare newSquare = sudokuSquare.toTrialModeSquare();
                                 result = trySolveByTheDepthFirstSearch(newSquare, numOfTrials, 1);
                                 if(result.isSolved()) {
-                                   return result;
+                                    return result;
                                 }
                                 else {
                                     numOfTrials += result.getTrialsNumber();
@@ -90,34 +90,31 @@ public class DFSTrialAndErrorSudokuSolver implements SudokuSolver {
                 try {
                     applyPermutation(sudokuSquare, permutation);
                     result = deductionSolver.solve(sudokuSquare);
-                } catch (DuplicateValueException e) {
-                    sudokuSquare.rollbackTrial();
-                }
-                if(result != null) {
-                    if(result.isSolved()) {
-                        System.out.println("Solved with number of tries: " + numOfTrials);
-                        return new SudokuSolverResult(result.getSquare(), result.getResolvedCells(), numOfTrials);
-                    }
-                    else {
-                        if(level < maxDepthLevel) {
-                            try {
+                    if(result != null) {
+                        if(result.isSolved()) {
+                            System.out.println("Solved with number of tries: " + numOfTrials);
+                            return new SudokuSolverResult(result.getSquare(), result.getResolvedCells(), numOfTrials);
+                        }
+                        else {
+                            if(level < maxDepthLevel) {
                                 System.out.println("Trying deeper level " + level + " for sudoku square: \n" + sudokuSquare);
                                 SudokuSquare newSquare = sudokuSquare.toTrialModeSquare();
                                 result = trySolveByTheDepthFirstSearch(newSquare, numOfTrials, level + 1);
                                 if(result.isSolved()) {
                                     return result;
                                 }
-                            } catch (DuplicateValueException e) {
-                                //Deduction solver was not able to complete the solution and state of square is invalid.
-                                // Rollback state changes and take another permutation
-                                System.out.println("Duplicate value on creating new square at: " + e.getCellKey() + " value: " + e.getValue());
-                                sudokuSquare.rollbackTrial();
+                                else {
+                                    numOfTrials += result.getTrialsNumber();
+                                }
                             }
                         }
-                        else {
-                            System.out.println("Unable to solve following sudoku square state for given permutation: \n" + sudokuSquare);
-                            sudokuSquare.rollbackTrial();
-                        }
+                    }
+
+                } catch (DuplicateValueException e) {
+                    sudokuSquare.rollbackTrial();
+                } finally {
+                    if(result != null && !result.isSolved()) {
+                        sudokuSquare.rollbackTrial();
                     }
                 }
             }

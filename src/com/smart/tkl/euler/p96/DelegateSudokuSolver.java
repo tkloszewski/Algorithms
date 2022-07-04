@@ -186,6 +186,18 @@ public class DelegateSudokuSolver implements SudokuSolver {
             {0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
 
+    private static final int[][] competition1  = {
+            {0, 0, 2, 0, 1, 0, 0, 9, 0},
+            {0, 0, 0, 0, 6, 0, 0, 0, 0},
+            {0, 7, 0, 0, 8, 0, 4, 0, 0},
+            {0, 0, 0, 0, 0, 0, 9, 3, 0},
+            {9, 5, 0, 0, 0, 0, 6, 0, 0},
+            {0, 2, 4, 0, 0, 0, 0, 1, 0},
+            {5, 0, 0, 0, 0, 6, 0, 0, 0},
+            {0, 3, 7, 0, 0, 2, 0, 0, 1},
+            {0, 0, 0, 0, 0, 5, 0, 0, 7}
+    };
+
 
     private static final List<NamedSudokuSquare> namedSquares = List.of(
             new NamedSudokuSquare(evil2, "evil2"),
@@ -199,7 +211,8 @@ public class DelegateSudokuSolver implements SudokuSolver {
             new NamedSudokuSquare(inhuman2, "inhuman2"),
             new NamedSudokuSquare(cells_17_1, "cells_17_1"),
             new NamedSudokuSquare(artoInkala, "artoInkala"),
-            new NamedSudokuSquare(cells_27_1, "cells_27_1")
+            new NamedSudokuSquare(cells_27_1, "cells_27_1"),
+            new NamedSudokuSquare(competition1, "competition1")
 
     );
 
