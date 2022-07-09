@@ -15,15 +15,18 @@ public class BFSVisitor implements GraphVisitor {
     }
 
     @Override
-    public VisitorResult visitFrom(StandardVertex source) {
+    public BFSVisitorResult visitFrom(StandardVertex source) {
         if(!graph.containsVertex(source)) {
-           return new VisitorResult(source, Map.of(), List.of());
+           return new BFSVisitorResult(source, Map.of(), List.of(), 0, Map.of());
         }
         Set<StandardVertex> visited = new LinkedHashSet<>();
         Map<StandardVertex, Integer> distanceMap = new LinkedHashMap<>();
+        Map<StandardVertex, StandardVertex> previousMap = new LinkedHashMap<>();
         distanceMap.put(source, 0);
         Queue<StandardVertex> queue = new LinkedList<>();
         queue.add(source);
+
+        int maxDistance = 0;
 
         while (!queue.isEmpty()) {
             StandardVertex current = queue.poll();
@@ -31,7 +34,9 @@ public class BFSVisitor implements GraphVisitor {
             for(StandardVertex vertex : graph.getAdjacentVertices(current)) {
                 if (!visited.contains(vertex)) {
                     distanceMap.put(vertex, currentCost + 1);
+                    previousMap.put(vertex, current);
                     queue.add(vertex);
+                    maxDistance = Math.max(maxDistance, currentCost + 1);
                 }
             }
             visited.add(current);
@@ -41,6 +46,6 @@ public class BFSVisitor implements GraphVisitor {
                 .filter(v -> !distanceMap.containsKey(v))
                 .collect(Collectors.toList());
 
-        return new VisitorResult(source ,distanceMap, unvisited);
+        return new BFSVisitorResult(source ,distanceMap, unvisited, maxDistance, previousMap);
     }
 }

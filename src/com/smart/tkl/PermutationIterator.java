@@ -19,7 +19,7 @@ public class PermutationIterator implements Iterator<int[]> {
     private int lastCPos;
 
     public static void main(String[] args) {
-        int[] tab = new int[]{1, 2, 3};
+        int[] tab = new int[]{0, 1, 2};
         PermutationIterator permutationIterator = new PermutationIterator(tab);
         while(permutationIterator.hasNext()) {
             int[] permutation = permutationIterator.next();

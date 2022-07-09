@@ -10,18 +10,21 @@ import java.util.Set;
 public class ConnectedComponentsCounter {
 
     private final DirectedGraph graph;
-    private final DirectedGraph doubledGraph;
+    private final DirectedGraph originalGraph;
     private Set<StandardVertex> weaklyVisited;
 
     public ConnectedComponentsCounter(DirectedGraph graph) {
-        this.graph = graph;
-        this.doubledGraph = toDoubledEdgeGraph(graph);
+        this.originalGraph = graph;
+        this.graph = toDoubledEdgeGraph(graph);
     }
 
     public int weaklyConnectedCount() {
         weaklyVisited = new LinkedHashSet<>();
         int connectedComponentsCount = 0;
         for(StandardVertex vertex : graph.getVertices()) {
+            if(weaklyVisited.size() == graph.getVertices().size()) {
+               break;
+            }
             if(!weaklyVisited.contains(vertex)) {
                dfs(vertex);
                connectedComponentsCount++;
