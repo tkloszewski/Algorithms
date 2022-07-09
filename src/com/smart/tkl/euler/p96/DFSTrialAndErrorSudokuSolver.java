@@ -80,7 +80,7 @@ public class DFSTrialAndErrorSudokuSolver implements SudokuSolver {
     private SudokuSolverResult trySolveByTheDepthFirstSearch(SudokuSquare sudokuSquare, int currentNumOfTrails,  int level) {
         List<ElementPermutationGenerator> permutationGenerators = createPermutationGenerators(sudokuSquare);
         ElementPermutationGenerator permutationGenerator = permutationGenerators.get(0);
-        int numOfTrials = currentNumOfTrails;
+        int numOfTrials = 0;
         while (permutationGenerator.hasNextPermutation()) {
             CellValuePermutation permutation = permutationGenerator.getNextPermutation();
             if(isValidPermutation(sudokuSquare, permutation)) {
@@ -92,7 +92,6 @@ public class DFSTrialAndErrorSudokuSolver implements SudokuSolver {
                     result = deductionSolver.solve(sudokuSquare);
                     if(result != null) {
                         if(result.isSolved()) {
-                            System.out.println("Solved with number of tries: " + numOfTrials);
                             return new SudokuSolverResult(result.getSquare(), result.getResolvedCells(), numOfTrials);
                         }
                         else {
@@ -100,11 +99,9 @@ public class DFSTrialAndErrorSudokuSolver implements SudokuSolver {
                                 System.out.println("Trying deeper level " + level + " for sudoku square: \n" + sudokuSquare);
                                 SudokuSquare newSquare = sudokuSquare.toTrialModeSquare();
                                 result = trySolveByTheDepthFirstSearch(newSquare, numOfTrials, level + 1);
+                                numOfTrials += result.getTrialsNumber();
                                 if(result.isSolved()) {
-                                    return result;
-                                }
-                                else {
-                                    numOfTrials += result.getTrialsNumber();
+                                    return new SudokuSolverResult(result.getSquare(), result.getResolvedCells(), numOfTrials);
                                 }
                             }
                         }
