@@ -210,6 +210,18 @@ public class DelegateSudokuSolver implements SudokuSolver {
             {0, 0, 5, 8, 0, 4, 9, 0, 0},
     };
 
+    private static final int[][] sFAmerican = {
+            {1, 9, 0, 0, 3, 0, 0, 0, 8},
+            {6, 0, 0, 0, 0, 1, 0, 0, 0},
+            {0, 0, 2, 5, 0, 0, 0, 0, 3},
+            {0, 3, 0, 0, 7, 0, 0, 0, 0},
+            {0, 0, 0, 0, 4, 3, 0, 0, 0},
+            {4, 0, 0, 0, 0, 0, 0, 8, 0},
+            {0, 0, 9, 0, 0, 0, 0, 5, 0},
+            {0, 0, 0, 2, 9, 6, 0, 0, 0},
+            {0, 0, 8, 0, 0, 0, 0, 2, 7},
+    };
+
 
     private static final List<NamedSudokuSquare> namedSquares = List.of(
             new NamedSudokuSquare(evil2, "evil2"),
@@ -225,8 +237,8 @@ public class DelegateSudokuSolver implements SudokuSolver {
             new NamedSudokuSquare(artoInkala, "artoInkala"),
             new NamedSudokuSquare(cells_27_1, "cells_27_1"),
             new NamedSudokuSquare(competition1, "competition1"),
-            new NamedSudokuSquare(evil5, "evil5")
-
+            new NamedSudokuSquare(evil5, "evil5"),
+            new NamedSudokuSquare(sFAmerican, "sfAmerican")
     );
 
     private final DeductionSudokuSolver deductionSolver = new DeductionSudokuSolver();

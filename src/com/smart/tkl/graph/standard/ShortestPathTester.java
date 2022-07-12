@@ -75,6 +75,22 @@ public class ShortestPathTester {
             {"d", "b", 5}
     };
 
+    private final static Object[][] graph5 = {
+            {"A", "B", 3},
+            {"A", "C", 6},
+            {"B", "C", 4},
+            {"B", "D", 4},
+            {"B", "E", 11},
+            {"C", "D", 8},
+            {"C", "G", 11},
+            {"D", "E", -4},
+            {"D", "F", 5},
+            {"D", "G", 2},
+            {"E", "H", 9},
+            {"F", "H", 1},
+            {"G", "H", 2}
+    };
+
     public static void main(String[] args) {
         DirectedGraph graph = buildGraph(graph1);
         testBF(graph);
@@ -82,6 +98,7 @@ public class ShortestPathTester {
         testDijkstra();
         testDijkstraAndReachability(graph3, "s");
         testDijkstraAndReachability(graph4, "s");
+        testDAGRelaxationPathFinder(buildGraph(graph5), new StandardVertex("A"));
     }
 
     private static DirectedGraph buildGraph(int[][] graphTable) {
@@ -90,6 +107,23 @@ public class ShortestPathTester {
             directedGraphBuilder.addEdge(edge[0], edge[1], edge[2]);
         }
         return directedGraphBuilder.build();
+    }
+
+    private static DirectedGraph buildGraph(Object[][] graphTable) {
+        ConnectedGraphBuilder directedGraphBuilder = new ConnectedGraphBuilder();
+        for(Object[] edge : graphTable) {
+            directedGraphBuilder.addEdge((String)edge[0], (String)edge[1], (Integer)edge[2]);
+        }
+        return directedGraphBuilder.build();
+    }
+
+    private static void testDAGRelaxationPathFinder(DirectedGraph graph, StandardVertex source) {
+        ShortestPathFinder shortestPathFinder = new DAGRelaxationPathFinder(graph);
+        SingleSourceShortestPathResult singleSourceShortestPathResult = shortestPathFinder.find(source);
+        for(StandardVertex vertex : graph.getVertices()) {
+            StandardPath standardPath = singleSourceShortestPathResult.getPath(vertex);
+            System.out.println("DAG Relaxation path between " + source + " and " + vertex + " is " + standardPath);
+        }
     }
 
     private static void testDijkstraAndReachability(Object[][] graphData, String sourceId) {
@@ -111,7 +145,6 @@ public class ShortestPathTester {
         ShortestPathFinder pathFinder = new DijkstraShortestPathFinder(graph);
         StandardPath path = pathFinder.find(source, dest);
         System.out.printf("Shortest Dijkstra Path for graph2 between %s and %s is %s: \n", source.getId(), dest.getId(), path);
-
     }
 
     private static void testDijkstra() {
