@@ -78,7 +78,9 @@ public class DAGRelaxationPathFinder implements ShortestPathFinder {
 
         pathMap.put(source, new StandardPath(List.of(source), BigDecimal.ZERO));
 
-        return new SingleSourceShortestPathResult(source, pathMap);
+        var result = new SingleSourceShortestPathResult(source, pathMap);
+        cashedResult.put(source, result);
+        return result;
     }
 
     private StandardPath derivePath(StandardVertex vertex, Map<StandardVertex, BigDecimal> costMap, Map<StandardVertex, StandardVertex> previousMap) {
