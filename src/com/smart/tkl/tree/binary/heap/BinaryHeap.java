@@ -32,6 +32,7 @@ public abstract class BinaryHeap<V extends Comparable<V>> {
         return item;
     }
 
+
     public void insert(V item) {
         insertLast(item);
         heapifyUp(size - 1);

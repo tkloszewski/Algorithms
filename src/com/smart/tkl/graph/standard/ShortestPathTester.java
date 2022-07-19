@@ -43,7 +43,10 @@ public class ShortestPathTester {
             {"G", "D", 2},
             {"D", "F", 5},
             {"D", "E", 8},
-            {"F", "E", 1}
+            {"F", "E", 1},
+            {"F", "H", 3},
+            {"H", "J", 2},
+            {"J", "E", -5}
     };
 
     private final static Object[][] graph3 = {
@@ -57,7 +60,7 @@ public class ShortestPathTester {
             {"d", "b", 1},
             {"d", "h", 2},
             {"f", "g", 0},
-            {"g", "c", 0},
+            {"g", "c", -6},
             {"g", "d", 1},
             {"h", "e", 1},
             {"h", "g", 2}
@@ -149,23 +152,13 @@ public class ShortestPathTester {
 
     private static void testDijkstra() {
         ConnectedGraphBuilder directedGraphBuilder = new ConnectedGraphBuilder();
-        for(int[] edge : graph1) {
-            directedGraphBuilder.addEdge(edge[0], edge[1], edge[2]);
-        }
-        DirectedGraph graph = directedGraphBuilder.build();
-        ShortestPathFinder pathFinder = new DijkstraShortestPathFinder(graph);
-        StandardVertex source = new StandardVertex(0);
-        StandardVertex dest = new StandardVertex(8);
-        StandardPath path = pathFinder.find(source, dest);
-        System.out.println("Shortest Dijkstra Path for graph1: " + path);
 
-        directedGraphBuilder = new ConnectedGraphBuilder();
         for(Object[] edge : graph2) {
             directedGraphBuilder.addEdge((String)edge[0], (String)edge[1], (Integer)edge[2]);
         }
-        graph = directedGraphBuilder.build();
-        pathFinder = new DijkstraShortestPathFinder(graph);
-        path = pathFinder.find(new StandardVertex("A"), new StandardVertex("E"));
+        DirectedGraph graph = directedGraphBuilder.build();
+        ShortestPathFinder pathFinder = new DijkstraShortestPathFinder(graph);
+        StandardPath path = pathFinder.find(new StandardVertex("A"), new StandardVertex("E"));
         System.out.println("Shortest Dijkstra Path for graph2: " + path);
     }
 
@@ -182,8 +175,8 @@ public class ShortestPathTester {
         System.out.println("BF shortest path between 0 and 8: " + path);
 
         for(StandardVertex negativeInfinityVertex : negativeInfinityVertices) {
-           path = pathFinder.find(source, negativeInfinityVertex);
-           System.out.println("Negative Infinity path: " + path);
+            path = pathFinder.find(source, negativeInfinityVertex);
+            System.out.println("Negative Infinity path: " + path);
         }
 
         path = pathFinder.find(new StandardVertex(9), source);

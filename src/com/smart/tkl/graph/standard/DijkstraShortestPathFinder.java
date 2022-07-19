@@ -62,37 +62,42 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
     }
 
     private Map<StandardVertex, CostEntry> generateCostTableWithPriorityQueue(StandardVertex source) {
-        Map<StandardVertex, CostEntry> result = new LinkedHashMap<>();
-        CostEntry currentCostEntry = new CostEntry(source, BigDecimal.ZERO, true);
-        result.put(source, currentCostEntry);
+        Map<StandardVertex, CostEntry> costTable = new LinkedHashMap<>();
+        CostEntry sourceCostEntry = new CostEntry(source, BigDecimal.ZERO, true);
+        costTable.put(source, sourceCostEntry);
 
         ChangeablePriorityQueue<CostEntry> queue = new MinChangeablePriorityQueue<>(CostEntry.class);
-        queue.insert(currentCostEntry);
+        queue.insert(sourceCostEntry);
         for(StandardVertex vertex : graph.getVertices()) {
             if (!vertex.equals(source)) {
                 queue.insert(new CostEntry(vertex, MAX));
+                costTable.put(vertex, new CostEntry(vertex, MAX));
             }
         }
         while (!queue.isEmpty()) {
+            CostEntry currentCostEntry = queue.deleteFirst();
+            costTable.put(currentCostEntry.vertex, currentCostEntry);
             for(StandardVertex vertex : graph.getAdjacentVertices(currentCostEntry.vertex)) {
                 StandardEdge edge = graph.getEdge(currentCostEntry.vertex, vertex);
-                CostEntry vertexCostEntry = queue.get(new CostEntry(vertex));
+                CostEntry vertexCostEntry = costTable.get(vertex);
                 if (vertexCostEntry != null) {
                     BigDecimal currentCost = currentCostEntry.cost;
                     BigDecimal newCost = currentCost.add(edge.cost);
                     if(newCost.compareTo(vertexCostEntry.cost) < 0) {
                         CostEntry updatedCostEntry = new CostEntry(vertex, newCost);
                         updatedCostEntry.previous = currentCostEntry.vertex;
-                        queue.updateValue(vertexCostEntry, updatedCostEntry);
+                        if(queue.get(vertexCostEntry) != null) {
+                            queue.updateValue(vertexCostEntry, updatedCostEntry);
+                        }
+                        else {
+                            queue.insert(updatedCostEntry);
+                        }
                     }
                 }
             }
-            currentCostEntry = queue.deleteFirst();
-            currentCostEntry.processed = true;
-            result.put(currentCostEntry.vertex, currentCostEntry);
         }
 
-        return result;
+        return costTable;
     }
 
     private static class CostEntry implements Comparable<CostEntry> {
