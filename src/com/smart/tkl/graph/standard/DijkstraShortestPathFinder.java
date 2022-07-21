@@ -70,7 +70,6 @@ public class DijkstraShortestPathFinder implements ShortestPathFinder {
         queue.insert(sourceCostEntry);
         for(StandardVertex vertex : graph.getVertices()) {
             if (!vertex.equals(source)) {
-                queue.insert(new CostEntry(vertex, MAX));
                 costTable.put(vertex, new CostEntry(vertex, MAX));
             }
         }
