@@ -740,7 +740,15 @@ public class MathUtils {
         }
         return new int[]{left, right};
     }
-    
+
+    public static int[] shuffle(int[] input) {
+        Random r = new Random();
+        for(int i = input.length - 1; i > 0; i--) {
+           int nextIdx = r.nextInt(i + 1);
+           swap(input, i, nextIdx);
+        }
+        return input;
+    }
     
     private static List<Integer> rotateLeft(List<Integer> digits) {
         int firstNum = digits.get(0);
