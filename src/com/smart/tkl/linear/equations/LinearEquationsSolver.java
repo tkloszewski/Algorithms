@@ -12,30 +12,6 @@ public class LinearEquationsSolver {
     private final double[][] equations;
     private final Size size;
 
-    public static void main(String[] args) {
-        double[][] equations1 = {
-                {1, 1, 5},
-                {1, -1, 1}
-        };
-        double[][] equations2 = {
-                {3, 2, -1, 1},
-                {2, -2, 4, -2},
-                {-1, 0.5, -1, 0}
-        };
-        double[][] equations3 = {
-                {2, -2, -2, -2},
-                {5,  2,  3,  8},
-                {-1, 3,  4,  4}
-        };
-        EquationsSolution solution1 = new LinearEquationsSolver(equations1).solve();
-        EquationsSolution solution2 = new LinearEquationsSolver(equations2).solve();
-        EquationsSolution solution3 = new LinearEquationsSolver(equations3).solve();
-
-        System.out.println("Solution1: " + solution1);
-        System.out.println("Solution2: " + solution2);
-        System.out.println("Solution3: " + solution3);
-    }
-
     public LinearEquationsSolver(double[][] originalEquations) {
         this.originalEquations = originalEquations;
         this.equations = copy(originalEquations);

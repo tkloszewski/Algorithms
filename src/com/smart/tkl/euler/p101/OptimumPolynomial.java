@@ -15,8 +15,11 @@ public class OptimumPolynomial {
         OptimumPolynomial op = new OptimumPolynomial(new NaturalPolynomial(List.of(0L, 0L, 0L, 1L)));
         System.out.println("Optimum Polynomial sum of FIT " + op.sumOfFirstIncorrectTerms());
 
+        long time1 = System.currentTimeMillis();
         op = new OptimumPolynomial(new NaturalPolynomial(List.of(1L, -1L, 1L, -1L, 1L, -1L, 1L, -1L, 1L, -1L, 1L)));
+        long time2 = System.currentTimeMillis();
         System.out.println("Optimum Polynomial sum of FIT " + op.sumOfFirstIncorrectTerms());
+        System.out.println("Found solution in ms: " + (time2 - time1));
     }
 
     public OptimumPolynomial(NaturalPolynomial generatingPolynomial) {
@@ -27,13 +30,13 @@ public class OptimumPolynomial {
         long result = 0;
         int maxDegree = generatingPolynomial.getDegree();
         for(int degree = 1; degree <= maxDegree; degree++) {
-            NaturalPolynomial resolvedPolynomial = resolvePolynomial(degree, generatingPolynomial);
+            NaturalPolynomial approximatedPolynomial = resolvePolynomial(degree, generatingPolynomial);
             if (degree < maxDegree) {
                 int n = 1;
                 long referenceValue = 1, resolvedValue = 1;
                 while(referenceValue == resolvedValue) {
                      referenceValue = generatingPolynomial.getValueFor(n);
-                     resolvedValue = resolvedPolynomial.getValueFor(n);
+                     resolvedValue = approximatedPolynomial.getValueFor(n);
                      n++;
                 }
                 result += resolvedValue;
