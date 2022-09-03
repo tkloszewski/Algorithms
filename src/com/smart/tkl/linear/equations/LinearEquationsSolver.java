@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public class LinearEquationsSolver {
 
-    private static final double EPS = Math.pow(10, -9);
+    private static final double EPS = Math.pow(10, -14);
 
     private final double[][] originalEquations;
     private final double[][] equations;
@@ -75,7 +75,6 @@ public class LinearEquationsSolver {
                 }
             }
         }
-        printEquations();
         for(int i = 0; i< this.size.m; i++) {
             solutions.add(equations[i][this.size.n - 1]);
         }
