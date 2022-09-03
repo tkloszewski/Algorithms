@@ -1,4 +1,7 @@
-package com.smart.tkl;
+package com.smart.tkl.linear;
+
+import com.smart.tkl.PermutationGenerator;
+import com.smart.tkl.PermutationListener;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

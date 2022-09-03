@@ -18,7 +18,7 @@ public class AVLTree<V extends Comparable<V>> extends BinarySearchTree<V> {
     }
 
     public static void main(String[] args) {
-        final int limit = (1 << 5) - 2;
+        final int limit = (1 << 10) - 2;
         AVLTree<Integer> tree = new AVLTree<>(new BiNode<>(0));
         List<Integer> list = new ArrayList<>(limit + 1);
 
