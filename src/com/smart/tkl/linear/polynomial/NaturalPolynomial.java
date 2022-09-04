@@ -24,8 +24,8 @@ public class NaturalPolynomial {
     public long getValueFor(long x) {
         long value = 0;
         long currPower = 1;
-        for(int i = 0; i < coefficients.size(); i++) {
-            value += coefficients.get(i) * currPower;
+        for (Long coefficient : coefficients) {
+            value += coefficient * currPower;
             currPower *= x;
         }
         return value;
