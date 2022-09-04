@@ -64,17 +64,10 @@ public class OptimumPolynomial {
 
     private double[] getEquationCoefficientsFor(int degree, int n, NaturalPolynomial polynomial) {
         double[] result = new double[degree + 1];
-        if(n == 1) {
-           for(int i = 0; i < degree; i++) {
-               result[i] = 1;
-           }
-        }
-        else {
-            long currVal = 1;
-            for(int i = 0; i < degree; i++) {
-                result[i] = currVal;
-                currVal *= n;
-            }
+        long currVal = 1;
+        for(int i = 0; i < degree; i++) {
+            result[i] = currVal;
+            currVal *= n;
         }
         result[degree] = polynomial.getValueFor(n);
         return result;
