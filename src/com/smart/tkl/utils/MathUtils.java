@@ -350,7 +350,7 @@ public class MathUtils {
         return result;
     }
     
-    public static List<PrimeFactor> listPrimeFactors(int n) {
+    public static List<PrimeFactor> listPrimeFactors(long n) {
         List<PrimeFactor> result = new ArrayList<>();
         
         int pow = 0;
@@ -413,6 +413,25 @@ public class MathUtils {
         }
         
         return result;
+    }
+
+    public static List<Long> generatePrimeList(int size) {
+        int sieveSize = 2 * size;
+
+        while (true) {
+            boolean[] sieve = primesSieve(sieveSize);
+
+            List<Long> result = new ArrayList<>(size);
+            for (int i = 2; i < sieve.length; i++) {
+                if (sieve[i]) {
+                    result.add((long) i);
+                    if (result.size() == size) {
+                        return result;
+                    }
+                }
+            }
+            sieveSize *= 2;
+        }
     }
     
     public static List<Long> generatePrimesUpTo(int n) {
