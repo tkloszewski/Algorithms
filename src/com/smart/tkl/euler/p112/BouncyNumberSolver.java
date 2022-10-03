@@ -18,8 +18,11 @@ public class BouncyNumberSolver {
         System.out.println("Last number for 90% limit: " + lastNumber);
 
         bouncyNumberSolver = new BouncyNumberSolver(990);
+        long time1 = System.currentTimeMillis();
         lastNumber = bouncyNumberSolver.findLastNumber();
+        long time2 = System.currentTimeMillis();
         System.out.println("Last number for 99% limit: " + lastNumber);
+        System.out.println("Found solution in ms: " + (time2 - time1));
     }
 
     public long findLastNumber() {
