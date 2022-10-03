@@ -9,15 +9,15 @@ public class BouncyNumberSolver {
     }
 
     public static void main(String[] args) {
-        BouncyNumberSolver bouncyNumberSolver = new BouncyNumberSolver(50);
+        BouncyNumberSolver bouncyNumberSolver = new BouncyNumberSolver(500);
         long lastNumber = bouncyNumberSolver.findLastNumber();
         System.out.println("Last number for 50% limit: " + lastNumber);
 
-        bouncyNumberSolver = new BouncyNumberSolver(90);
+        bouncyNumberSolver = new BouncyNumberSolver(900);
         lastNumber = bouncyNumberSolver.findLastNumber();
         System.out.println("Last number for 90% limit: " + lastNumber);
 
-        bouncyNumberSolver = new BouncyNumberSolver(99);
+        bouncyNumberSolver = new BouncyNumberSolver(990);
         lastNumber = bouncyNumberSolver.findLastNumber();
         System.out.println("Last number for 99% limit: " + lastNumber);
     }
@@ -36,7 +36,7 @@ public class BouncyNumberSolver {
             else {
                 nonBouncyCount++;
             }
-            percentage = (100 * bouncyCount) / (bouncyCount + nonBouncyCount);
+            percentage = (1000 * bouncyCount) / (bouncyCount + nonBouncyCount);
         }
         return number;
     }
