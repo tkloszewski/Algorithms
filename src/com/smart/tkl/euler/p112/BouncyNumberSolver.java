@@ -23,6 +23,15 @@ public class BouncyNumberSolver {
         long time2 = System.currentTimeMillis();
         System.out.println("Last number for 99% limit: " + lastNumber);
         System.out.println("Found solution in ms: " + (time2 - time1));
+
+        int nonBouncyCount = 0;
+        for(int i = 1; i < 1000; i++) {
+            if (!bouncyNumberSolver.isBouncyNumber(i)) {
+               nonBouncyCount++;
+            }
+        }
+        System.out.println("Non bouncy count: " + nonBouncyCount);
+
     }
 
     public long findLastNumber() {
@@ -41,10 +50,15 @@ public class BouncyNumberSolver {
             }
             percentage = (1000 * bouncyCount) / (bouncyCount + nonBouncyCount);
         }
+        System.out.println("Bouncy count: " + bouncyCount);
+        System.out.println("Non bounyc count: " + nonBouncyCount);
         return number;
     }
 
     private boolean isBouncyNumber(long n) {
+        if(n < 100) {
+           return false;
+        }
         String sNum = String.valueOf(n);
         Boolean isIncreasing = null;
 
