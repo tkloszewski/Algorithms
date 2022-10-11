@@ -20,7 +20,8 @@ public class PrimePairSets {
 
     public static void main(String[] args) {
         PrimePairSets primePairSets = new PrimePairSets(30000, 5);
-        primePairSets.generateMinSum();
+        long minSum = primePairSets.generateMinSum();
+        System.out.println("Min sum: " + minSum);
     }
 
     public PrimePairSets(int limit, int setSize) {
