@@ -23,8 +23,11 @@ public class Darts {
 
     public static void main(String[] args) {
         Darts darts = new Darts(100);
+        long time1 = System.currentTimeMillis();
         int totalCount = darts.totalCount();
+        long time2 = System.currentTimeMillis();
         System.out.println("Total count: " + totalCount);
+        System.out.println("Total time in ms: " + (time2 - time1));
     }
 
     public int totalCount() {
