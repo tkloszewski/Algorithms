@@ -9,9 +9,6 @@ public class PrimeWithRuns {
     private final int digitsCount;
     private final Map<Integer, Long> sameDigitValueMap = new LinkedHashMap<>();
 
-
-    private static final Set<Long> ALL_DIGITS = Set.of(0L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-
     public PrimeWithRuns(int digitsCount) {
         this.digitsCount = digitsCount;
         fillSameDigitValueMap();
