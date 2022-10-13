@@ -15,7 +15,7 @@ public class SortedPermutationWithIterationGenerator implements PermutationGener
     }
 
     public static void main(String[] args) {
-        int[] table = new int[]{1, 2, 2};
+        int[] table = new int[]{1, 3, 3, 4};
         SortedPermutationWithIterationGenerator permutationGenerator = new SortedPermutationWithIterationGenerator(table);
         permutationGenerator.generatePermutations();
     }
@@ -30,23 +30,19 @@ public class SortedPermutationWithIterationGenerator implements PermutationGener
             System.out.println(Arrays.toString(array));
         }
         else {
+            Integer lastValue = null;
             for (int i = 0; i < tab.length; i++) {
                 if(((freeSlotMask >> i) & 1) == 0) {
                     continue;
                 }
-                int firstValue = tab[i];
-                int newMask = freeSlotMask;
-                int newPos = pos;
-                int j = i;
-                while (j < tab.length && tab[j] == firstValue) {
-                    int bit = 1 << j;
-                    array[newPos] = tab[j];
-                    newMask = newMask & ~bit;
-                    newPos++;
-                    i = j;
-                    j++;
+                if(lastValue != null && tab[i] == lastValue) {
+                    continue;
                 }
-                permute(array, newPos, newMask);
+                int bit = 1 << i;
+                array[pos] = tab[i];
+                permute(array, pos + 1, freeSlotMask & ~bit);
+
+                lastValue = tab[i];
             }
         }
     }
