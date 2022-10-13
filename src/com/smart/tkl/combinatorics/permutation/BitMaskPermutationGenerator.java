@@ -27,13 +27,14 @@ public class BitMaskPermutationGenerator implements PermutationGenerator {
         if(freeSlotMask == 0) {
             System.out.println(Arrays.toString(array));
         }
-        for(int i = 0; i < tab.length; i++) {
-            int bit = 1 << i;
-            if(((freeSlotMask >> i) & 1) == 1) {
-                array[pos] = tab[i];
-                permute(array, pos + 1, freeSlotMask & ~bit);
+        else {
+            for (int i = 0; i < tab.length; i++) {
+                int bit = 1 << i;
+                if (((freeSlotMask >> i) & 1) == 1) {
+                    array[pos] = tab[i];
+                    permute(array, pos + 1, freeSlotMask & ~bit);
+                }
             }
         }
     }
-
 }
