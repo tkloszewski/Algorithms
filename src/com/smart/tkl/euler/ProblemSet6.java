@@ -1,6 +1,6 @@
 package com.smart.tkl.euler;
 
-import com.smart.tkl.CombinatoricsUtils;
+import com.smart.tkl.combinatorics.CombinatoricsUtils;
 import com.smart.tkl.graph.triangle.TriangleBuilder;
 import com.smart.tkl.graph.triangle.TriangleFileReader;
 import com.smart.tkl.graph.triangle.TriangleNode;

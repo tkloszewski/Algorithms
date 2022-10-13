@@ -1,4 +1,4 @@
-package com.smart.tkl;
+package com.smart.tkl.combinatorics;
 
 import java.util.ArrayList;
 import java.util.Arrays;

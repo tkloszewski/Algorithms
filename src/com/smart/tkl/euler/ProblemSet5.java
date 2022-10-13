@@ -1,7 +1,7 @@
 package com.smart.tkl.euler;
 
-import com.smart.tkl.PermutationGenerator;
-import com.smart.tkl.PermutationListener;
+import com.smart.tkl.combinatorics.permutation.SwapPermutationGenerator;
+import com.smart.tkl.combinatorics.permutation.PermutationListener;
 import com.smart.tkl.utils.GenericUtils;
 import com.smart.tkl.utils.MathUtils;
 
@@ -244,7 +244,7 @@ public class ProblemSet5 {
 
         int[] t = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
         SubstringPanDigitalListener panDigitalListener = new SubstringPanDigitalListener();
-        PermutationGenerator permutationGenerator = new PermutationGenerator(panDigitalListener);
+        SwapPermutationGenerator permutationGenerator = new SwapPermutationGenerator(panDigitalListener);
         permutationGenerator.generate(t);
 
         for(String panDigitalNumber : panDigitalListener.panDigitalNumbers) {
@@ -315,7 +315,7 @@ public class ProblemSet5 {
         int largestPanDigital = 0;
         for(int digitsCount = 9; digitsCount >= 1; digitsCount--) {
             PrimePermutationListener permutationListener = new PrimePermutationListener();
-            PermutationGenerator permutationGenerator = new PermutationGenerator(permutationListener);
+            SwapPermutationGenerator permutationGenerator = new SwapPermutationGenerator(permutationListener);
             int[] tab = GenericUtils.newRangeReversed(1, digitsCount);
             permutationGenerator.generate(tab);
 

@@ -1,8 +1,8 @@
 package com.smart.tkl.euler;
 
-import com.smart.tkl.Combination;
-import com.smart.tkl.CombinationGenerator;
-import com.smart.tkl.CombinationListener;
+import com.smart.tkl.combinatorics.Combination;
+import com.smart.tkl.combinatorics.CombinationGenerator;
+import com.smart.tkl.combinatorics.CombinationListener;
 import com.smart.tkl.SortingUtils;
 import com.smart.tkl.utils.MathUtils;
 

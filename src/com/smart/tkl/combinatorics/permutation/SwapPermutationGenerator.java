@@ -1,18 +1,16 @@
-package com.smart.tkl;
+package com.smart.tkl.combinatorics.permutation;
 
 import java.util.Arrays;
 
-public class PermutationGenerator {
+public class SwapPermutationGenerator {
 
     private static volatile long time1, time2;
 
     private PermutationListener permutationListener;
 
-    public PermutationGenerator(PermutationListener permutationListener) {
+    public SwapPermutationGenerator(PermutationListener permutationListener) {
         this.permutationListener = permutationListener;
     }
-
-
 
     public void generate(int length) {
         generate(length, this.permutationListener);

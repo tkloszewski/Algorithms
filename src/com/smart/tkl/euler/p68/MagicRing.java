@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p68;
 
-import com.smart.tkl.CombinatoricsUtils;
+import com.smart.tkl.combinatorics.CombinatoricsUtils;
 
 import java.math.BigDecimal;
 import java.util.*;

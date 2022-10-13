@@ -1,6 +1,6 @@
 package com.smart.tkl.test;
 
-import com.smart.tkl.CombinatoricsUtils;
+import com.smart.tkl.combinatorics.CombinatoricsUtils;
 
 import java.util.*;
 

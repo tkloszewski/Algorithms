@@ -1,7 +1,7 @@
 package com.smart.tkl.euler;
 
-import com.smart.tkl.PermutationGenerator;
-import com.smart.tkl.PermutationListener;
+import com.smart.tkl.combinatorics.permutation.SwapPermutationGenerator;
+import com.smart.tkl.combinatorics.permutation.PermutationListener;
 import com.smart.tkl.graph.triangle.TriangleBuilder;
 import com.smart.tkl.graph.triangle.TriangleNode;
 import com.smart.tkl.graph.triangle.TrianglePathFinder;
@@ -268,7 +268,7 @@ public class ProblemSet2 {
     public static int[] lexicographicPermutation(int n) {
         int[] tab = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
         PermutationCatcher permutationCatcher = new PermutationCatcher(n);
-        new PermutationGenerator(permutationCatcher).generateSorted(tab);
+        new SwapPermutationGenerator(permutationCatcher).generateSorted(tab);
         return permutationCatcher.getCaughtPermutation();
     }
 

@@ -1,6 +1,5 @@
-package com.smart.tkl;
+package com.smart.tkl.combinatorics.permutation;
 
-import com.smart.tkl.utils.GenericUtils;
 import com.smart.tkl.utils.MathUtils;
 
 import java.util.Arrays;

@@ -1,7 +1,7 @@
 package com.smart.tkl.linear;
 
-import com.smart.tkl.PermutationGenerator;
-import com.smart.tkl.PermutationListener;
+import com.smart.tkl.combinatorics.permutation.SwapPermutationGenerator;
+import com.smart.tkl.combinatorics.permutation.PermutationListener;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -260,7 +260,7 @@ public class Matrix {
 
     public double detPermutation() {
         MatrixPermutationListener permutationListener = new MatrixPermutationListener(this.table);
-        PermutationGenerator permutationGenerator = new PermutationGenerator(permutationListener);
+        SwapPermutationGenerator permutationGenerator = new SwapPermutationGenerator(permutationListener);
         permutationGenerator.generate(this.rowsCount());
         return permutationListener.getDeterminant();
     }

@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p90;
 
-import com.smart.tkl.CombinatoricsUtils;
+import com.smart.tkl.combinatorics.CombinatoricsUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;

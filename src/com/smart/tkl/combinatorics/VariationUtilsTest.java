@@ -1,4 +1,4 @@
-package com.smart.tkl;
+package com.smart.tkl.combinatorics;
 
 public class VariationUtilsTest {
 
