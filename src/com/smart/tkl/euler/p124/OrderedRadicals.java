@@ -12,9 +12,12 @@ public class OrderedRadicals {
     private final List<PrimeFactorsProduct> products;
 
     public static void main(String[] args) {
+        long time1 = System.currentTimeMillis();
         OrderedRadicals orderedRadicals = new OrderedRadicals(100000);
         long pos = orderedRadicals.findElementForPosition(10000);
+        long time2 = System.currentTimeMillis();
         System.out.println("Position for 10000: " + pos);
+        System.out.println("Solution took in ms: " + (time2 - time1));
     }
 
     public OrderedRadicals(int limit) {
@@ -29,10 +32,10 @@ public class OrderedRadicals {
 
     private List<PrimeFactorsProduct> generateProducts() {
         List<PrimeFactorsProduct> products = new ArrayList<>();
-
-        List<Long> primes = MathUtils.generatePrimesUpTo(limit);
+        boolean[] sieve = MathUtils.primesSieve(limit);
+        List<Long> primes = MathUtils.generatePrimesUpTo(limit, sieve);
         for(int i = 1; i <= limit; i++) {
-            products.add(rad(i, primes));
+            products.add(rad(i, primes, sieve));
         }
 
         Collections.sort(products);
@@ -40,8 +43,8 @@ public class OrderedRadicals {
         return products;
     }
 
-    private PrimeFactorsProduct rad(long n, List<Long> primes) {
-        List<Long> primeFactors = MathUtils.listPrimeFactorsForPrimes(n, primes);
+    private PrimeFactorsProduct rad(int n, List<Long> primes, boolean[] sieve) {
+        List<Long> primeFactors = MathUtils.listPrimeFactorsForPrimes(n, primes, sieve);
         return new PrimeFactorsProduct(n, toProduct(primeFactors));
     }
 

@@ -350,17 +350,22 @@ public class MathUtils {
         return result;
     }
 
-    public static List<Long> listPrimeFactorsForPrimes(long n, List<Long> primes) {
+    public static List<Long> listPrimeFactorsForPrimes(long n, List<Long> primes, boolean[] sieve) {
         List<Long> factors = new ArrayList<>();
-        for(Long prime : primes) {
-            if(n % prime == 0) {
-               factors.add(prime);
-               while (n % prime == 0) {
-                   n = n / prime;
-               }
-               if(n == 1) {
-                  break;
-               }
+        if(sieve[(int)n]){
+           factors.add(n);
+        }
+        else {
+            for (Long prime : primes) {
+                if (n % prime == 0) {
+                    factors.add(prime);
+                    while (n % prime == 0) {
+                        n = n / prime;
+                    }
+                    if (n == 1) {
+                        break;
+                    }
+                }
             }
         }
         return factors;
