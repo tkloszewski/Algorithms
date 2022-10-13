@@ -3,6 +3,7 @@ package com.smart.tkl.euler.p124;
 import com.smart.tkl.utils.MathUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,6 +19,10 @@ public class OrderedRadicals {
         long time2 = System.currentTimeMillis();
         System.out.println("Position for 10000: " + pos);
         System.out.println("Solution took in ms: " + (time2 - time1));
+
+        orderedRadicals = new OrderedRadicals(10);
+        PrimeFactorsProduct[] products = orderedRadicals.sieve();
+        System.out.println(Arrays.toString(products));
     }
 
     public OrderedRadicals(int limit) {
@@ -26,30 +31,30 @@ public class OrderedRadicals {
     }
 
     public long findElementForPosition(int k) {
-        PrimeFactorsProduct product = products.get(k - 1);
+        PrimeFactorsProduct product = products.get(k);
         return product.n;
     }
 
     private List<PrimeFactorsProduct> generateProducts() {
-        List<PrimeFactorsProduct> products = new ArrayList<>();
-        boolean[] sieve = MathUtils.primesSieve(limit);
-        List<Long> primes = MathUtils.generatePrimesUpTo(limit, sieve);
-        for(int i = 1; i <= limit; i++) {
-            products.add(rad(i, primes, sieve));
-        }
-
+        List<PrimeFactorsProduct> products = Arrays.asList(sieve());
         Collections.sort(products);
-
         return products;
     }
 
-    private PrimeFactorsProduct rad(int n, List<Long> primes, boolean[] sieve) {
-        List<Long> primeFactors = MathUtils.listPrimeFactorsForPrimes(n, primes, sieve);
-        return new PrimeFactorsProduct(n, toProduct(primeFactors));
-    }
-
-    private static Long toProduct(List<Long> list) {
-        return list.stream().reduce(1L, (a, b) -> a * b);
+    private PrimeFactorsProduct[] sieve() {
+        PrimeFactorsProduct[] products = new PrimeFactorsProduct[limit + 1];
+        for(int i = 0; i <= limit; i++) {
+            products[i] = new PrimeFactorsProduct(i, 1);
+        }
+        for(int n = 2; n <= limit; n++) {
+            if(products[n].product != 1) {
+               continue;
+            }
+            for(int p = n; p <= limit; p += n) {
+                products[p].product *= n;
+            }
+        }
+        return products;
     }
 
     private static class PrimeFactorsProduct implements Comparable<PrimeFactorsProduct>{
