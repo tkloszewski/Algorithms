@@ -15,7 +15,7 @@ public class SortedPermutationWithRepetitionGenerator implements PermutationGene
     }
 
     public static void main(String[] args) {
-        int[] table = new int[]{1, 3, 3, 4};
+        int[] table = new int[]{1, 3, 3, 3, 5};
         SortedPermutationWithRepetitionGenerator permutationGenerator = new SortedPermutationWithRepetitionGenerator(table);
         permutationGenerator.generatePermutations();
     }
