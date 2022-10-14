@@ -4,19 +4,19 @@ import com.smart.tkl.SortingUtils;
 
 import java.util.Arrays;
 
-public class SortedPermutationWithIterationGenerator implements PermutationGenerator {
+public class SortedPermutationWithRepetitionGenerator implements PermutationGenerator {
 
     private final int[] tab;
     private final int allSetMask;
 
-    public SortedPermutationWithIterationGenerator(int[] tab) {
+    public SortedPermutationWithRepetitionGenerator(int[] tab) {
         this.tab = SortingUtils.bubbleSort(tab);
         this.allSetMask = (int)Math.pow(2, tab.length) - 1;
     }
 
     public static void main(String[] args) {
         int[] table = new int[]{1, 3, 3, 4};
-        SortedPermutationWithIterationGenerator permutationGenerator = new SortedPermutationWithIterationGenerator(table);
+        SortedPermutationWithRepetitionGenerator permutationGenerator = new SortedPermutationWithRepetitionGenerator(table);
         permutationGenerator.generatePermutations();
     }
 
