@@ -23,7 +23,7 @@ public class SortedPermutationIterator implements Iterator<int[]> {
     }
 
     public static void main(String[] args) {
-        Iterator<int[]> iterator = new SortedPermutationIterator(new int[]{1, 2, 3, 4});
+        Iterator<int[]> iterator = new SortedPermutationIterator(new int[]{1, 2, 3});
         while (iterator.hasNext()) {
             int[] array = iterator.next();
             System.out.println(Arrays.toString(array));
@@ -55,9 +55,8 @@ public class SortedPermutationIterator implements Iterator<int[]> {
                     int bit = 1 << k;
                     stackEntry.i = k + 1;
                     if (((mask >> k) & 1) == 1) {
-                        mask = mask & ~bit;
                         array[pos] = tab[k];
-                        stack.push(new StackEntry(0, array, pos + 1, mask));
+                        stack.push(new StackEntry(0, array, pos + 1, mask & ~bit));
                         break;
                     }
                 }
