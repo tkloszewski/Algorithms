@@ -41,4 +41,14 @@ public class Stack<V> {
         return head == null;
     }
 
+    public void print() {
+        Node<V> node = head;
+        while (node != null) {
+            System.out.print(node.item);
+            System.out.print(" ");
+            node = node.next;
+        }
+        System.out.println();
+    }
+
 }

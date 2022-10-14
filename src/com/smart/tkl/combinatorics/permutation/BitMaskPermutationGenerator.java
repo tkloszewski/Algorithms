@@ -13,7 +13,7 @@ public class BitMaskPermutationGenerator implements PermutationGenerator {
     }
 
     public static void main(String[] args) {
-        int[] table = new int[]{1, 3, 9};
+        int[] table = new int[]{1, 2, 3, 4};
         BitMaskPermutationGenerator permutationGenerator = new BitMaskPermutationGenerator(table);
         permutationGenerator.generatePermutations();
     }
