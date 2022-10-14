@@ -1,5 +1,6 @@
 package com.smart.tkl.combinatorics.permutation;
 
+import com.smart.tkl.SortingUtils;
 import com.smart.tkl.Stack;
 import com.smart.tkl.utils.MathUtils;
 
@@ -16,7 +17,7 @@ public class SortedPermutationIterator implements Iterator<int[]> {
     private int permutationCount = 0;
 
     public SortedPermutationIterator(int[] tab) {
-        this.tab = tab;
+        this.tab = SortingUtils.bubbleSort(tab);
         factorial = MathUtils.factorial(tab.length);
         stack.push(new StackEntry(0, new int[tab.length], 0, (int)Math.pow(2, tab.length) - 1));
     }
