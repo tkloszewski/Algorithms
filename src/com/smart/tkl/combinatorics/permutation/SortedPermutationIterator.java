@@ -22,7 +22,7 @@ public class SortedPermutationIterator implements Iterator<int[]> {
     }
 
     public static void main(String[] args) {
-        SortedPermutationIterator iterator = new SortedPermutationIterator(new int[]{1, 2, 2, 2, 3, 3});
+        SortedPermutationIterator iterator = new SortedPermutationIterator(new int[]{1, 2, 2, 3});
         while (iterator.hasNext()) {
             int[] array = iterator.next();
             System.out.println(Arrays.toString(array));
