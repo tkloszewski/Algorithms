@@ -23,7 +23,7 @@ public class VariationWithRepetitionIterator implements Iterator<int[]> {
     }
 
     public static void main(String[] args) {
-        VariationWithRepetitionIterator iterator = new VariationWithRepetitionIterator(new int[]{1, 2, 9}, 3);
+        VariationWithRepetitionIterator iterator = new VariationWithRepetitionIterator(new int[]{1, 2, 9, 11}, 3);
         while (iterator.hasNext()) {
             int[] array = iterator.next();
             System.out.println(Arrays.toString(array));
