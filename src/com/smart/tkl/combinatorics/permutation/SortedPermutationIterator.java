@@ -8,7 +8,6 @@ import java.util.Iterator;
 
 public class SortedPermutationIterator implements Iterator<int[]> {
 
-
     private final int[] tab;
     private final long totalPermutationsCount;
     private final Stack<StackEntry> stack = new Stack<>();
@@ -16,7 +15,12 @@ public class SortedPermutationIterator implements Iterator<int[]> {
     private int permutationCount = 0;
 
     public SortedPermutationIterator(int[] tab) {
-        this.tab = SortingUtils.bubbleSort(tab);
+        this(tab, true);
+    }
+
+    public SortedPermutationIterator(int[] tab, boolean ascending) {
+        int[] sortedTab = SortingUtils.bubbleSort(tab);
+        this.tab = ascending ? sortedTab : revert(sortedTab);
         totalPermutationsCount = countTotalPermutations(this.tab);
         stack.push(new StackEntry(0, new int[tab.length], 0, (int)Math.pow(2, tab.length) - 1));
     }
@@ -71,7 +75,7 @@ public class SortedPermutationIterator implements Iterator<int[]> {
 
     private long countTotalPermutations(int[] sortedTab) {
         long result = 1;
-        long numerator = sortedTab[0];
+        long numerator = 1;
         long denominator = 1;
         int factorialNumerator = 1;
 
@@ -99,6 +103,14 @@ public class SortedPermutationIterator implements Iterator<int[]> {
         result /= denominator;
 
         return  result;
+    }
+
+    private static int[] revert(int[] tab) {
+        int[] result = new int[tab.length];
+        for(int i = tab.length - 1, k = 0; i >=0 ;i--, k++) {
+            result[k] = tab[i];
+        }
+        return result;
     }
 
     private static final class StackEntry {
