@@ -4,6 +4,38 @@ import java.util.*;
 
 public class CombinatoricsUtils {
 
+    public static void main(String[] args) {
+        long time1 = System.currentTimeMillis();
+        long count = countCombinations(60, 30);
+        long time2 = System.currentTimeMillis();
+        System.out.println("Count: " + count + " in ms => " + (time2 - time1)) ;
+    }
+
+    public static long countCombinations(int n, int k) {
+        assert n >= k;
+        long[][] memo = new long[n + 1][k + 1];
+        return countCombinations(n, k , memo);
+    }
+
+    private static long countCombinations(int n, int k, long[][] memo) {
+        if(memo[n][k] != 0) {
+            return memo[n][k];
+        }
+        long result;
+        if(k == 0 || k == 1 || k == n - 1) {
+            result = n;
+        }
+        else if (k == n) {
+            result = 1;
+        }
+        else {
+            result = countCombinations(n - 1, k - 1, memo) + countCombinations(n - 1, k, memo);
+        }
+        memo[n][k] = result;
+        memo[n][n - k] = result;
+        return result;
+    }
+
     public static Set<int[]> combinations(Set<Integer> input, int length) {
         if(input == null || input.size() == 0) {
             throw new IllegalArgumentException("Input set must not be empty.");
