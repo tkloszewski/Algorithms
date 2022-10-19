@@ -1,5 +1,7 @@
 package com.smart.tkl.euler.p114;
 
+import java.util.Arrays;
+
 public class BlockCombinations {
 
     private final int length;
@@ -31,6 +33,7 @@ public class BlockCombinations {
             }
             solutions[pos]++;
         }
+
         return solutions[this.length];
     }
 }
