@@ -1,101 +1,281 @@
 package com.smart.tkl.euler.p117;
 
-import com.smart.tkl.combinatorics.CombinatoricsUtils;
-import com.smart.tkl.combinatorics.permutation.BitMaskPermutationGenerator;
-import com.smart.tkl.utils.MathUtils;
-
 import java.math.BigDecimal;
 import java.math.MathContext;
 
 public class RedGreenAndBlueTiles {
 
     private final int length;
-    private final BigDecimal[][] memo;
+
+    private long[][] redSolutions;
+    private long[][] greenSolutions;
+    private long[][] blueSolutions;
+    private long[][][] redGreenSolutions;
+    private long[][][] redBlueSolutions;
+    private long[][][] greenBlueSolutions;
+    private long[][][][] redGreenBlueSolutions;
+
     private final BigDecimal[] factorialMemo;
 
     public RedGreenAndBlueTiles(int length) {
         this.length = length;
-        this.memo = new BigDecimal[length + 1][length + 1];
         this.factorialMemo = new BigDecimal[length + 1];
         for(int i = 0; i <= this.length; i++) {
             factorialMemo[i] = BigDecimal.ZERO;
-            for(int j = 0; j <= this.length; j++) {
-                memo[i][j] = BigDecimal.ZERO;
-            }
         }
     }
 
     public static void main(String[] args) {
-        RedGreenAndBlueTiles redGreenAndBlueTiles = new RedGreenAndBlueTiles(5);
-        BigDecimal redTiles = redGreenAndBlueTiles.countWaysForSingleKindOfOblongTile(2);
-        BigDecimal greenTiles = redGreenAndBlueTiles.countWaysForSingleKindOfOblongTile(3);
-        BigDecimal blueTiles = redGreenAndBlueTiles.countWaysForSingleKindOfOblongTile(4);
-        BigDecimal redGreenTiles = redGreenAndBlueTiles.countWaysForTwoKindsOfOblongTiles(2, 3);
-        BigDecimal redBlueTiles = redGreenAndBlueTiles.countWaysForTwoKindsOfOblongTiles(2, 4);
-        BigDecimal greenBlueTiles = redGreenAndBlueTiles.countWaysForTwoKindsOfOblongTiles(3, 4);
-
-        System.out.println("Red and green tiles ways: " + redGreenTiles);
-        System.out.println("Red and blue tiles ways: " + redBlueTiles);
-        System.out.println("Green and blue tiles ways: " + greenBlueTiles);
-
-        System.out.println("All tiles: " + redTiles.add(greenTiles).add(blueTiles));
+        long time1 = System.currentTimeMillis();
+        RedGreenAndBlueTiles redGreenAndBlueTiles = new RedGreenAndBlueTiles(100);
+        long totalCount = redGreenAndBlueTiles.countAllWays();
+        long time2 = System.currentTimeMillis();
+        System.out.println("Total count: " + totalCount);
+        System.out.println("Solution took: " + (time2 - time1));
     }
 
-    private BigDecimal countWaysForSingleKindOfOblongTile(int tileLength) {
-        BigDecimal result = BigDecimal.ZERO;
-        int maxTiles = this.length / tileLength;
-        for(int tilesNum = 1; tilesNum <= maxTiles; tilesNum++) {
-            int grayTiles = this.length - tilesNum * tileLength;
-            int totalTiles = grayTiles + tilesNum;
-            result = result.add(CombinatoricsUtils.countCombinations(totalTiles, tilesNum, this.memo));
+    public long countAllWays() {
+        long result = 0;
+
+        int redMaxTiles = this.length / 2;
+        int greenMaxTiles = this.length / 3;
+        int blueMaxTiles = this.length / 4;
+
+        this.redSolutions = countWaysForSingleKindOfOblongTile(2, redMaxTiles);
+        this.greenSolutions = countWaysForSingleKindOfOblongTile(3, greenMaxTiles);
+        this.blueSolutions = countWaysForSingleKindOfOblongTile(4, blueMaxTiles);
+
+        for(int redTiles = 1; redTiles <= redMaxTiles; redTiles++) {
+            result += this.redSolutions[redTiles][this.length];
         }
-        return result;
-    }
-
-    private BigDecimal countWaysForTwoKindsOfOblongTiles(int tileLength1, int tileLength2) {
-        BigDecimal result = BigDecimal.ZERO;
-        int maxTilesOfLength1 = (this.length - tileLength2) / tileLength1;
-        for(int tilesOfLength1 = 1; tilesOfLength1 <= maxTilesOfLength1; tilesOfLength1++) {
-            int maxTilesOfLength2 = (this.length - tilesOfLength1 * tileLength1) / tileLength2;
-            for(int tilesOfLength2 = 1; tilesOfLength2 <= maxTilesOfLength2; tilesOfLength2++) {
-                int grayTiles = this.length - tilesOfLength1 * tileLength1 - tilesOfLength2 * tileLength2;
-                int totalTiles = grayTiles + tileLength1 + tileLength2;
-                BigDecimal combinations = CombinatoricsUtils.countCombinations(totalTiles, grayTiles, this.memo);
-                BigDecimal permutations = countPermutations(tilesOfLength1, tilesOfLength2);
-                result = result.add(combinations.multiply(permutations));
-             }
+        for(int greenTiles = 1; greenTiles <= greenMaxTiles; greenTiles++) {
+            result += this.greenSolutions[greenTiles][this.length];
         }
-        return result;
-    }
+        for(int blueTiles = 1; blueTiles <= blueMaxTiles; blueTiles++) {
+            result += this.blueSolutions[blueTiles][this.length];
+        }
 
-    private BigDecimal countWaysForRedGreenAndBlueTiles() {
-        BigDecimal result = BigDecimal.ZERO;
-        int maxRedTiles = (this.length - 3 - 4) / 2;
+        this.redGreenSolutions = countWaysForRedGreenTiles(redMaxTiles, greenMaxTiles);
+        this.redBlueSolutions = countWaysForRedBlueTiles(redMaxTiles, blueMaxTiles);
+        this.greenBlueSolutions = countWaysForGreenBlueTiles(greenMaxTiles, blueMaxTiles);
+        this.redGreenBlueSolutions = countWaysForRedGreenBlueTiles(redMaxTiles, greenMaxTiles, blueMaxTiles);
 
-        for(int redTiles = 1; redTiles <= maxRedTiles; redTiles++) {
-            int maxGreenTiles = (this.length - 2 * redTiles - 4) / 3;
-            for(int greenTiles = 1; greenTiles <= maxGreenTiles; greenTiles++) {
-                int maxBlueTiles = (this.length - 2 * redTiles - 3 * greenTiles) / 4;
-                for(int blueTiles = 1; blueTiles <= maxBlueTiles; blueTiles++) {
-                    int grayTiles = this.length - redTiles * 2 - greenTiles * 3 - blueTiles * 4;
-                    int totalTiles = grayTiles + redTiles + greenTiles + blueTiles;
-                    BigDecimal combinations = CombinatoricsUtils.countCombinations(totalTiles, grayTiles, this.memo);
-                    BigDecimal permutations = countPermutations(redTiles, greenTiles, blueTiles);
-                    result = result.add(combinations.multiply(permutations));
+        long redGreenCount = 0;
+        for(int redTiles = 1; redTiles <= redMaxTiles; redTiles++) {
+            for(int greenTiles = 1; greenTiles <= greenMaxTiles; greenTiles++) {
+                redGreenCount += this.redGreenSolutions[redTiles][greenTiles][this.length];
+            }
+        }
+
+        long redBlueCount = 0;
+        for(int redTiles = 1; redTiles <= redMaxTiles; redTiles++) {
+            for(int blueTiles = 1; blueTiles <= blueMaxTiles; blueTiles++) {
+                redBlueCount += this.redBlueSolutions[redTiles][blueTiles][this.length];
+            }
+        }
+
+        long greenBlueCount = 0;
+        for(int greenTiles = 1; greenTiles <= greenMaxTiles; greenTiles++) {
+            for(int blueTiles = 1; blueTiles <= blueMaxTiles; blueTiles++) {
+                greenBlueCount += this.greenBlueSolutions[greenTiles][blueTiles][this.length];
+            }
+        }
+
+        long redGreenBlueCount = 0;
+        for(int redTiles = 1; redTiles <= redMaxTiles; redTiles++) {
+            for (int greenTiles = 1; greenTiles <= greenMaxTiles; greenTiles++) {
+                for (int blueTiles = 1; blueTiles <= blueMaxTiles; blueTiles++) {
+                    redGreenBlueCount += this.redGreenBlueSolutions[redTiles][greenTiles][blueTiles][this.length];
                 }
             }
         }
+
+        /*System.out.println("------------------");
+        System.out.println("Single kind tiles count: " + result);
+        System.out.println("Red green tiles count: " + redGreenCount);
+        System.out.println("Red blue tiles count: " + redBlueCount);
+        System.out.println("Green blue tiles count: " + greenBlueCount);
+        System.out.println("Red green blue tiles count: " + redGreenBlueCount);*/
+
+        result += redGreenCount;
+        result += redBlueCount;
+        result += greenBlueCount;
+        result += redGreenBlueCount;
+
+        result++;
+
+        /*System.out.println("Result = " + result);*/
+
         return result;
+    }
+
+    private long[][] countWaysForSingleKindOfOblongTile(int tileLength, int maxTiles) {
+        long[][] result = new long[maxTiles + 1][this.length + 1];
+        for(int pos = tileLength; pos <= this.length; pos++) {
+            result[1][pos] = pos - tileLength + 1;
+        }
+
+        for(int tilesNum = 2; tilesNum <= maxTiles; tilesNum++) {
+            for(int pos = tilesNum * tileLength; pos <= this.length; pos++) {
+                result[tilesNum][pos] = result[tilesNum][pos - 1] + result[tilesNum - 1][pos - tileLength];
+            }
+        }
+
+        return result;
+    }
+
+    private long[][][] countWaysForRedGreenTiles(int redMaxTiles, int greenMaxTiles) {
+        long[][][] solutions = new long[redMaxTiles + 1][greenMaxTiles + 1][this.length + 1];
+        for(int redTiles = 1; redTiles <= redMaxTiles; redTiles++) {
+            for(int greenTiles = 1; greenTiles <= greenMaxTiles; greenTiles++) {
+                for(int pos = redTiles * 2 + greenTiles * 3; pos <= this.length; pos++) {
+                    if(pos == redTiles * 2 + greenTiles * 3) {
+                        solutions[redTiles][greenTiles][pos] = countPermutations(redTiles, greenTiles).longValue();
+                    }
+                    else {
+                        solutions[redTiles][greenTiles][pos] = solutions[redTiles][greenTiles][pos - 1];
+
+                        //count one less red tile
+                        if(redTiles - 1 == 0) {
+                            solutions[redTiles][greenTiles][pos] += this.greenSolutions[greenTiles][pos - 2];
+                        }
+                        else {
+                            solutions[redTiles][greenTiles][pos] += solutions[redTiles - 1][greenTiles][pos - 2];
+                        }
+
+                        //count one less green tile
+                        if(greenTiles - 1 == 0) {
+                            solutions[redTiles][greenTiles][pos] += this.redSolutions[redTiles][pos - 3];
+                        }
+                        else {
+                            solutions[redTiles][greenTiles][pos] += solutions[redTiles][greenTiles - 1][pos - 3];
+                        }
+                    }
+                }
+            }
+        }
+        return solutions;
+    }
+
+    private long[][][] countWaysForRedBlueTiles(int redMaxTiles, int blueMaxTiles) {
+        long[][][] solutions = new long[redMaxTiles + 1][blueMaxTiles + 1][this.length + 1];
+        for(int redTiles = 1; redTiles <= redMaxTiles; redTiles++) {
+            for(int blueTiles = 1; blueTiles <= blueMaxTiles; blueTiles++) {
+                for(int pos = redTiles * 2 + blueTiles * 4; pos <= this.length; pos++) {
+                    if(pos == redTiles * 2 + blueTiles * 4) {
+                        solutions[redTiles][blueTiles][pos] = countPermutations(redTiles, blueTiles).longValue();
+                    }
+                    else {
+                        solutions[redTiles][blueTiles][pos] = solutions[redTiles][blueTiles][pos - 1];
+
+                        //count one less red tile
+                        if(redTiles - 1 == 0) {
+                            solutions[redTiles][blueTiles][pos] += this.blueSolutions[blueTiles][pos - 2];
+                        }
+                        else {
+                            solutions[redTiles][blueTiles][pos] += solutions[redTiles - 1][blueTiles][pos - 2];
+                        }
+
+                        //count one less blue tile
+                        if(blueTiles - 1 == 0) {
+                            solutions[redTiles][blueTiles][pos] += this.redSolutions[redTiles][pos - 4];
+                        }
+                        else {
+                            solutions[redTiles][blueTiles][pos] += solutions[redTiles][blueTiles - 1][pos - 4];
+                        }
+                    }
+                }
+            }
+        }
+        return solutions;
+    }
+
+    private long[][][] countWaysForGreenBlueTiles(int greenMaxTiles, int blueMaxTiles) {
+        long[][][] solutions = new long[greenMaxTiles + 1][blueMaxTiles + 1][this.length + 1];
+        for(int greenTiles = 1; greenTiles <= greenMaxTiles; greenTiles++) {
+            for(int blueTiles = 1; blueTiles <= blueMaxTiles; blueTiles++) {
+                for(int pos = greenTiles * 3 + blueTiles * 4; pos <= this.length; pos++) {
+                    if(pos == greenTiles * 3 + blueTiles * 4) {
+                        solutions[greenTiles][blueTiles][pos] = countPermutations(greenTiles, blueTiles).longValue();
+                    }
+                    else {
+                        solutions[greenTiles][blueTiles][pos] = solutions[greenTiles][blueTiles][pos - 1];
+
+                        //count one less green tile
+                        if(greenTiles - 1 == 0) {
+                            solutions[greenTiles][blueTiles][pos] += this.blueSolutions[blueTiles][pos - 3];
+                        }
+                        else {
+                            solutions[greenTiles][blueTiles][pos] += solutions[greenTiles - 1][blueTiles][pos - 3];
+                        }
+
+                        //count one less blue tile
+                        if(blueTiles - 1 == 0) {
+                            solutions[greenTiles][blueTiles][pos] += this.greenSolutions[greenTiles][pos - 4];
+                        }
+                        else {
+                            solutions[greenTiles][blueTiles][pos] += solutions[greenTiles][blueTiles - 1][pos - 4];
+                        }
+                    }
+                }
+            }
+        }
+
+        return solutions;
+    }
+
+    private long[][][][] countWaysForRedGreenBlueTiles(int redMaxTiles, int greenMaxTiles, int blueMaxTiles) {
+        long[][][][] solutions = new long[redMaxTiles + 1][greenMaxTiles + 1][blueMaxTiles + 1][this.length + 1];
+        for(int redTiles = 1; redTiles <= redMaxTiles; redTiles++) {
+            for (int greenTiles = 1; greenTiles <= greenMaxTiles; greenTiles++) {
+                for (int blueTiles = 1; blueTiles <= blueMaxTiles; blueTiles++) {
+                    int startPos = redTiles * 2 + greenTiles * 3 + blueTiles * 4;
+                    for(int pos = startPos; pos <= this.length; pos++) {
+                        if(pos == startPos) {
+                          solutions[redTiles][greenTiles][blueTiles][pos] = countPermutations(redTiles, greenTiles, blueTiles).longValue();
+                        }
+                        else {
+                            solutions[redTiles][greenTiles][blueTiles][pos] = solutions[redTiles][greenTiles][blueTiles][pos - 1];
+
+                            //count one less red tile
+                            if(redTiles - 1 == 0) {
+                               solutions[redTiles][greenTiles][blueTiles][pos] += this.greenBlueSolutions[greenTiles][blueTiles][pos - 2];
+                            }
+                            else {
+                                solutions[redTiles][greenTiles][blueTiles][pos] += solutions[redTiles - 1][greenTiles][blueTiles][pos - 2];
+                            }
+
+                            //count one less green tile
+                            if(greenTiles - 1 == 0) {
+                                solutions[redTiles][greenTiles][blueTiles][pos] += this.redBlueSolutions[redTiles][blueTiles][pos - 3];
+                            }
+                            else {
+                                solutions[redTiles][greenTiles][blueTiles][pos] += solutions[redTiles][greenTiles - 1][blueTiles][pos - 3];
+                            }
+
+                            //count one less blue tile
+                            if(blueTiles - 1 == 0) {
+                                solutions[redTiles][greenTiles][blueTiles][pos] += this.redGreenSolutions[redTiles][greenTiles][pos - 4];
+                            }
+                            else {
+                                solutions[redTiles][greenTiles][blueTiles][pos] += solutions[redTiles][greenTiles][blueTiles - 1][pos - 4];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return solutions;
     }
 
     private BigDecimal countPermutations(int numOfTiles1, int numOfTiles2) {
         BigDecimal numerator = factorial(numOfTiles1 + numOfTiles2);
         BigDecimal denominator1 = factorial(numOfTiles1);
         BigDecimal denominator2  = factorial(numOfTiles2);
+        BigDecimal denominator = denominator1.multiply(denominator2);
 
-        return numerator.
-                divide(denominator1, MathContext.DECIMAL32).
-                divide(denominator2, MathContext.DECIMAL32);
+        return numerator.divide(denominator, MathContext.UNLIMITED);
     }
 
     private BigDecimal countPermutations(int numOfTiles1, int numOfTiles2, int numOfTiles3) {
@@ -103,16 +283,14 @@ public class RedGreenAndBlueTiles {
         BigDecimal denominator1 = factorial(numOfTiles1);
         BigDecimal denominator2  = factorial(numOfTiles2);
         BigDecimal denominator3  = factorial(numOfTiles3);
+        BigDecimal denominator = denominator1.multiply(denominator2).multiply(denominator3);
 
-        return numerator.
-                divide(denominator1, MathContext.DECIMAL32).
-                divide(denominator2, MathContext.DECIMAL32).
-                divide(denominator3, MathContext.DECIMAL32);
+        return numerator.divide(denominator, MathContext.UNLIMITED);
     }
 
     private BigDecimal factorial(int number) {
         if(!factorialMemo[number].equals(BigDecimal.ZERO)) {
-           return factorialMemo[number];
+            return factorialMemo[number];
         }
         BigDecimal result = BigDecimal.ONE;
         int n = 2;
