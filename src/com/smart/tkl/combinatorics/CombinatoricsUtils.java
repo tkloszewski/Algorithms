@@ -2,6 +2,7 @@ package com.smart.tkl.combinatorics;
 
 import com.smart.tkl.utils.MathUtils;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.*;
 
@@ -20,15 +21,15 @@ public class CombinatoricsUtils {
         return countCombinations(n, k , memo);
     }
 
-    private static long countCombinations(int n, int k, long[][] memo) {
+    public static long countCombinations(int n, int k, long[][] memo) {
         if(memo[n][k] != 0) {
             return memo[n][k];
         }
         long result;
-        if(k == 0 || k == 1 || k == n - 1) {
+        if(k == 1 || k == n - 1) {
             result = n;
         }
-        else if (k == n) {
+        else if (k == 0 || k == n) {
             result = 1;
         }
         else if(n <= 5) {
@@ -38,6 +39,25 @@ public class CombinatoricsUtils {
         }
         else {
             result = countCombinations(n - 1, k - 1, memo) + countCombinations(n - 1, k, memo);
+        }
+        memo[n][k] = result;
+        memo[n][n - k] = result;
+        return result;
+    }
+
+    public static BigDecimal countCombinations(int n, int k, BigDecimal[][] memo) {
+        if(!memo[n][k].equals(BigDecimal.ZERO)) {
+            return memo[n][k];
+        }
+        BigDecimal result;
+        if(k == 1 || k == n - 1) {
+            result = BigDecimal.valueOf(n);
+        }
+        else if (k == 0 || k == n) {
+            result = BigDecimal.ONE;
+        }
+        else {
+            result = countCombinations(n - 1, k - 1, memo).add(countCombinations(n - 1, k, memo));
         }
         memo[n][k] = result;
         memo[n][n - k] = result;
