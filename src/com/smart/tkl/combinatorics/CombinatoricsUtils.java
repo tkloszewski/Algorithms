@@ -1,14 +1,17 @@
 package com.smart.tkl.combinatorics;
 
+import com.smart.tkl.utils.MathUtils;
+
+import java.time.Instant;
 import java.util.*;
 
 public class CombinatoricsUtils {
 
     public static void main(String[] args) {
-        long time1 = System.currentTimeMillis();
+        long time1 = Instant.now().getNano();
         long count = countCombinations(60, 30);
-        long time2 = System.currentTimeMillis();
-        System.out.println("Count: " + count + " in ms => " + (time2 - time1)) ;
+        long time2 = Instant.now().getNano();
+        System.out.println("Count: " + count + " in nano => " + (time2 - time1)) ;
     }
 
     public static long countCombinations(int n, int k) {
@@ -27,6 +30,11 @@ public class CombinatoricsUtils {
         }
         else if (k == n) {
             result = 1;
+        }
+        else if(n <= 5) {
+            long numerator = MathUtils.factorial(n);
+            long denominator = MathUtils.factorial(k) * MathUtils.factorial(n - k);
+            result = numerator / denominator;
         }
         else {
             result = countCombinations(n - 1, k - 1, memo) + countCombinations(n - 1, k, memo);
