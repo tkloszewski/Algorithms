@@ -144,7 +144,7 @@ public class MathUtils {
         return true;
     }
     
-    public static boolean isPalindrome(int n) {
+    public static boolean isPalindrome(long n) {
         List<Integer> digits = getDigits(n);
         for(int i = 0, j = digits.size() - 1; j >= i; i++, j--) {
             if(!digits.get(i).equals(digits.get(j))) {
