@@ -5,15 +5,25 @@ import java.util.List;
 
 public class ReversibleNumber {
 
-    private static final int[] sums = new int[19];
-    private static final int[] sumsWithZero = new int[19];
+    private final int[] sums = new int[19];
+    private final int[] sumsWithZero = new int[19];
+    private final int powerLimit;
 
-    public static void main(String[] args) {
-        fillSums(9);
+    public ReversibleNumber(int powerLimit) {
+        this.powerLimit = powerLimit;
+        initSums();
     }
 
-    private static void fillSums(int powerLimit) {
-        int totalCount = 0;
+    public static void main(String[] args) {
+        long time1 = System.currentTimeMillis();
+        ReversibleNumber reversibleNumber = new ReversibleNumber(9);
+        int totalCount = reversibleNumber.countReversibleNumbers();
+        long time2 = System.currentTimeMillis();
+        System.out.println("Total count: " + totalCount);
+        System.out.println("Time in ms: " + (time2 - time1));
+    }
+
+    private void initSums() {
         for(int i = 1; i <= 9; i++) {
             for(int j = 1; j <= 9; j++) {
                 sums[i + j]++;
@@ -24,8 +34,12 @@ public class ReversibleNumber {
                 sumsWithZero[i + j]++;
             }
         }
+    }
 
-        for(int power = 2; power <= powerLimit; power++) {
+    public int countReversibleNumbers() {
+        int totalCount = 0;
+
+        for(int power = 2; power <= this.powerLimit; power++) {
             int pairs = power / 2;
             List<Integer> coefficients = new ArrayList<>();
             int coefficient = (int)Math.pow(10, power - 1) + 1;
@@ -39,15 +53,13 @@ public class ReversibleNumber {
             if(power % 2 == 1) {
                 coefficients.add(2 * tenPow);
             }
-            System.out.println("Coefficient for power: " + power + " => " + coefficients);
             int reversibleCount = countReversible(power, coefficients, 0, 1, 0);
-            System.out.println("Reversible count: " + reversibleCount);
             totalCount += reversibleCount;
         }
-        System.out.println("Total count: " + totalCount);
+        return totalCount;
     }
 
-    private static int countReversible(int power, List<Integer> coefficients, int pos, int accumulator, long value) {
+    private int countReversible(int power, List<Integer> coefficients, int pos, int accumulator, long value) {
         int coefficient = coefficients.get(pos);
         if(pos == coefficients.size() - 1) {
             if(power % 2 == 1) {
@@ -66,7 +78,7 @@ public class ReversibleNumber {
                     for(int i = 0; i <= 18; i++) {
                         long number = value + i * coefficient;
                         if(allDigitsOdd(number)) {
-                            count += sumsWithZero[i];
+                            count += this.sumsWithZero[i];
                         }
                     }
                 }
@@ -74,7 +86,7 @@ public class ReversibleNumber {
                     for(int i = 2; i <= 18; i++) {
                         long number = value + i * coefficient;
                         if(allDigitsOdd(number)) {
-                            count += sums[i];
+                            count += this.sums[i];
                         }
                     }
                 }
@@ -86,7 +98,7 @@ public class ReversibleNumber {
                 int result = 0;
                 for(int i = 2; i <= 18; i++) {
                     long initialValue = i * coefficient;
-                    int initialAccumulator = sums[i];
+                    int initialAccumulator = this.sums[i];
                     int count = countReversible(power, coefficients, pos + 1, initialAccumulator, initialValue);
                     result += count;
                 }
@@ -96,7 +108,7 @@ public class ReversibleNumber {
                 int result = 0;
                 for(int i = 0; i <= 18; i++) {
                     long newValue = i * coefficient + value;
-                    int newAccumulator = sumsWithZero[i] * accumulator;
+                    int newAccumulator = this.sumsWithZero[i] * accumulator;
                     int count = countReversible(power, coefficients, pos + 1, newAccumulator, newValue);
                     result += count;
                 }
@@ -104,7 +116,6 @@ public class ReversibleNumber {
             }
         }
     }
-
 
     private static boolean allDigitsOdd(long number) {
         long n = number;
@@ -114,15 +125,6 @@ public class ReversibleNumber {
                 return false;
             }
             n = n / 10;
-        }
-        return true;
-    }
-
-    private static boolean allDigitsOdd(List<Integer> digits) {
-        for(int digit : digits) {
-            if(digit % 2 == 0) {
-                return false;
-            }
         }
         return true;
     }
