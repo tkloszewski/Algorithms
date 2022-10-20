@@ -3,7 +3,7 @@ package com.smart.tkl.utils;
 public class PrimeFactor {
 
     private final int factor;
-    private final int pow;
+    private int pow;
 
     public PrimeFactor(int factor, int pow) {
         this.factor = factor;
@@ -16,6 +16,10 @@ public class PrimeFactor {
 
     public int getPow() {
         return pow;
+    }
+
+    public void incrPower() {
+        this.pow++;
     }
 
     @Override
