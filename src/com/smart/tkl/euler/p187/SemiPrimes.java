@@ -1,5 +1,9 @@
 package com.smart.tkl.euler.p187;
 
+import com.smart.tkl.utils.MathUtils;
+
+import java.util.List;
+
 public class SemiPrimes {
 
     private final int limit;
@@ -11,9 +15,11 @@ public class SemiPrimes {
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
         SemiPrimes semiPrimes = new SemiPrimes(100000000);
-        int count = semiPrimes.count();
+       // int count = semiPrimes.count();
+        int fastCount = semiPrimes.fastCount();
         long time2 = System.currentTimeMillis();
-        System.out.println("Semi primes count: " + count);
+      //  System.out.println("Semi primes count: " + count);
+        System.out.println("Semi primes fast count: " + fastCount);
         System.out.println("Solution took: " + (time2 - time1));
     }
 
@@ -34,8 +40,24 @@ public class SemiPrimes {
                 products[p].addFactor(n);
             }
         }
-
         return semiPrimesCount;
+    }
+
+    public int fastCount() {
+        int result = 0;
+        List<Long> primes = MathUtils.generatePrimesUpTo(this.limit / 2);
+        for(int i = 0; i < primes.size(); i++) {
+            for(int j = i; j < primes.size(); j++) {
+                long product = primes.get(i) * primes.get(j);
+                if(product < limit) {
+                   result++;
+                }
+                else {
+                   break;
+                }
+            }
+        }
+        return result;
     }
 
     private static class PrimeFactorProduct {
