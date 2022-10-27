@@ -143,12 +143,14 @@ public class DigitFactorialChains {
 
         if(chainLength + 1 == expectedChainLength) {
             /*If last element is permutation exclude this last element
-            * from permutation count e.g: Chain: 123 -> e1, e2, e3, 123, e2  =>
+            * from permutation count e.g: Chain: 123 -> e1, e2, e3, 123, e2  => 123,e1,e2,e3
             * This chain has length that is one less than expected chain length*/
             if(MathUtils.formDigitPermutations(combination.clone(), lastSum)) {
                 return new CheckResult(true, true);
             }
 
+            /*Last element is not a permutation of the combination
+            * 132 -> e1, e2, e3, e4, e2 => 132, e1, e2, e3, e4*/
             return new CheckResult(true, false);
         }
         else if(chainLength == expectedChainLength && MathUtils.formDigitPermutations(combination.clone(), lastSum)) {
