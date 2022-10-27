@@ -18,8 +18,8 @@ public class DigitFactorialChains {
     }
 
     public static void main(String[] args) {
-        for(int digitsLength = 2; digitsLength <= 12; digitsLength++) {
-            for (int chainSize = 1; chainSize <= 65; chainSize++) {
+        for(int digitsLength = 6; digitsLength <= 6; digitsLength++) {
+            for (int chainSize = 60; chainSize <= 60; chainSize++) {
                 System.out.println("------------------------------------------------------------------------");
                 System.out.printf("Digits length: %d, chainSize: %d \n", digitsLength, chainSize);
                 DigitFactorialChains digitFactorialChains = new DigitFactorialChains(digitsLength, chainSize);
@@ -106,8 +106,9 @@ public class DigitFactorialChains {
         int lastSum = sum;
         int chainLength;
 
+        Set<Integer> chain = null;
         if (!chainLengthCache.containsKey(sum)) {
-            Set<Integer> chain = new LinkedHashSet<>();
+            chain = new LinkedHashSet<>();
             Map<Integer, Integer> chainIndexMap = new HashMap<>();
             int i = 0;
             while (!chain.contains(sum) && chain.size() <= expectedChainLength) {
@@ -141,12 +142,19 @@ public class DigitFactorialChains {
         }
 
         if(chainLength + 1 == expectedChainLength) {
+            /*If last element is permutation exclude this last element
+            * from permutation count e.g: Chain: 123 -> e1, e2, e3, 123, e2  =>
+            * This chain has length that is one less than expected chain length*/
             if(MathUtils.formDigitPermutations(combination.clone(), lastSum)) {
                 return new CheckResult(true, true);
             }
+
             return new CheckResult(true, false);
         }
         else if(chainLength == expectedChainLength && MathUtils.formDigitPermutations(combination.clone(), lastSum)) {
+            /*There is only one chain e.g:
+              123 -> e1,e2,e3 ..., e59,123 => 123, e1,e2,e3,...,e59
+            * */
             return new CheckResult(true, false, true);
         }
 
