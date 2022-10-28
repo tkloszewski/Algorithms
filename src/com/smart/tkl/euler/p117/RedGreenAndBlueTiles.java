@@ -16,6 +16,7 @@ public class RedGreenAndBlueTiles {
     private long[][][][] redGreenBlueSolutions;
 
     private final BigDecimal[] factorialMemo;
+    private BigDecimal[] recursiveSolutions;
 
     public RedGreenAndBlueTiles(int length) {
         this.length = length;
@@ -32,6 +33,34 @@ public class RedGreenAndBlueTiles {
         long time2 = System.currentTimeMillis();
         System.out.println("Total count: " + totalCount);
         System.out.println("Solution took: " + (time2 - time1));
+        time1 = System.currentTimeMillis();
+        BigDecimal totalCountBg = redGreenAndBlueTiles.countRecursive();
+        time2 = System.currentTimeMillis();
+        System.out.println("Recursive total count: " + totalCountBg);
+        System.out.println("Recursive solution took: " + (time2 - time1));
+    }
+
+    public BigDecimal countRecursive() {
+        this.recursiveSolutions = new BigDecimal[this.length + 1];
+        for(int i = 1; i <= this.length; i++) {
+            this.recursiveSolutions[i] = BigDecimal.ZERO;
+        }
+        return countRecursive(this.length);
+    }
+
+    private BigDecimal countRecursive(int length) {
+        if(length == 0) {
+           return BigDecimal.ONE;
+        }
+        if(!recursiveSolutions[length].equals(BigDecimal.ZERO)) {
+           return recursiveSolutions[length];
+        }
+        BigDecimal result = BigDecimal.ZERO;
+        for(int tileLength = 1; tileLength <= 4 && tileLength <= length; tileLength++) {
+            result = result.add(countRecursive(length - tileLength));
+        }
+        recursiveSolutions[length] = result;
+        return result;
     }
 
     public long countAllWays() {
