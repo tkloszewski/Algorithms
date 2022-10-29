@@ -17,12 +17,13 @@ public class AbcHits {
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
         AbcHits abcHits = new AbcHits(120000);
-        abcHits.solve();
+        long sum = abcHits.solve();
         long time2 = System.currentTimeMillis();
+        System.out.println("Sum=: " + sum);
         System.out.println("Sieve in ms: " + (time2 - time1));
     }
 
-    public void solve() {
+    public long solve() {
         long sum = 0;
         Radical[] radicals = sieve();
         Radical[] sortedRadicals = Arrays.copyOfRange(radicals, 1, radicals.length);
@@ -47,6 +48,7 @@ public class AbcHits {
                 }
             }
         }
+        return sum;
     }
 
     private Radical[] sieve() {
