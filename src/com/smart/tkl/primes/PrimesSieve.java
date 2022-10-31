@@ -14,17 +14,6 @@ public class PrimesSieve {
         this.sieve = createSieve();
     }
 
-    public static void main(String[] args) {
-        PrimesSieve primesSieve = new PrimesSieve(1000);
-        List<Integer> primes = new ArrayList<>();
-        for(int i = 2; i <= 1000; i++) {
-            if(primesSieve.isPrime(i)) {
-               primes.add(i);
-            }
-        }
-        System.out.println("Primes: " + primes);
-    }
-
     public boolean isPrime(int n) {
         if(n % 2 == 0) {
            return n == 2;
