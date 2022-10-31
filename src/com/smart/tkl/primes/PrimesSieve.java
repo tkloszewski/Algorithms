@@ -11,6 +11,7 @@ public class PrimesSieve {
 
     public PrimesSieve(int length) {
         this.length = length;
+        this.sieve = createSieve();
     }
 
     public static void main(String[] args) {
@@ -27,9 +28,6 @@ public class PrimesSieve {
     public boolean isPrime(int n) {
         if(n % 2 == 0) {
            return n == 2;
-        }
-        if(this.sieve == null) {
-           this.sieve = createSieve();
         }
         return sieve[n / 2];
     }
