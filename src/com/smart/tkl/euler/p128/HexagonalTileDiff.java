@@ -1,12 +1,9 @@
 package com.smart.tkl.euler.p128;
 
-import com.smart.tkl.primes.PrimesSieve;
 import com.smart.tkl.utils.MathUtils;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class HexagonalTileDiff {
 
@@ -17,9 +14,12 @@ public class HexagonalTileDiff {
     }
 
     public static void main(String[] args) {
+        long time1 = System.currentTimeMillis();
         HexagonalTileDiff hexagonalTileDiff = new HexagonalTileDiff(2000);
         long tileNumber = hexagonalTileDiff.solve();
+        long time2 = System.currentTimeMillis();
         System.out.println("Tile number: " + tileNumber);
+        System.out.println("Solution took ms: " + (time2 - time1));
     }
 
 
@@ -33,7 +33,7 @@ public class HexagonalTileDiff {
         elements.add(1L);
         int elementsCount = 1;
         int layer = 1;
-        while (elementsCount < this.sequenceLimit) {
+        while (elementsCount != this.sequenceLimit) {
             long diff1 = 6 * layer - 1;
             long diff2 = 6 * layer + 1;
             long diff3 = 12 * layer + 5;
