@@ -1,8 +1,6 @@
 package com.smart.tkl.primes;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class PrimesSieve {
 
@@ -24,6 +22,7 @@ public class PrimesSieve {
     private boolean[] createSieve() {
         boolean[] sieve = new boolean[this.length / 2 + 1];
         Arrays.fill(sieve, true);
+        sieve[0] = false;
         int primeLimit = (int)Math.sqrt(this.length);
         for(int i = 1; i <= primeLimit; i++) {
             int k = 2 * i + 1;
