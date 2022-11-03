@@ -27,7 +27,7 @@ public class RepUnitDivisibility {
             k = 1;
             long n = 1;
             while (n != 0) {
-                n = (MathUtils.moduloMultiply(n, 10, number) + 1) % number;
+                n = (10 * n + 1) % number;
                 k++;
             }
             if(k <= this.limit) {
