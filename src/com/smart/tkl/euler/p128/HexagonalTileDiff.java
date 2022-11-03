@@ -29,7 +29,7 @@ public class HexagonalTileDiff {
        Differences for first value => 6k - 1, 6k + 1, 12k + 5
        Differences for last value => 6k - 1, 6k + 5, 12k - 7 and they are not in first layer
      * */
-        List<Long> elements = new ArrayList<>();
+        List<Long> elements = new ArrayList<>(this.sequenceLimit);
         elements.add(1L);
         int elementsCount = 1;
         int layer = 1;
