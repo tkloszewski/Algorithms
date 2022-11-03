@@ -585,7 +585,7 @@ public class MathUtils {
             return false;
         }
         if(n % 2 == 0) {
-            return false;
+            return n == 2;
         }
         if(n < 9) {
             return true;
