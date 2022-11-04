@@ -505,7 +505,24 @@ public class MathUtils {
         
         return result;
     }
-    
+
+    public static long moduloPowerLong(long a, long pow, long mod) {
+        if(mod == 1) {
+            return 0;
+        }
+
+        long result = 1;
+        while (pow > 0) {
+            if((pow & 1) == 1){
+                result = moduloMultiplyLong(a, result, mod);
+            }
+            a = moduloMultiplyLong(a, a, mod);
+            pow = pow >> 1;
+        }
+
+        return result;
+    }
+
     public static long moduloPower(long a, long pow, long mod) {
         if(mod == 1) {
             return 0;
@@ -522,7 +539,11 @@ public class MathUtils {
         
         return result;
     }
-    
+
+    public static long moduloMultiplyLong(long a, long b, long mod) {
+        return ((a % mod) * (b % mod)) % mod;
+    }
+
     public static long moduloMultiply(long a, long b, long mod) {
         return BigDecimal.valueOf(a)
                          .multiply(BigDecimal.valueOf(b))
