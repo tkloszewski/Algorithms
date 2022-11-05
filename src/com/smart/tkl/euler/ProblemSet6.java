@@ -18,8 +18,8 @@ import static com.smart.tkl.utils.MathUtils.*;
 
 public class ProblemSet6 {
 
-    private static final String P_067_FILE_PATH = "C:\\Projects\\microservices\\Algorithms\\src\\com\\smart\\tkl\\euler\\p067_triangle.txt";
-    private static final String P_059_FILE_PATH = "C:\\Projects\\microservices\\Algorithms\\src\\com\\smart\\tkl\\euler\\p059_cipher.txt";
+    private static final String P_067_FILE_PATH = "C:\\Projects\\personal\\Algorithms\\src\\com\\smart\\tkl\\euler\\p067_triangle.txt";
+    private static final String P_059_FILE_PATH = "C:\\Projects\\personal\\Algorithms\\src\\com\\smart\\tkl\\euler\\p059_cipher.txt";
 
     public static void main(String[] args) {
         System.out.println("XOR decryption: " + xorDecryption());
