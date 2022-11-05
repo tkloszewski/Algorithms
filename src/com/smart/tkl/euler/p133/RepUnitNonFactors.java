@@ -20,6 +20,12 @@ public class RepUnitNonFactors {
         long time2 = System.currentTimeMillis();
         System.out.println("Sum of non factors: " + sum);
         System.out.println("Solution took in ms: " + (time2 - time1));
+        time1 = System.currentTimeMillis();
+        repUnitNonFactors = new RepUnitNonFactors(100000);
+        sum = repUnitNonFactors.getSumOfNonFactors2();
+        time2 = System.currentTimeMillis();
+        System.out.println("Sum of non factors 2: " + sum);
+        System.out.println("Solution 2 took in ms: " + (time2 - time1));
     }
 
     public long getSumOfNonFactors() {
@@ -30,6 +36,20 @@ public class RepUnitNonFactors {
                 if(!isPrimeFactor(prime)) {
                    sum += prime;
                 }
+            }
+        }
+        return sum;
+    }
+
+    public long getSumOfNonFactors2() {
+        long sum  = 0;
+        List<Long> primes = MathUtils.generatePrimesUpTo(this.primeLimit);
+        int n = (int) (Math.log10(this.primeLimit) / Math.log10(2));
+        for(long prime : primes) {
+            long divisor = 9 * prime;
+            long remainder = moduloPow(n, divisor);
+            if(remainder != 1) {
+               sum += prime;
             }
         }
         return sum;
@@ -58,5 +78,17 @@ public class RepUnitNonFactors {
             k++;
         }
         return k;
+    }
+
+    private long moduloPow(int n, long divisor) {
+        long k = 10;
+        long result = 10;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < 9; j++) {
+                result = (result * k) % divisor;
+            }
+            k = result;
+        }
+        return result;
     }
 }
