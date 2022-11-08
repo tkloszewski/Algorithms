@@ -61,6 +61,9 @@ public class NumberSplitting {
                   return true;
                }
             }
+            else if(r > n) {
+               break;
+            }
             k *= 10;
         }
         return false;
