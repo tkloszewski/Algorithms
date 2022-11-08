@@ -147,4 +147,6 @@ public class ProblemSet7 {
         double result = 1 / (1 - Math.log10(i));
         return (int)result;
     }
+
+
 }
