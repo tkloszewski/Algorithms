@@ -1,16 +1,17 @@
 package com.smart.tkl.euler.p135;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SameDifferences {
 
     private final int limit;
+    private final int value;
     private int[] tab;
 
-    public SameDifferences(int limit) {
+    public SameDifferences(int limit, int value) {
         this.limit = limit;
+        this.value = value;
     }
 
     public int count() {
@@ -24,21 +25,22 @@ public class SameDifferences {
                     if(n < limit) {
                        tab[n]++;
                     }
-                    if(tab[n] == 10) {
+                    if(tab[n] == this.value) {
                        count++;
                     }
-                    else if(prevValue == 10) {
+                    else if(prevValue == this.value) {
                        count--;
                     }
                 }
             }
         }
+
         return count;
     }
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        SameDifferences sameDifferences = new SameDifferences(1000000);
+        SameDifferences sameDifferences = new SameDifferences(1000000, 10);
         int count = sameDifferences.count();
         long time2 = System.currentTimeMillis();
         System.out.println("Number of n values with 10 distinct solutions: " + count);
