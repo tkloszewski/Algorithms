@@ -95,6 +95,10 @@ public class TorricelliPoint {
 
                     long sum = a + b;
 
+                    if(sum >= distanceLimit) {
+                       break;
+                    }
+
                     int k = 1;
                     while (sum < distanceLimit) {
                         result.add(new Pair(k * a, k * b, k * c));
