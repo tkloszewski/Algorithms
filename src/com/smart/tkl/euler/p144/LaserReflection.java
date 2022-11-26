@@ -60,7 +60,7 @@ public class LaserReflection {
 
         @Override
         public String toString() {
-            return "LinearEquation{" +
+            return "Intersection{" +
                     "p=" + p +
                     ", slope=" + slope +
                     '}';
