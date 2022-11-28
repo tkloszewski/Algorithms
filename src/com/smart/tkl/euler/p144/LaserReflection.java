@@ -3,8 +3,11 @@ package com.smart.tkl.euler.p144;
 public class LaserReflection {
 
     public static void main(String[] args) {
+        long time1 = System.currentTimeMillis();
         int reflectionsCount = new LaserReflection().countReflections();
+        long time2 = System.currentTimeMillis();
         System.out.println("Reflections count: " + reflectionsCount);
+        System.out.println("Solution took in ms: " + (time2 - time1));
     }
 
     public int countReflections() {

@@ -1,6 +1,7 @@
 package com.smart.tkl.utils;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.*;
 
 public class MathUtils {
@@ -541,13 +542,21 @@ public class MathUtils {
     }
 
     public static long moduloMultiplyLong(long a, long b, long mod) {
-        return ((a % mod) * (b % mod)) % mod;
+        long modA = a % mod;
+        long modB = b % mod;
+
+        try {
+            long m = Math.multiplyExact(modA, modB);
+            return m % mod;
+        } catch (ArithmeticException e) {
+            return moduloMultiply(a, b, mod);
+        }
     }
 
     public static long moduloMultiply(long a, long b, long mod) {
-        return BigDecimal.valueOf(a)
-                         .multiply(BigDecimal.valueOf(b))
-                         .remainder(BigDecimal.valueOf(mod)).longValue();
+        return BigInteger.valueOf(a)
+                         .multiply(BigInteger.valueOf(b))
+                         .remainder(BigInteger.valueOf(mod)).longValue();
     }    
     
     public static boolean passesMillerRabinPrimeTest(long n) {
