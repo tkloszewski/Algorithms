@@ -4,14 +4,16 @@ import com.smart.tkl.primes.Primes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class PrimePattern {
 
     public static void main(String[] args) {
         long limit = 150000000;
-        long sum  = 0;
 
         List<Long> numbers = new ArrayList<>();
+        Set<Long> notAllowedMod13 = Set.of(0L, 2L, 5L, 6L, 7L, 8L, 11L);
+        Set<Long> notAllowedMod17 = Set.of(0L, 1L, 2L, 5L, 12L, 15L, 16L);
 
         long time1 = System.currentTimeMillis();
         for(long n = 10; n < limit; n += 10) {
@@ -19,11 +21,15 @@ public class PrimePattern {
                continue;
             }
             long mod7 = n % 7;
-            if(mod7 == 0 || mod7 == 1 || mod7 == 6) {
+            if(mod7 != 3 && mod7 != 4) {
                continue;
             }
             long mod13 = n % 13;
-            if(mod13 == 0 || mod13 == 5 || mod13 == 8) {
+            if(notAllowedMod13.contains(mod13)) {
+               continue;
+            }
+            long mod17 = n % 17;
+            if(notAllowedMod17.contains(mod17)) {
                continue;
             }
             long square = n * n;

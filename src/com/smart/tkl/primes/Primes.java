@@ -25,6 +25,10 @@ public class Primes {
             return false;
         }
 
+        if(n < 1000) {
+           return MathUtils.isPrime(n);
+        }
+
         List<BigInteger> bases = getBases(n).stream().map(a -> BigInteger.valueOf(a)).collect(Collectors.toList());
 
         long d = n - 1;
