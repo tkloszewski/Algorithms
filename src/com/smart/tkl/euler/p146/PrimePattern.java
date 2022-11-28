@@ -9,13 +9,14 @@ import java.util.Set;
 public class PrimePattern {
 
     public static void main(String[] args) {
+        long time1 = System.currentTimeMillis();
+
         long limit = 150000000;
 
         List<Long> numbers = new ArrayList<>();
         Set<Long> notAllowedMod13 = Set.of(0L, 2L, 5L, 6L, 7L, 8L, 11L);
         Set<Long> notAllowedMod17 = Set.of(0L, 1L, 2L, 5L, 12L, 15L, 16L);
 
-        long time1 = System.currentTimeMillis();
         for(long n = 10; n < limit; n += 10) {
             if(n % 3 == 0) {
                continue;
