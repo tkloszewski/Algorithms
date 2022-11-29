@@ -14,15 +14,21 @@ public class PrimePattern {
         long limit = 150000000;
 
         List<Long> numbers = new ArrayList<>();
+
+        Set<Long> notAllowedMod11 = Set.of(0L, 2L, 3L, 8L, 9L);
         Set<Long> notAllowedMod13 = Set.of(0L, 2L, 5L, 6L, 7L, 8L, 11L);
         Set<Long> notAllowedMod17 = Set.of(0L, 1L, 2L, 5L, 12L, 15L, 16L);
 
-        for(long n = 10; n < limit; n += 10) {
+        for(long k = 1, n = 10; n < limit; n += 10, k++) {
             if(n % 3 == 0) {
                continue;
             }
             long mod7 = n % 7;
             if(mod7 != 3 && mod7 != 4) {
+               continue;
+            }
+            long mod11 = n % 11;
+            if(notAllowedMod11.contains(mod11)) {
                continue;
             }
             long mod13 = n % 13;
