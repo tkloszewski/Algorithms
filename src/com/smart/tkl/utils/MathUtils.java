@@ -283,7 +283,7 @@ public class MathUtils {
             return new Coefficients(a, 1, 0);
         }
         
-        long x = 1, y = 0, x0 = 1, y0 = 0, x1 = 0, y1 = 1;
+        long x = 1, y = 0, x0, y0, x1 = 0, y1 = 1;
 
         long q, reminder;
         while (b != 0) {
