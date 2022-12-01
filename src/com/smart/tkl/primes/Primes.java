@@ -1,5 +1,6 @@
 package com.smart.tkl.primes;
 
+import com.smart.tkl.utils.Coefficients;
 import com.smart.tkl.utils.MathUtils;
 
 import java.math.BigInteger;
@@ -14,6 +15,9 @@ public class Primes {
         System.out.println("Is prime: " + isPrime(546591868459071613L));
         long time2 = System.currentTimeMillis();
         System.out.println("Prime test took ms: " + (time2 - time1));
+
+        Coefficients coefficients = MathUtils.GCDExtended(12, 7);
+        System.out.println("Coefficients: " + coefficients);
     }
 
     public static boolean isPrime(long n) {

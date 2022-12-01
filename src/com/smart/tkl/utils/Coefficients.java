@@ -23,4 +23,13 @@ public class Coefficients {
     public long getY() {
         return y;
     }
+
+    @Override
+    public String toString() {
+        return "Coefficients{" +
+                "gcd=" + gcd +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

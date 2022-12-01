@@ -268,7 +268,13 @@ public class MathUtils {
         
         return LinearSolution.solution(x * q, y * q, gcd);
     }
-    
+
+
+    /*
+    * xi+2 = xi - q * xi+1
+    * yi+2 = yi - q * yi+1
+    * r = a - q * b => a * 1 + b *(-q) => x2 = 1 and y2 = -q
+    * */
     public static Coefficients GCDExtended(long a, long b) {
         if(a == 0) {
             return new Coefficients(b, 0, 1);
@@ -277,32 +283,27 @@ public class MathUtils {
             return new Coefficients(a, 1, 0);
         }
         
-        long a1 = a, b1 = b;
-        long x = 1, y = 0, x1 = 0, y1 = 1;
+        long x = 1, y = 0, x0 = 1, y0 = 0, x1 = 0, y1 = 1;
 
-        /*
-        Invariants x*a + b*y = a1 and
-        x1 * a + y1 * b = b1 holds true in the loop. At the end we
-        have a1 to be gcd(a,b) and x and y to be solutions to the equation
-        x*a + b*y = gcd(a,b)
-         */
-        long q, prevX1, prevY1, reminder;
-        while (b1 != 0) {
-            q = a1 / b1;
-            prevX1 = x1;
-            prevY1 = y1;
-            
+        long q, reminder;
+        while (b != 0) {
+            q = a / b;
+
+            x0 = x1;
+            y0 = y1;
+
             x1 = x - q * x1;
             y1 = y - q * y1;
-            x = prevX1;
-            y = prevY1;
+
+            x = x0;
+            y = y0;
             
-            reminder = a1 % b1;
-            a1 = b1;
-            b1 = reminder;
+            reminder = a % b;
+            a = b;
+            b = reminder;
         }
         
-        return new Coefficients(a1, x, y);
+        return new Coefficients(a, x, y);
     }
     
     public static BigDecimal GCD(BigDecimal a, BigDecimal b) {
