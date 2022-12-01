@@ -557,57 +557,6 @@ public class MathUtils {
         return BigInteger.valueOf(a)
                          .multiply(BigInteger.valueOf(b))
                          .remainder(BigInteger.valueOf(mod)).longValue();
-    }    
-    
-    public static boolean passesMillerRabinPrimeTest(long n) {
-        if(n % 2 == 0) {
-            return false;
-        }
-        
-        int k = 20;
-        long[] witnessTab;
-        if(n > 341550071728321L) {
-            Random random = new Random();
-            witnessTab = new long[k];
-            long m = 997;
-            for(int i = 0; i < k; i++) {
-                while (!isPrime(m)) {
-                    m += 2;
-                }
-                witnessTab[i] = m;
-            }
-        }
-        else if(n >= 4759123141L) {
-            witnessTab = new long[]{2, 3, 5, 7, 11, 13, 17};
-        }
-        else {
-            witnessTab = new long[]{2, 7, 61};
-        }
-        
-        long d  = n - 1;
-        int s = 0;
-        while(d % 2 == 0) {
-            s++;
-            d = d >> 1;
-        }
-        
-        witnessLoop:
-        for(long a : witnessTab) {
-            long x = moduloPower(a, d, n);
-            if(x == 1 || x == n - 1) {
-                continue;
-            }
-            for (int r = 0; r < s; r++) {
-                x = moduloPower(x, 2, n);
-                if(x == n - 1) {
-                    continue witnessLoop;
-                }
-            }
-            return false;
-        }
-        
-        
-        return true;
     }
     
     public static boolean isPrime(long n) {
