@@ -8,49 +8,49 @@ public class CrossHatchedGrids {
     private final int maxWidth;
     private final int maxHeight;
 
-    private final int[][] diagonalCache;
+    private final long[][] diagonalCache;
 
     public CrossHatchedGrids(int maxWidth, int maxHeight) {
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
         int max = Math.max(this.maxWidth, this.maxHeight);
-        this.diagonalCache = new int[max + 1][max + 1];
+        this.diagonalCache = new long[max + 1][max + 1];
     }
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        int count = new CrossHatchedGrids(47, 43).countAll();
+        long count = new CrossHatchedGrids(47, 43).countAll();
         long time2 = System.currentTimeMillis();
         System.out.println("Count regular and diagonal: " + count);
         System.out.println("Solution took in ms: " + (time2 - time1));
     }
 
-    public int countAll() {
-        int result = 0;
+    public long countAll() {
+        long result = 0;
         for(int m = 1; m <= maxWidth; m++) {
             for(int n = 1; n <= maxHeight; n++) {
-                int regularAndDiagonalCount = countRegularAndDiagonal(m, n);
+                long regularAndDiagonalCount = countRegularAndDiagonal(m, n);
                 result += regularAndDiagonalCount;
             }
         }
         return result;
     }
 
-    private int countRegularAndDiagonal(int m, int n) {
+    private long countRegularAndDiagonal(int m, int n) {
         return countRegular(m, n) + countDiagonal(m, n);
     }
 
-    private int countDiagonal(int m, int n) {
+    private long countDiagonal(int m, int n) {
         if(diagonalCache[m][n] != 0) {
             return diagonalCache[m][n];
         }
-        int result = doCountDiagonal(m, n);
+        long result = doCountDiagonal(m, n);
         diagonalCache[m][n] = result;
         diagonalCache[n][m] = result;
         return result;
     }
 
-    private static int doCountDiagonal(int m, int n) {
+    private static long doCountDiagonal(int m, int n) {
         if(m == 1 || n == 1) {
             return Math.max(m, n) - 1;
         }
@@ -62,24 +62,24 @@ public class CrossHatchedGrids {
 
         List<Integer> oneThickStripeLengths = getOneThickStripeLengths(oneThickStripes, maxLength);
 
-        int count = 0;
-        int oneThickRectanglesCount = countOneThickRectangles(oneThickStripeLengths);
+        long count = 0;
+        long oneThickRectanglesCount = countOneThickRectangles(oneThickStripeLengths);
         count += oneThickRectanglesCount;
 
         for(int stripeWidth = 2; stripeWidth <= maxBothLength; stripeWidth++) {
-            int rectInThickerThanOneStripesCount = countForStripeWidth(stripeWidth, oneThickStripeLengths, maxLength, maxPartLength);
+            long rectInThickerThanOneStripesCount = countForStripeWidth(stripeWidth, oneThickStripeLengths, maxLength, maxPartLength);
             count += rectInThickerThanOneStripesCount;
         }
 
         return count;
     }
 
-    private static int countRegular(int m, int n) {
-        return  (m * n * (m * n  + m + n + 1)) / 4;
+    private static long countRegular(int m, int n) {
+        return  (m * n * ((long) m * n  + m + n + 1)) / 4;
     }
 
-    private static int countForStripeWidth(int stripeWidth, List<Integer> singleStripeLengths, int maxLength, int maxPartLength) {
-        int result = 0;
+    private static long countForStripeWidth(int stripeWidth, List<Integer> singleStripeLengths, int maxLength, int maxPartLength) {
+        long result = 0;
 
         int firstPartLength = (singleStripeLengths.size() - maxPartLength) / 2;
         int lastIndex = getLastWindowIndex(firstPartLength, maxPartLength, stripeWidth) - stripeWidth + 1;
@@ -99,7 +99,7 @@ public class CrossHatchedGrids {
 
             int multiplier = countOnce ? 1 : 2;
             int maxStripeLength = getMaxStripeLength(firstLength, minLength, maxLength, i, endIdx, firstPartLength, maxPartLength);
-            int count = multiplier * countInStripe(stripeWidth, maxStripeLength);
+            long count = multiplier * countInStripe(stripeWidth, maxStripeLength);
 
             result += count;
         }
@@ -107,8 +107,8 @@ public class CrossHatchedGrids {
         return result;
     }
 
-    private static int countOneThickRectangles(List<Integer> singleStripeLengths) {
-        int result = 0;
+    private static long countOneThickRectangles(List<Integer> singleStripeLengths) {
+        long result = 0;
         for(int stripeLength : singleStripeLengths) {
             result += countInStripe(1, stripeLength);
         }
@@ -116,13 +116,13 @@ public class CrossHatchedGrids {
     }
 
 
-    private static int countInStripe(int stripeWidth, int stripeLength) {
+    private static long countInStripe(int stripeWidth, int stripeLength) {
         if(stripeWidth == stripeLength) {
             return 1;
         }
-        int n = stripeLength - stripeWidth;
-        int squaresCount = n + 1;
-        int nonSquaresCount = n * (n + 1);
+        long n = stripeLength - stripeWidth;
+        long squaresCount = n + 1;
+        long nonSquaresCount = n * (n + 1);
         return squaresCount + nonSquaresCount;
     }
 
