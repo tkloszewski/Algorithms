@@ -1,0 +1,37 @@
+It took me a while before I come up with the correct algorithm. The algorithm find the solution in around 10 ms.
+
+First thing is to derive the formula for the total number of rectangles in given rectangle m x n. The are (m - w + 1) * (n - h + 1) rectangles with width w and height h.
+
+$c = \sum\limits^{^m}_{i=1}\sum\limits^{^n}_{j=1}(m - i +1)(n - j + 1) = \dfrac{mn(mn + m + n + 1)}{4}$
+
+The real challenge is to count diagonal rectangles. First step is the derivation of hatched grid in the forms of one unit stripes. Here one unit is the side of one diagonal square which is $\dfrac{\sqrt{2}}{2}$
+For the square 7x5 the single unit stripes have following lengths: 2, 4, 6, 8, 9, 9, 8, 6, 4, 2. The maximum length stripe is given by formula:
+
+$maxStripeLength = 2 * min(m,n) - 1$
+
+Number of stripes with max length is: m - n. That is for squares it's zero length.
+
+$maxStripeLengthSize = m - n$
+
+Stripe lengths sequence have following form for non-square rectangles:
+
+$2, 4, 6, 8, \cdots , maxLength-1, \underbrace{maxStripeLength,maxStripeLength, \cdots, maxStripeLength}_{maxStripeLengthSize}, maxLength-1, \cdots, 8, 6, 4, 2$
+
+Given the sequence I count rectangles in stripes of different height/thickness starting from 1 and ending at min(m,n). On the right is the maximum length for the given stripe thickness.
+
+thickness 1 => 2, 4, 6, 8, 9, 9, 8, 6, 4, 2
+thickness 2 => 2, 4, 6, 8, 8, 8, 6, 4, 2
+thickness 3 => 4, 6, 7, 7, 6, 4
+thickness 4 => 4, 6, 6, 4
+thickness 5 => 5, 5
+
+For given stripe length and stripe thickness I count all rectangles we can put there starting from square with dimensions: thickness x thickness. For non square rectangles we multiply the count by 2. Square rectangles are counted once. The formula for all rectangles in given stripe of width/thickness is given by:
+
+$n = l - w$
+$squareCount = n + 1$
+$nonSquareCount = 2 * (n+1)n/2 = n(n+1)$
+$rectCount = squareCount + nonSquareCount$
+
+where l is the length of the stripe and w its width/thickness.
+
+The algorithm takes advantage the symmetry of max stripe lengths sequence and counts only the "first half".
