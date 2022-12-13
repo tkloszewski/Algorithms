@@ -84,7 +84,7 @@ public class CrossHatchedGrids {
         int firstPartLength = (singleStripeLengths.size() - maxPartLength) / 2;
         int lastIndex = getLastWindowIndex(firstPartLength, maxPartLength, stripeWidth) - stripeWidth + 1;
 
-        for(int i = 0; i <= lastIndex; i++) {
+        for(int i = Math.max(stripeWidth / 2 - 1, 0); i <= lastIndex; i++) {
             int endIdx = i + stripeWidth - 1;
             int firstLength = singleStripeLengths.get(i);
             int lastLength = singleStripeLengths.get(endIdx);

@@ -24,9 +24,18 @@ public class MathUtils {
         System.out.println("Sum of digits: " + sumOfDigits("1234567890"));
     }
 
-    /*public static List<PrimeFactor> listPrimeFactors(int n) {
-
-    }*/
+    public static List<Integer> toBase(long n, int base) {
+        List<Integer> result = new ArrayList<>();
+        long m = 1;
+        while (n > 0) {
+            long r = n % (m * base);
+            int digit = (int)(r / m);
+            result.add(digit);
+            n = n - r;
+            m = m * base;
+        }
+        return result;
+    }
     
     public static Fraction toFraction(double f) {
         long m = 1;

@@ -34,11 +34,11 @@ public class HexagonalTileDiff {
         int elementsCount = 1;
         int layer = 1;
         while (elementsCount != this.sequenceLimit) {
-            long diff1 = 6 * layer - 1;
-            long diff2 = 6 * layer + 1;
-            long diff3 = 12 * layer + 5;
-            long diff4 = 6 * layer + 5;
-            long diff5 = 12 * layer - 7;
+            long diff1 = 6L * layer - 1;
+            long diff2 = 6L * layer + 1;
+            long diff3 = 12L * layer + 5;
+            long diff4 = 6L * layer + 5;
+            long diff5 = 12L * layer - 7;
 
             if(isPrime(diff1) && isPrime(diff2) && isPrime(diff3)) {
                 elementsCount++;
