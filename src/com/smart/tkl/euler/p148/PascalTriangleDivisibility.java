@@ -13,13 +13,6 @@ public class PascalTriangleDivisibility {
 
         System.out.println("Fast count: " + count);
         System.out.println("Fast count took in ms: " + (time2 - time1));
-
-        time1 = System.currentTimeMillis();
-        count = countOneByOne(numberOfRows);
-        time2 = System.currentTimeMillis();
-
-        System.out.println("One by one count: " + count);
-        System.out.println("One by one count took in ms: " + (time2 - time1));
     }
 
     public static long fastCount(long nFirstRows) {

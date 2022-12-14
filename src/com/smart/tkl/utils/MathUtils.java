@@ -26,13 +26,10 @@ public class MathUtils {
 
     public static List<Integer> toBase(long n, int base) {
         List<Integer> result = new ArrayList<>();
-        long m = 1;
         while (n > 0) {
-            long r = n % (m * base);
-            int digit = (int)(r / m);
+            int digit = (int)(n % base);
             result.add(digit);
-            n = n - r;
-            m = m * base;
+            n = n / base;
         }
         return result;
     }
