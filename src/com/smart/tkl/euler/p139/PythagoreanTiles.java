@@ -36,10 +36,6 @@ public class PythagoreanTiles {
                     if((a * a + b * b) % (diff * diff) == 0) {
                         long p = 2 * m * (m + n);
                         long baseCount = perimeterLimit / p;
-
-                        if(perimeterLimit % p == 0) {
-                           baseCount--;
-                        }
                         count += baseCount;
                     }
                 }
