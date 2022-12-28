@@ -16,7 +16,7 @@ public class SingleSheetExpectedValue {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        SingleSheetExpectedValue singleSheetExpectedValue = new SingleSheetExpectedValue(16);
+        SingleSheetExpectedValue singleSheetExpectedValue = new SingleSheetExpectedValue(64);
         BigDecimal expectedValue = singleSheetExpectedValue.calcExpectedValue();
         long time2 = System.currentTimeMillis();
 
@@ -62,7 +62,7 @@ public class SingleSheetExpectedValue {
                   sameValueSheetsSize++;
                   j++;
                 }
-                BigDecimal currentProbability = BigDecimal.valueOf(sameValueSheetsSize).divide(BigDecimal.valueOf(sheets.size()), MathContext.DECIMAL128);
+                BigDecimal currentProbability = calcProbability(sameValueSheetsSize, sheets.size());
                 if(sheet == 1) {
                     List<Integer> newSheets = new ArrayList<>(sheets);
                     newSheets.remove(i);
@@ -90,6 +90,10 @@ public class SingleSheetExpectedValue {
             sheet = sheet / 2;
         }
         return sheets;
+    }
+
+    private static BigDecimal calcProbability(int sameValueSheetsSize, int sheetsSize) {
+        return BigDecimal.valueOf(sameValueSheetsSize).divide(BigDecimal.valueOf(sheetsSize), MathContext.DECIMAL128);
     }
 
     private static class CachedValue {

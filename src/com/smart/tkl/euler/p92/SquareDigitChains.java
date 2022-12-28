@@ -97,8 +97,10 @@ public class SquareDigitChains {
 
     private int getSquareDigits(int n) {
         int result = 0;
-        for(int digit : MathUtils.getDigits(n)) {
+        while (n > 0) {
+            int digit = n % 10;
             result += digit * digit;
+            n = n / 10;
         }
         return result;
     }
