@@ -338,6 +338,19 @@ public class MathUtils {
         
         return i * m1;
     }
+
+    public static long LCM(List<Integer> values) {
+        if(values.isEmpty()) {
+           throw new IllegalArgumentException("List must not be empty");
+        }
+        long lcm = values.get(0);
+        for(int i = 1; i < values.size(); i++) {
+            int value = values.get(i);
+            long gcd = GCD(lcm, value);
+            lcm = (long)value * (lcm / gcd);
+        }
+        return lcm;
+    }
     
     public static List<Integer> listPrimeFactors(int n, boolean[] primesSieve) {
         List<Integer> result = new ArrayList<>();
