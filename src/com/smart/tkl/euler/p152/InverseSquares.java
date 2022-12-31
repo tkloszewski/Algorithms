@@ -5,6 +5,7 @@ import com.smart.tkl.utils.MathUtils;
 import com.smart.tkl.utils.PrimeFactor;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -33,7 +34,7 @@ public class InverseSquares {
         long count = 0;
 
         List<Integer> filtered = filterList();
-       // filtered.removeAll(List.of(26, 49, 50, 78));
+
 
         long lcm = MathUtils.LCM(filtered);
         long lcmSquared = lcm * lcm;
@@ -60,7 +61,7 @@ public class InverseSquares {
             numeratorSums.put(numeratorSum, newValue);
 
             if(numeratorSum == halfLcmSquared) {
-               count++;
+                count++;
             }
         }
 
@@ -68,13 +69,13 @@ public class InverseSquares {
         for(long mask = 1; mask < maxSize; mask++) {
             long numeratorSum = getSubsetSum(sublist1, mask, lcmSquared, halfLcmSquared);
             if(numeratorSum > halfLcmSquared) {
-             //  System.out.println("Subset exceeded: " + numeratorSum);
-               continue;
+                //  System.out.println("Subset exceeded: " + numeratorSum);
+                continue;
             }
             long sumToCheck = halfLcmSquared - numeratorSum;
             if(numeratorSums.containsKey(sumToCheck)) {
-               long sumCount = numeratorSums.get(sumToCheck);
-               count += sumCount;
+                long sumCount = numeratorSums.get(sumToCheck);
+                count += sumCount;
             }
             if(numeratorSum == halfLcmSquared) {
                 count++;
@@ -85,11 +86,11 @@ public class InverseSquares {
     }
 
     private static long getNumeratorSum(List<Integer> subset, long lcm) {
-         long numerator = 0;
-         for(int value : subset) {
-             numerator += lcm / (long)value;
-         }
-         return numerator;
+        long numerator = 0;
+        for(int value : subset) {
+            numerator += lcm / (long)value;
+        }
+        return numerator;
     }
 
     private List<Integer> getSubset(List<Integer> list, long bitMask) {
@@ -113,7 +114,7 @@ public class InverseSquares {
                 long value = list.get(i);
                 numerator += lcm / value;
                 if(numerator > halfLcmSquared) {
-                   return numerator;
+                    return numerator;
                 }
             }
             bitMask >>= 1;
@@ -124,71 +125,104 @@ public class InverseSquares {
 
     private List<Integer> filterList() {
         List<Integer> result = new ArrayList<>();
-        List<Integer> excludedPrimeFactors = getExcludedPrimeFactorsGreaterThan3();
+        List<ExcludedPrime> excludedPrimeFactors = getExcludedPrimeFactorsGreaterThan3();
+
+        List<Integer> multiplesExcluded = excludedPrimeFactors.stream()
+                .filter(e -> !e.allMultiplesExcluded)
+                .flatMap(e -> e.excludedMultiples.stream().map(i -> i * e.prime))
+                .collect(Collectors.toList());
+
+        System.out.println("Multiples: excluded: " + multiplesExcluded);
+
+        List<Integer> rawExcluded = excludedPrimeFactors.stream()
+                .filter(e -> e.allMultiplesExcluded)
+                .map(e -> e.prime).collect(Collectors.toList());
+
+
         for(int i = 2; i <= this.limit; i++) {
             List<PrimeFactor> primeFactors = MathUtils.listPrimeFactors(i);
             boolean exclude = false;
             for(PrimeFactor primeFactor : primeFactors) {
-                if(excludedPrimeFactors.contains(primeFactor.getFactor())) {
-                   exclude = true;
-                   break;
+                if(rawExcluded.contains(primeFactor.getFactor())) {
+                    exclude = true;
+                    break;
                 }
             }
             if(!exclude) {
-               result.add(i);
+                result.add(i);
             }
         }
+
+        result.removeAll(multiplesExcluded);
+
         return result;
     }
 
-    private List<Integer> getExcludedPrimeFactorsGreaterThan3() {
-        List<Integer> excluded = new ArrayList<>();
+    private List<ExcludedPrime> getExcludedPrimeFactorsGreaterThan3() {
+        List<ExcludedPrime> excluded = new ArrayList<>();
         List<Long> primes = MathUtils.generatePrimesUpTo(this.limit);
         for(long prime : primes) {
-            if(prime > 3 && isPrimeFactorExcluded((int)prime)) {
-              excluded.add((int)prime);
+            if(prime > 3 ) {
+                excluded.add(getPrimeExcluded((int)prime));
             }
         }
         return excluded;
     }
 
-    private boolean isPrimeFactorExcluded(int prime) {
+    private ExcludedPrime getPrimeExcluded(int prime) {
         int maxMultiplier = this.limit / prime;
         if(maxMultiplier == 1) {
-           return true;
+            return new ExcludedPrime(prime, true, List.of());
         }
-        Set<Integer> squares = new LinkedHashSet<>();
+        Set<Integer> multiples = new LinkedHashSet<>();
+        Set<Integer> relevantMultiples = new HashSet<>();
         for(int i = 1; i <= maxMultiplier; i++) {
-            squares.add(i * i);
+            multiples.add(i);
+            relevantMultiples.add(i);
         }
         int primeSquared = prime * prime;
         boolean excluded = true;
 
-        for(int combinationSize = 2; combinationSize <= squares.size(); combinationSize++) {
-            for(int[] combination : CombinatoricsUtils.combinations(squares, combinationSize)) {
+        for(int combinationSize = 2; combinationSize <= multiples.size(); combinationSize++) {
+            for(int[] combination : CombinatoricsUtils.combinations(multiples, combinationSize)) {
                 List<Integer> list = Arrays.stream(combination)
                         .boxed()
                         .collect(Collectors.toList());
-                long lcm = MathUtils.LCM(list);
+                List<Integer> squared = list.stream().map(i -> i * i).collect(Collectors.toList());
+
+                long lcm = MathUtils.LCM(squared);
                 int numerator = 0;
-                for(int value : list) {
+                for(int value : squared) {
                     numerator += lcm / value;
                 }
                 if(numerator % primeSquared == 0) {
                     excluded = false;
-                    break;
+                    list.forEach(relevantMultiples::remove);
+                    //break;
                 }
             }
         }
-        return excluded;
+        return new ExcludedPrime(prime, excluded, new ArrayList<>(relevantMultiples));
     }
 
-    private static long getNextMask(long mask) {
-        long newMask = 1;
-        while (mask != 0) {
-            mask >>= 1;
-            newMask <<= 1;
+    private static class ExcludedPrime {
+        Integer prime;
+        boolean allMultiplesExcluded;
+        List<Integer> excludedMultiples;
+
+        public ExcludedPrime(Integer prime, boolean allMultiplesExcluded, List<Integer> excludedMultiples) {
+            this.prime = prime;
+            this.allMultiplesExcluded = allMultiplesExcluded;
+            this.excludedMultiples = excludedMultiples;
         }
-        return newMask;
+
+        @Override
+        public String toString() {
+            return "ExcludedPrime{" +
+                    "prime=" + prime +
+                    ", allMultiplesExcluded=" + allMultiplesExcluded +
+                    ", excludedMultiples=" + excludedMultiples +
+                    '}';
+        }
     }
 }
