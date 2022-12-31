@@ -5,7 +5,6 @@ import com.smart.tkl.utils.MathUtils;
 import com.smart.tkl.utils.PrimeFactor;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -34,6 +33,7 @@ public class InverseSquares {
         long count = 0;
 
         List<Integer> filtered = filterList();
+       // filtered.removeAll(List.of(26, 49, 50, 78));
 
         long lcm = MathUtils.LCM(filtered);
         long lcmSquared = lcm * lcm;
@@ -66,8 +66,11 @@ public class InverseSquares {
 
         maxSize = (long) Math.pow(2, sublist1.size());
         for(long mask = 1; mask < maxSize; mask++) {
-            List<Integer> subset = getSubset(sublist1, mask);
-            long numeratorSum = getNumeratorSum(subset, lcmSquared);
+            long numeratorSum = getSubsetSum(sublist1, mask, lcmSquared, halfLcmSquared);
+            if(numeratorSum > halfLcmSquared) {
+             //  System.out.println("Subset exceeded: " + numeratorSum);
+               continue;
+            }
             long sumToCheck = halfLcmSquared - numeratorSum;
             if(numeratorSums.containsKey(sumToCheck)) {
                long sumCount = numeratorSums.get(sumToCheck);
@@ -100,6 +103,23 @@ public class InverseSquares {
             i++;
         }
         return result;
+    }
+
+    private long getSubsetSum(List<Integer> list, long bitMask, long lcm, long halfLcmSquared) {
+        long numerator = 0;
+        int i = 0;
+        while (bitMask != 0) {
+            if((bitMask & 1) == 1) {
+                long value = list.get(i);
+                numerator += lcm / value;
+                if(numerator > halfLcmSquared) {
+                   return numerator;
+                }
+            }
+            bitMask >>= 1;
+            i++;
+        }
+        return numerator;
     }
 
     private List<Integer> filterList() {
@@ -161,5 +181,14 @@ public class InverseSquares {
             }
         }
         return excluded;
+    }
+
+    private static long getNextMask(long mask) {
+        long newMask = 1;
+        while (mask != 0) {
+            mask >>= 1;
+            newMask <<= 1;
+        }
+        return newMask;
     }
 }
