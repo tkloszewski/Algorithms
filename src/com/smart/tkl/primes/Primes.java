@@ -25,10 +25,6 @@ public class Primes {
            return n == 2;
         }
 
-        if(n % 3 == 0 || n % 5 == 0 || n % 7 == 0 || n % 11 == 0 || n % 13 == 0 || n % 17 == 0) {
-            return false;
-        }
-
         if(n < 1000) {
            return MathUtils.isPrime(n);
         }

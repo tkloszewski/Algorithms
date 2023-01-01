@@ -1,8 +1,8 @@
 package com.smart.tkl.euler.p152;
 
 import com.smart.tkl.combinatorics.CombinatoricsUtils;
+import com.smart.tkl.primes.Primes;
 import com.smart.tkl.utils.MathUtils;
-import com.smart.tkl.utils.PrimeFactor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -11,6 +11,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class InverseSquares {
@@ -33,8 +34,7 @@ public class InverseSquares {
     public long countWaysForInverseSquareSums() {
         long count = 0;
 
-        List<Integer> filtered = filterList();
-
+        List<Integer> filtered = getFilteredValues();
 
         long lcm = MathUtils.LCM(filtered);
         long lcmSquared = lcm * lcm;
@@ -123,106 +123,56 @@ public class InverseSquares {
         return numerator;
     }
 
-    private List<Integer> filterList() {
+    private List<Integer> getFilteredValues() {
         List<Integer> result = new ArrayList<>();
-        List<ExcludedPrime> excludedPrimeFactors = getExcludedPrimeFactorsGreaterThan3();
 
-        List<Integer> multiplesExcluded = excludedPrimeFactors.stream()
-                .filter(e -> !e.allMultiplesExcluded)
-                .flatMap(e -> e.excludedMultiples.stream().map(i -> i * e.prime))
-                .collect(Collectors.toList());
+        Set<Integer> excluded = new TreeSet<>();
+        for(int n = this.limit; n >= 4; n--) {
+            if(Primes.isPrime(n)) {
+                int maxMultiplier = this.limit / n;
+                if(maxMultiplier == 1) {
+                   excluded.add(n);
+                }
+                else {
+                    Set<Integer> multiples = new LinkedHashSet<>();
+                    Set<Integer> relevantMultiples = new HashSet<>();
+                    for(int i = 1; i <= maxMultiplier; i++) {
+                        if(!excluded.contains(i * n)) {
+                            multiples.add(i);
+                            relevantMultiples.add(i);
+                        }
+                    }
+                    int primeSquared = n * n;
+                    for(int combinationSize = 2; combinationSize <= multiples.size(); combinationSize++) {
+                        for(int[] combination : CombinatoricsUtils.combinations(multiples, combinationSize)) {
+                            List<Integer> list = Arrays.stream(combination)
+                                    .boxed()
+                                    .collect(Collectors.toList());
+                            List<Integer> squared = list.stream().map(i -> i * i).collect(Collectors.toList());
 
-        System.out.println("Multiples: excluded: " + multiplesExcluded);
-
-        List<Integer> rawExcluded = excludedPrimeFactors.stream()
-                .filter(e -> e.allMultiplesExcluded)
-                .map(e -> e.prime).collect(Collectors.toList());
-
+                            long lcm = MathUtils.LCM(squared);
+                            int numerator = 0;
+                            for(int value : squared) {
+                                numerator += lcm / value;
+                            }
+                            if(numerator % primeSquared == 0) {
+                                list.forEach(relevantMultiples::remove);
+                            }
+                        }
+                    }
+                    for(int multiple : relevantMultiples) {
+                        excluded.add(n * multiple);
+                    }
+                }
+            }
+        }
 
         for(int i = 2; i <= this.limit; i++) {
-            List<PrimeFactor> primeFactors = MathUtils.listPrimeFactors(i);
-            boolean exclude = false;
-            for(PrimeFactor primeFactor : primeFactors) {
-                if(rawExcluded.contains(primeFactor.getFactor())) {
-                    exclude = true;
-                    break;
-                }
-            }
-            if(!exclude) {
-                result.add(i);
+            if(!excluded.contains(i)) {
+               result.add(i);
             }
         }
-
-        result.removeAll(multiplesExcluded);
 
         return result;
-    }
-
-    private List<ExcludedPrime> getExcludedPrimeFactorsGreaterThan3() {
-        List<ExcludedPrime> excluded = new ArrayList<>();
-        List<Long> primes = MathUtils.generatePrimesUpTo(this.limit);
-        for(long prime : primes) {
-            if(prime > 3 ) {
-                excluded.add(getPrimeExcluded((int)prime));
-            }
-        }
-        return excluded;
-    }
-
-    private ExcludedPrime getPrimeExcluded(int prime) {
-        int maxMultiplier = this.limit / prime;
-        if(maxMultiplier == 1) {
-            return new ExcludedPrime(prime, true, List.of());
-        }
-        Set<Integer> multiples = new LinkedHashSet<>();
-        Set<Integer> relevantMultiples = new HashSet<>();
-        for(int i = 1; i <= maxMultiplier; i++) {
-            multiples.add(i);
-            relevantMultiples.add(i);
-        }
-        int primeSquared = prime * prime;
-        boolean excluded = true;
-
-        for(int combinationSize = 2; combinationSize <= multiples.size(); combinationSize++) {
-            for(int[] combination : CombinatoricsUtils.combinations(multiples, combinationSize)) {
-                List<Integer> list = Arrays.stream(combination)
-                        .boxed()
-                        .collect(Collectors.toList());
-                List<Integer> squared = list.stream().map(i -> i * i).collect(Collectors.toList());
-
-                long lcm = MathUtils.LCM(squared);
-                int numerator = 0;
-                for(int value : squared) {
-                    numerator += lcm / value;
-                }
-                if(numerator % primeSquared == 0) {
-                    excluded = false;
-                    list.forEach(relevantMultiples::remove);
-                    //break;
-                }
-            }
-        }
-        return new ExcludedPrime(prime, excluded, new ArrayList<>(relevantMultiples));
-    }
-
-    private static class ExcludedPrime {
-        Integer prime;
-        boolean allMultiplesExcluded;
-        List<Integer> excludedMultiples;
-
-        public ExcludedPrime(Integer prime, boolean allMultiplesExcluded, List<Integer> excludedMultiples) {
-            this.prime = prime;
-            this.allMultiplesExcluded = allMultiplesExcluded;
-            this.excludedMultiples = excludedMultiples;
-        }
-
-        @Override
-        public String toString() {
-            return "ExcludedPrime{" +
-                    "prime=" + prime +
-                    ", allMultiplesExcluded=" + allMultiplesExcluded +
-                    ", excludedMultiples=" + excludedMultiples +
-                    '}';
-        }
     }
 }
