@@ -17,7 +17,7 @@ public class CombinatoricsUtils {
 
     public static long countCombinations(int n, int k) {
         assert n >= k;
-        long[][] memo = new long[n + 1][k + 1];
+        long[][] memo = new long[n + 1][n + 1];
         return countCombinations(n, k , memo);
     }
 
