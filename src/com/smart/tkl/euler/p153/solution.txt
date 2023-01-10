@@ -1,0 +1,34 @@
+1.5 seconds. First of all I summed real divisors and imaginary divisors separately. For calculating imaginary sums I took all values of a and b where a != b and a and b are coprimes. I had to also include special divisor pair 1+i. Why coprimes? Because we want to add the sums only once for given pair and its multiples.
+The number corresponding to the divisor  is: . To sum all divisors such as a + bi and a - bi and its all multiples.
+For example if our limit is 20 and we want to sum all divisors in the form 1 + i, 1 - i and its multiples we have:
+
+- The sum of this divisor pair is 2. The corresponding "primitive" number to this divisor is 2. Maximum multiple of divisor is 10
+- (1 + i + 1 - i) is divisor of multiples of 2 => so the sum is
+- 2*(1 + i + 1 - i) is divisor of multiples of 4 => the sum is
+- 3*(1 + i + 1 - i) is divisor of multiples of 6 => the sum is
+- 4*(1 + i + 1 - i) is divisor of multiples of 6 => the sum is
+- 5*(1 + i + 1 - i) is divisor of multiples of 6 => the sum is
+- 6*(1 + i + 1 - i) is divisor of multiples of 6 => the sum is
+- 7*(1 + i + 1 - i) is divisor of multiples of 6 => the sum is
+- 8*(1 + i + 1 - i) is divisor of multiples of 6 => the sum is
+- 9*(1 + i + 1 - i) is divisor of multiples of 6 => the sum is
+- 10*(1 + i + 1 - i) is divisor of multiples of 6 => the sum is
+
+If we take out the "base divisor" the sum is:
+divisors_sum = 2 * (1*10 + 2*5 + 3*3 + (4 + 5)*2 + (6 + 7 + 8 + 9 + 10)*1)
+
+  The sum in the parenthesis is the sum of all divisors for numbers 1 to 10.
+  So the general formula for the sum of primitive imaginary divisor and its multiples is the:
+
+  s = s0 * (d(1) + d(2) + d(3) + .... + d(N))
+
+ where:
+
+ d(n) = sum of divisors of n
+ N = limit/(a*a + b*b)
+
+So the key optimization here is to calculate efficiently the sum of divisors in the form of:
+
+This can be done in  as we can calculate the sum with the same multiplier in O(1)
+like in the term: (6 + 7 + 8 + 9 + 10)*1)
+This is done in function sumOfDivisorsUpTo
