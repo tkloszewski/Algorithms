@@ -40,7 +40,9 @@ public class GaussianInteger {
     private long generateSumFromCoPrimes(int a0, int b0, int limit, int sqrtLimit) {
         long sum = 0;
         Stack<CoPrime> stack = new Stack<>();
-        stack.push(new CoPrime(a0, b0));
+        if (isValidPair(a0, b0, limit, sqrtLimit)) {
+            stack.push(new CoPrime(a0, b0));
+        }
 
         while (!stack.isEmpty()) {
             CoPrime pair = stack.pop();
@@ -49,7 +51,7 @@ public class GaussianInteger {
 
             int d = a * a + b * b;
             long divisorSum = 2L * (a + b);
-            long multipliersSum = sumOfMultipliers(d, this.limit);
+            long multipliersSum = sumOfMultipliers(d, limit);
             sum += divisorSum * multipliersSum;
 
             if(isValidPair(2 * a - b, a, limit, sqrtLimit)) {
