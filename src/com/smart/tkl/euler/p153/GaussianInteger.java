@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p153;
 
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.Stack;
 
 public class GaussianInteger {
 
@@ -12,30 +12,62 @@ public class GaussianInteger {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        ComplexNumber sum = new GaussianInteger(100000000).calculateSum();
+        int limit = 100000000;
+        GaussianInteger gaussianInteger = new GaussianInteger(limit);
+        ComplexNumber sum = gaussianInteger.calculateSum();
         long time2 = System.currentTimeMillis();
         System.out.println("Sum= " + sum);
         System.out.println("Time in ms: " + (time2 - time1));
     }
 
     public ComplexNumber calculateSum() {
-        long imaginarySum = 0L;
-        for(int a = 1; a < Math.sqrt(this.limit); a++) {
-            for(int b = a + 1; b * b + a * a <= this.limit; b++) {
-                if (MathUtils.GCD(a, b) == 1) {
-                    int d = b * b +  a * a;
-                    long divisorSum = 2L * (a + b);
-                    long multipliersSum = sumOfMultipliers(d, this.limit);
-                    imaginarySum += divisorSum * multipliersSum;
-                }
+        long imaginaryDivisorsSum = calculateImaginarySum();
+        long realDivisorsSum = sumOfDivisorsUpTo(this.limit);
+        return new ComplexNumber(realDivisorsSum, imaginaryDivisorsSum);
+    }
+
+    private long calculateImaginarySum() {
+        if (this.limit >= 2) {
+            int sqrtLimit = (int)Math.sqrt(this.limit);
+            long imaginarySum = 2 * sumOfMultipliers(2, this.limit);
+            imaginarySum += generateSumFromCoPrimes(2, 1, this.limit, sqrtLimit);
+            imaginarySum += generateSumFromCoPrimes(3, 1, this.limit, sqrtLimit);
+            return imaginarySum;
+        }
+        return 0;
+    }
+
+    private long generateSumFromCoPrimes(int a0, int b0, int limit, int sqrtLimit) {
+        long sum = 0;
+        Stack<CoPrime> stack = new Stack<>();
+        stack.push(new CoPrime(a0, b0));
+
+        while (!stack.isEmpty()) {
+            CoPrime pair = stack.pop();
+            int a = pair.a;
+            int b = pair.b;
+
+            int d = a * a + b * b;
+            long divisorSum = 2L * (a + b);
+            long multipliersSum = sumOfMultipliers(d, this.limit);
+            sum += divisorSum * multipliersSum;
+
+            if(isValidPair(2 * a - b, a, limit, sqrtLimit)) {
+               stack.push(new CoPrime(2 * a - b, a));
+            }
+            if(isValidPair(2 * a + b, a, limit, sqrtLimit)) {
+                stack.push(new CoPrime(2 * a + b, a));
+            }
+            if(isValidPair(a + 2 * b, b, limit, sqrtLimit)) {
+                stack.push(new CoPrime(a + 2 * b, b));
             }
         }
-        if(this.limit >= 2) {
-           imaginarySum += 2 * sumOfMultipliers(2, this.limit);
-        }
-        long realDivisorsSum = sumOfDivisorsUpTo(this.limit);
 
-        return new ComplexNumber(realDivisorsSum, imaginarySum);
+        return sum;
+    }
+
+    private boolean isValidPair(int a, int b, int limit, int sqrtLimit) {
+        return a <= sqrtLimit && a * a + b * b <= limit;
     }
 
     private static long sumOfMultipliers(int d, int limit) {
@@ -86,4 +118,13 @@ public class GaussianInteger {
         }
     }
 
+    private static class CoPrime {
+        final int a;
+        final int b;
+
+        public CoPrime(int a, int b) {
+            this.a = a;
+            this.b = b;
+        }
+    }
 }
