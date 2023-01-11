@@ -1,5 +1,6 @@
 package com.smart.tkl.euler.p60;
 
+import com.smart.tkl.primes.Primes;
 import com.smart.tkl.tree.Node;
 import com.smart.tkl.utils.MathUtils;
 import java.util.ArrayList;
@@ -162,7 +163,7 @@ public class PrimePairSets {
 
         boolean isFirstConcatPrime = primes.contains(c1);
         if(!isFirstConcatPrime) {
-            isFirstConcatPrime = MathUtils.isPrime(c1);
+            isFirstConcatPrime = Primes.isPrime(c1);
             if(isFirstConcatPrime) {
                 primes.add(c1);
             }
@@ -172,7 +173,7 @@ public class PrimePairSets {
         if (isFirstConcatPrime) {
             isSecondConcatPrime = primes.contains(c2);
             if(!isSecondConcatPrime) {
-                isSecondConcatPrime = MathUtils.isPrime(c2);
+                isSecondConcatPrime = Primes.isPrime(c2);
                 if(isSecondConcatPrime) {
                     primes.add(c2);
                 }
