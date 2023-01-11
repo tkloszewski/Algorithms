@@ -51,4 +51,11 @@ public class Node<V extends Comparable<V>> {
     public void setChildren(List<Node<V>> children) {
         this.children = children;
     }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "item=" + item +
+                '}';
+    }
 }

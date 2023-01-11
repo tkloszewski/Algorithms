@@ -28,6 +28,7 @@ public class PrimePairSets {
         long minSum = primePairSets.generateMinSum();
         long time2 = System.currentTimeMillis();
         System.out.println("Min sum: " + minSum);
+        System.out.println("Min path: " + primePairSets.getMinPath());
         System.out.println("Time in ms: " + (time2 - time1));
     }
 
