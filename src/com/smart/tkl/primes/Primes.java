@@ -21,8 +21,17 @@ public class Primes {
     }
 
     public static boolean isPrime(long n) {
+        if(n <= 1) {
+            return false;
+        }
         if(n % 2 == 0) {
-           return n == 2;
+            return n == 2;
+        }
+        if(n < 9) {
+            return true;
+        }
+        if(n % 3 == 0) {
+            return false;
         }
 
         if(n < 1000) {

@@ -2,8 +2,12 @@ package com.smart.tkl.euler.p60;
 
 import com.smart.tkl.tree.Node;
 import com.smart.tkl.utils.MathUtils;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class PrimePairSets {
 
@@ -19,9 +23,12 @@ public class PrimePairSets {
     private Long minSum = Long.MAX_VALUE;
 
     public static void main(String[] args) {
+        long time1 = System.currentTimeMillis();
         PrimePairSets primePairSets = new PrimePairSets(30000, 5);
         long minSum = primePairSets.generateMinSum();
+        long time2 = System.currentTimeMillis();
         System.out.println("Min sum: " + minSum);
+        System.out.println("Time in ms: " + (time2 - time1));
     }
 
     public PrimePairSets(int limit, int setSize) {
@@ -57,37 +64,6 @@ public class PrimePairSets {
             }
         }
         return this.minSum;
-    }
-
-    public void printMinPath() {
-        if(this.minPath != null) {
-            System.out.println(pathToString(this.minPath));
-        }
-    }
-
-    public void printAllPaths() {
-        MinPathValueTreeTraversal treeTraversal = new MinPathValueTreeTraversal(this.setSize);
-        for(Long prime : primePairsTree.keySet()) {
-            List<Node<Long>> path = treeTraversal.visitAll(primePairsTree.get(prime));
-            if(path != null) {
-               System.out.println("Path for prime: " + prime + ":" + pathToString(path));
-            }
-        }
-    }
-
-    public void printPrimeTree() {
-        for(Long prime : primePairsTree.keySet()) {
-            System.out.println("Tree for " + prime);
-            printTree(primePairsTree.get(prime));
-        }
-    }
-
-    public void printPrimeTree(Long prime) {
-        Node<Long> tree = primePairsTree.get(prime);
-        if(tree != null) {
-            System.out.println("Tree for " + prime);
-            printTree(tree);
-        }
     }
 
     private Node<Long> buildPrimeTree(Long prime, List<Long> parentRelationPrimes, Node<Long> parent, long currentSum, int level) {
@@ -176,6 +152,13 @@ public class PrimePairSets {
         long c1 = concat(p1, p2);
         long c2 = concat(p2, p1);
 
+        //check smaller number
+        if(c1 > c2) {
+           long temp = c1;
+           c1 = c2;
+           c2 = temp;
+        }
+
         boolean isFirstConcatPrime = primes.contains(c1);
         if(!isFirstConcatPrime) {
             isFirstConcatPrime = MathUtils.isPrime(c1);
@@ -184,11 +167,14 @@ public class PrimePairSets {
             }
         }
 
-        boolean isSecondConcatPrime = primes.contains(c2);
-        if(!isSecondConcatPrime) {
-            isSecondConcatPrime = MathUtils.isPrime(c2);
-            if(isSecondConcatPrime) {
-                primes.add(c2);
+        boolean isSecondConcatPrime = false;
+        if (isFirstConcatPrime) {
+            isSecondConcatPrime = primes.contains(c2);
+            if(!isSecondConcatPrime) {
+                isSecondConcatPrime = MathUtils.isPrime(c2);
+                if(isSecondConcatPrime) {
+                    primes.add(c2);
+                }
             }
         }
 
