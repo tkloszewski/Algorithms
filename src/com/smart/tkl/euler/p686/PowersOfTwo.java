@@ -14,8 +14,10 @@ public class PowersOfTwo {
         long occurrence = 0;
 
         double log2 = Math.log10(2);
-        double lowerBound = 0.0899051114393;
-        double upperBound = 0.0934216851622;
+        /*0.0899051114393979318044397532233*/
+        double lowerBound = 0.089905111;
+        /*0.0934216851622350700941818895674*/
+        double upperBound = 0.093421685;
 
         while (true) {
             double value = (double) pow * log2;
