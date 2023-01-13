@@ -5,9 +5,6 @@ public class PowersOfTwo {
     public static void main(String[] args) {
         long pow = getPower(45);
         System.out.println("Power: " + pow);
-
-        /*193092067*/
-
         pow = getPower(678910);
         System.out.println("Power: " + pow);
     }
