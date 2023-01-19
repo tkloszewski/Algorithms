@@ -2,6 +2,7 @@ package com.smart.tkl.euler.p155;
 
 import com.smart.tkl.utils.Fraction;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -44,30 +45,48 @@ public class CapacitorCircuitCounter {
             int setSize2 = capacitors - setSize1;
             List<Fraction> list1 = capacitanceMap.get(setSize1);
             List<Fraction> list2 = capacitanceMap.get(setSize2);
-            for (Fraction capacitance1 : list1) {
-                for (Fraction capacitance2 : list2) {
+            for (int i = 0; i <= (list1.size() - 1) / 2; i++) {
+                Fraction capacitance1 = list1.get(i);
+                for (int j = 0; j <= (list2.size() - 1) / 2; j++) {
+                    Fraction capacitance2 = list2.get(j);
+                    Fraction invertedCapacitance2 = capacitance2.toInverted();
+
                     Fraction seriesCapacitance = seriesConnection(capacitance1, capacitance2);
-                    if(allCapacitanceSet.add(seriesCapacitance)) {
-                       capacitanceSet.add(seriesCapacitance);
-                    }
                     Fraction parallelCapacitance = parallelConnection(capacitance1, capacitance2);
-                    if(allCapacitanceSet.add(parallelCapacitance)) {
-                       capacitanceSet.add(parallelCapacitance);
-                    }
+                    Fraction invertedSeries = seriesConnection(capacitance1, invertedCapacitance2);
+                    Fraction invertedParallel = parallelConnection(capacitance1, invertedCapacitance2);
+
+                    addCapacitanceAndInverted(seriesCapacitance, capacitanceSet);
+                    addCapacitanceAndInverted(parallelCapacitance, capacitanceSet);
+                    addCapacitanceAndInverted(invertedSeries, capacitanceSet);
+                    addCapacitanceAndInverted(invertedParallel, capacitanceSet);
                 }
             }
         }
 
-        capacitanceMap.put(capacitors, new ArrayList<>(capacitanceSet));
+        List<Fraction> list = new ArrayList<>(capacitanceSet);
+        Collections.sort(list);
+
+        capacitanceMap.put(capacitors, list);
 
         return capacitanceSet.size();
     }
 
-    private static Fraction seriesConnection(Fraction capacity1, Fraction capacity2) {
-        return Fraction.geometricAvg(capacity1, capacity2);
+    private void addCapacitanceAndInverted(Fraction capacitance, Set<Fraction> capacitanceSet) {
+        if(allCapacitanceSet.add(capacitance)) {
+            capacitanceSet.add(capacitance);
+        }
+        Fraction inverted = capacitance.toInverted();
+        if(allCapacitanceSet.add(inverted)) {
+            capacitanceSet.add(inverted);
+        }
     }
 
-    private static Fraction parallelConnection(Fraction capacity1, Fraction capacity2) {
-        return Fraction.sum(capacity1, capacity2);
+    private Fraction seriesConnection(Fraction a, Fraction b) {
+        return Fraction.geometricAvg(a, b);
+    }
+
+    private Fraction parallelConnection(Fraction a, Fraction b) {
+        return Fraction.sum(a, b);
     }
 }

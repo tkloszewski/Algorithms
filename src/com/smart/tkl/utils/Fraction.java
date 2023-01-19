@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.Objects;
 
-public class Fraction {
+public class Fraction implements Comparable<Fraction> {
     private final long p;
     private final long q;
 
@@ -18,6 +18,19 @@ public class Fraction {
         long gcd = reducedFraction ? 1 : MathUtils.GCD(p, q);
         this.p = p/gcd;
         this.q = q/gcd;
+    }
+
+    public Fraction toInverted() {
+        return new Fraction(this.q, this.p, true);
+    }
+
+    public double toDouble() {
+        return (double) this.p / this.q;
+    }
+
+    @Override
+    public int compareTo(Fraction o) {
+        return Double.compare(this.toDouble(), o.toDouble());
     }
 
     public static Fraction sum(Fraction a, Fraction b) {
