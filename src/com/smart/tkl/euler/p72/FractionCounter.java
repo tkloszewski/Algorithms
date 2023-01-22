@@ -3,6 +3,7 @@ package com.smart.tkl.euler.p72;
 import com.smart.tkl.utils.MathUtils;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 public class FractionCounter {
 
@@ -13,16 +14,20 @@ public class FractionCounter {
     }
 
     public static void main(String[] args) {
+        long time1 = System.currentTimeMillis();
         FractionCounter counter = new FractionCounter(1000000);
-        System.out.println(counter.count());
+        BigInteger count = counter.count();
+        long time2 = System.currentTimeMillis();
+        System.out.println(count);
+        System.out.println("Time in ms: " + (time2 - time1));
     }
 
-    public BigDecimal count() {
-        BigDecimal result = BigDecimal.ZERO;
+    public BigInteger count() {
+        BigInteger result = BigInteger.ZERO;
         long[] totients = MathUtils.generateTotientsUpTo(maxDenominator);
         for(int i = 2; i < totients.length; i++) {
             long totient = totients[i];
-            result = result.add(BigDecimal.valueOf(totient));
+            result = result.add(BigInteger.valueOf(totient));
         }
         return result;
     }

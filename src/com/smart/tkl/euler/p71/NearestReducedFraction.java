@@ -13,7 +13,7 @@ public class NearestReducedFraction {
     }
 
     public static void main(String[] args) {
-        NearestReducedFraction orderedFraction = new NearestReducedFraction(10000, new Fraction(1, 3));
+        NearestReducedFraction orderedFraction = new NearestReducedFraction(1000000, new Fraction(3, 7));
         Fraction closestLeftFraction = orderedFraction.findNearestLeft();
         Fraction closestRightFraction = orderedFraction.findNearestRight();
         System.out.println("Closest left fraction: " + closestLeftFraction);
