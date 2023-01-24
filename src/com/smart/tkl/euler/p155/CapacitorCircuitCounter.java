@@ -27,14 +27,8 @@ public class CapacitorCircuitCounter {
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
         CapacitorCircuitCounter capacitorCircuitCounter = new CapacitorCircuitCounter(18);
-        int count = capacitorCircuitCounter.count();
+        long count = capacitorCircuitCounter.fastCount();
         long time2 = System.currentTimeMillis();
-        System.out.println("Count: " + count);
-        System.out.println("Time in ms: " + (time2 - time1));
-
-        time1 = System.currentTimeMillis();
-        count = capacitorCircuitCounter.fastCount();
-        time2 = System.currentTimeMillis();
         System.out.println("Fast count: " + count);
         System.out.println("Time in ms: " + (time2 - time1));
 
