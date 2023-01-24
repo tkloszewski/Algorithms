@@ -1,5 +1,6 @@
 package com.smart.tkl.euler.p155;
 
+import com.smart.tkl.FibonacciGenerator;
 import com.smart.tkl.utils.Fraction;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,6 +10,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class CapacitorCircuitCounter {
 
@@ -29,6 +31,13 @@ public class CapacitorCircuitCounter {
         long time2 = System.currentTimeMillis();
         System.out.println("Count: " + count);
         System.out.println("Time in ms: " + (time2 - time1));
+
+        time1 = System.currentTimeMillis();
+        count = capacitorCircuitCounter.fastCount();
+        time2 = System.currentTimeMillis();
+        System.out.println("Fast count: " + count);
+        System.out.println("Time in ms: " + (time2 - time1));
+
     }
 
     public int count() {
@@ -37,6 +46,77 @@ public class CapacitorCircuitCounter {
             result += countForCapacitors(capacitors);
         }
         return result;
+    }
+
+    public int fastCount() {
+        int result = 1;
+
+        int maxSize = FibonacciGenerator.fibb(maxCapacitors);
+        int[][] capacitanceTab = new int[maxSize + 1][maxSize + 1];
+        capacitanceTab[1][1] = 1;
+
+        Map<Integer, Set<Fraction>> capacitanceMap = new HashMap<>();
+        capacitanceMap.put(1, Set.of(new Fraction(1, 1)));
+
+        for(int capacitors = 2; capacitors <= maxCapacitors; capacitors++) {
+            Set<Fraction> capacitanceSet = new TreeSet<>();
+            for(int setSize1 = 1; setSize1 <= capacitors/2; setSize1++) {
+                int setSize2 = capacitors - setSize1;
+                Set<Fraction> set1 = capacitanceMap.get(setSize1);
+                Set<Fraction> set2 = capacitanceMap.get(setSize2);
+                for(Fraction capacitance1 : set1) {
+                    Fraction invertedCapacitance1 = capacitance1.toInverted();
+                    for(Fraction capacitance2 : set2) {
+                        Fraction invertedCapacitance2 = capacitance2.toInverted();
+
+                        Fraction parallelCapacitance = parallelConnection(capacitance1, capacitance2);
+                        Fraction seriesCapacitance = seriesConnection(capacitance1, capacitance2);
+                        Fraction invertedSeries1 = seriesConnection(invertedCapacitance1, capacitance2);
+                        Fraction invertedSeries2 = seriesConnection(capacitance1, invertedCapacitance2);
+
+                        if(parallelCapacitance.toDouble() < 1.0) {
+                           if(addCapacitance(capacitanceTab, parallelCapacitance)) {
+                              capacitanceSet.add(parallelCapacitance);
+                           }
+                        }
+                        else {
+                            Fraction invertedParallel = parallelCapacitance.toInverted();
+                            if(addCapacitance(capacitanceTab, invertedParallel)) {
+                               capacitanceSet.add(invertedParallel);
+                            }
+                        }
+                        if(addCapacitance(capacitanceTab, seriesCapacitance)) {
+                            capacitanceSet.add(seriesCapacitance);
+                        }
+                        if(addCapacitance(capacitanceTab, invertedSeries1)) {
+                            capacitanceSet.add(invertedSeries1);
+                        }
+                        if(addCapacitance(capacitanceTab, invertedSeries2)) {
+                            capacitanceSet.add(invertedSeries2);
+                        }
+                    }
+                }
+            }
+            result += 2 * capacitanceSet.size();
+            capacitanceMap.put(capacitors, capacitanceSet);
+        }
+
+        return result;
+    }
+
+    private boolean addCapacitance(int[][] capacitanceTab, Fraction capacitance) {
+        int m = (int)capacitance.getNumerator();
+        int n = (int)capacitance.getDenominator();
+        boolean contains = capacitanceTab[m][n] != 0;
+        if(!contains) {
+           capacitanceTab[m][n] = 1;
+           capacitanceTab[n][m] = 1;
+        }
+        return !contains;
+    }
+
+    private void setCapacitance(int[][] capacitanceTab, Fraction capacitance) {
+        capacitanceTab[(int)capacitance.getNumerator()][(int)capacitance.getDenominator()] = 1;
     }
 
     private int countForCapacitors(int capacitors) {
@@ -68,7 +148,6 @@ public class CapacitorCircuitCounter {
         Collections.sort(list);
 
         capacitanceMap.put(capacitors, list);
-
         return capacitanceSet.size();
     }
 

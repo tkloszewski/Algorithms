@@ -28,6 +28,10 @@ public class Fraction implements Comparable<Fraction> {
         return (double) this.p / this.q;
     }
 
+    public boolean isOne() {
+        return p == q;
+    }
+
     @Override
     public int compareTo(Fraction o) {
         return Double.compare(this.toDouble(), o.toDouble());
