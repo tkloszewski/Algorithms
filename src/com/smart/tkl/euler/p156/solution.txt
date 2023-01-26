@@ -1,0 +1,20 @@
+Execution time is [b]6 ms[/b].  Firstly I derived the algorithm for function f. It's complexity is log10n.
+I will explain it using an example. Most important insight is that for any digit and $n = 10^k - 1$
+the function $f(10^k - 1, digit) = k * 10^{k-1}$. The number of such digits must be multiplied by the
+current digit of the number we calculate the value of f. If current digit equals searched digit we must
+add the number made of digits right to it plus 1. If current digit is greater than searched digit we must
+add the pow of $10^k$ where k is position of current digit starting from right.
+
+Let's calculate the value of f(2123, 1). Taking digits from left to right we have:
+
+$value1 = $[b]2[/b]$ * 3 * 10 ^ {3-1} + 1000 = 1600$ => for digit 2
+$value2 = $[b]1[/b]$ * 2 * 10 ^ {2-1} + 23 + 1 = 44$ => for digit 1
+$value3 = $[b]2[/b]$ * 1 * 10 ^ {1-1} + 10 = 12 $ => for digit 2
+$value4 = $[b]3[/b]$ * 0 * 0 + 1 = 1 $ => for digit 3
+
+The final value equals: $value = 1600 + 44 + 12 + 1 = 1657$
+
+Having written efficient function we must find the numbers n where f(n,digit) = n. Because f is monotonically
+increasing and f(n) = n is strictly increasing there is no value in range(left, right) if
+f(left, digit) > right or f(right, digit) < left. Having this we can use recursive binary search.
+To make recursion not too deep I stop when the range in less than 10 numbers. I took the upper limit of $10^{12}$
