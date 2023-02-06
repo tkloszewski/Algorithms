@@ -17,7 +17,7 @@ public class StringExplorer {
     public long getMaximumValue() {
         long max = 0;
         for(int n = 2; n <= 26; n++) {
-            long numOfStrings = countStrings(n);
+            long numOfStrings = countStrings2(n);
             max = Math.max(max, numOfStrings);
         }
         return max;
@@ -34,5 +34,23 @@ public class StringExplorer {
         }
 
         return combinationCount * permutationCount;
+    }
+
+    private long countStrings2(int n) {
+        long combinationCount = CombinatoricsUtils.countCombinations(26, n, this.memo);
+        long permutationCount = pow2(n) - 1 - n;
+        return combinationCount * permutationCount;
+    }
+
+    private static long pow2(int n) {
+        long result = 1, pow = 2;
+        while (n > 0) {
+            if((n & 1) == 1) {
+               result *= pow;
+            }
+            pow = pow * pow;
+            n = n / 2;
+        }
+        return result;
     }
 }
