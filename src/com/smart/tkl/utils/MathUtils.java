@@ -519,7 +519,7 @@ public class MathUtils {
             if(!result[i]) {
                 continue;
             }
-            for(int p = 2 * i; p <= n; p = p + i) {
+            for(int p = i * i; p <= n; p = p + i) {
                 result[p] = false;
             }
         }
