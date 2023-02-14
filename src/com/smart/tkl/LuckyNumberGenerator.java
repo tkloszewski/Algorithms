@@ -59,11 +59,6 @@ public class LuckyNumberGenerator {
             this.value = value;
         }
 
-        public LuckyNode(int value, LuckyNode next) {
-            this.value = value;
-            this.next = next;
-        }
-
         @Override
         public String toString() {
             return "LuckyNode{" +
