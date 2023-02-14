@@ -11,6 +11,10 @@ public class LuckyNumberGenerator {
         this.limit = limit;
     }
 
+    public static void main(String[] args) {
+        System.out.println(new LuckyNumberGenerator(1000).generate());
+    }
+
     public List<Integer> generate() {
        List<Integer> result = new LinkedList<>();
        LuckyNode first = new LuckyNode(1);
