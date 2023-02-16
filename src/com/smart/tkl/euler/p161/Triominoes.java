@@ -17,6 +17,11 @@ public class Triominoes {
     private final List<Triomino> allTriominoes = List.of(new UpperLeftTriomino(), new UpperRightTriomino(), new BottomLeftTriomino(),
             new BottomRightTriomino(), new HorizontalTriomino(), new VerticalTriomino());
 
+    private final List<Triomino> allButHorizontalTriominoes = List.of(new UpperLeftTriomino(), new UpperRightTriomino(), new BottomLeftTriomino(),
+            new BottomRightTriomino(), new VerticalTriomino());
+
+    private final List<Triomino> smallestSetOfTriominoes = List.of(new UpperRightTriomino(), new VerticalTriomino());
+
     public Triominoes(int width, int height) {
         this.width = width;
         this.height = height;
@@ -55,8 +60,6 @@ public class Triominoes {
             return 1;
         }
 
-
-
         int row1 = this.gridBitmask.getRowBitmask(y);
         int row2 = y + 1 < height ? this.gridBitmask.getRowBitmask(y + 1) : -1;
         int row3 = y + 2 < height ? this.gridBitmask.getRowBitmask(y + 2) : -1;
@@ -71,7 +74,7 @@ public class Triominoes {
             x++;
         }
 
-        for(Triomino triomino : allTriominoes) {
+        for(Triomino triomino : getTriominoes(x)) {
             if(triomino.canBePut(x, y, gridBitmask)) {
                 triomino.put(x, y, gridBitmask);
                 if(gridBitmask.isFullRow(y)) {
@@ -124,6 +127,20 @@ public class Triominoes {
             return;
         }
         map2.put(row3, value);
+    }
+
+    private List<Triomino> getTriominoes(int x) {
+        int remainingSpace = this.width - x;
+        if(remainingSpace >= 3) {
+           return allTriominoes;
+        }
+        if(remainingSpace == 2) {
+           return allButHorizontalTriominoes;
+        }
+        if(remainingSpace == 1) {
+           return smallestSetOfTriominoes;
+        }
+        return List.of();
     }
 
     private interface Triomino {
