@@ -23,6 +23,11 @@ public class Triominoes {
     private final List<Triomino> smallestSetOfTriominoes = List.of(new UpperRightTriomino(), new VerticalTriomino());
 
     public Triominoes(int width, int height) {
+        if(width > height) {
+           int temp = width;
+           width = height;
+           height = temp;
+        }
         this.width = width;
         this.height = height;
         this.gridBitmask = new GridBitmask(width, height);
