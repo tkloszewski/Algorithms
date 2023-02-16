@@ -55,9 +55,7 @@ public class Triominoes {
             return 1;
         }
 
-        while (gridBitmask.isMarkedAt(x, y)) {
-            x++;
-        }
+
 
         int row1 = this.gridBitmask.getRowBitmask(y);
         int row2 = y + 1 < height ? this.gridBitmask.getRowBitmask(y + 1) : -1;
@@ -67,6 +65,10 @@ public class Triominoes {
         if(cachedValue != null) {
             cacheHits++;
             return cachedValue;
+        }
+
+        while (gridBitmask.isMarkedAt(x, y)) {
+            x++;
         }
 
         for(Triomino triomino : allTriominoes) {
