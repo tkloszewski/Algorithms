@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p102;
 
-public class TriangleContainment {
+class TriangleContainment {
 
     private final Triangle2D triangle;
 

@@ -1,15 +1,12 @@
 package com.smart.tkl.euler.p102;
 
-import com.smart.tkl.euler.p89.RomanNumberConverter;
-import com.smart.tkl.euler.p94.Triangle;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TriangleReader {
+class TriangleReader {
 
     private final String filePath;
 

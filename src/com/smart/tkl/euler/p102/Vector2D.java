@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p102;
 
-public class Vector2D {
+class Vector2D {
 
     final Point2D p1, p2;
     final int x, y;

@@ -1,0 +1,42 @@
+My algorithm takes around 50 ms to find the solution. I use the analytical geometry.
+Let's consider triangle ABC. Each inner triangle can be built by intersecting 3 lines from 6 non-parallel sets. The sets are marked as A,B,C,D,E and F and have following properties:
+
+set A: A[1..n] - all lines parallel to the base of triangles that is side AB
+set B: B[1..n] = all lines parallel to the side BC
+set C: C[1..n] = all lines parallel to the side AC
+
+#A = #B = #C = n
+
+set D: D[1.. 2n-1] = all lines parallel to the height perpendicular to the side AB
+set E: E[1.. 2n-1] = all lines parallel to the height perpendicular to the side BC
+set F: F[1.. 2n-1] = all lines parallel to the height perpendicular to the side AC
+
+#D = #E = #F = 2n-1
+
+We have to pick up 3 sets from the 6 sets A,B,C,D,E,F which gives
+ combinations. Due to symmetry we can reduce number of combinations to 6. So we have following combinations:
+
+ABC -> Intersections produce equilateral triangles.
+DEF -> Intersections produce equilateral triangles.
+ABF -> Intersections produce obtuse triangles with degrees 120, 30, 30. Due to symmetry
+#ABF = #BCD = #ACE
+
+ADF -> Intersections produce obtuse triangles with degrees 120, 30, 30. Due to symmetry
+#AEF = #BDF = #CDE
+
+ABE -> Intersections produce right triangles with degrees 90, 60, 30. Due to symmetry
+#ABD = #ACD = #ABE = #BCE = #BCF = #ACF
+
+ADE -> Intersections produce right triangles with degrees 90, 60, 30. Due to symmetry
+#ADE = #ADF = #BED = #BEF = #CFD = #CFE
+
+Total number of combinations: #ABC + #DEF + 3 * #ABF + 3 * #ADF + 6 * #ABE + 6 * #ADE
+
+Given 3 lines we must check if their 3 intersections are inside our triangle and doesn't meet at the same point. Each line is represented as linear function f(x) = ax+b except the vertical lines which are simply described as x = k * 0.5. Because we deal with doubles we must allow some room for small error in calculations which are not fully exact. That's why I introduced the variable EPS representing very small error. At the beginning I calculate all lines coefficients a and b. The main triangle ABC starts at (0,0). The point P(x, y) is inside triangle if:
+
+1. y >= -EPS(we have to take into account that calculations are not strictly accurate because they operate on irrational numbers).
+
+2. y <= f1(x) + EPS
+3. y <= f2(x) + EPS
+
+f1 and f2 are the linear functions ax+b containing the side BC and AC respectively.
