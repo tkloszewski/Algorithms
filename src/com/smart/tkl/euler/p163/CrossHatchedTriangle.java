@@ -7,8 +7,6 @@ public class CrossHatchedTriangle {
     private static final double TAN_60 = Math.sqrt(3);
     private static final double BASE_HEIGHT = Math.sqrt(3) / 2;
 
-    private final int n;
-
     private final RegularLine baseLine2;
     private final RegularLine baseLine3;
 
@@ -29,7 +27,6 @@ public class CrossHatchedTriangle {
     }
 
     public CrossHatchedTriangle(int n) {
-        this.n = n;
         this.baseLine2 = new RegularLine(-TAN_60, TAN_60 * n);
         this.baseLine3 = new RegularLine(TAN_60, 0);
         this.set1 = createHorizontalLines(n, BASE_HEIGHT);
@@ -145,7 +142,7 @@ public class CrossHatchedTriangle {
         public Point2D intersection(Line line) {
             if(line instanceof VerticalLine) {
                 double x = ((VerticalLine)line).x;
-                return new Point2D(x, a * x + b);
+                return new Point2D(x, valueOf(x));
             }
             RegularLine regularLine = (RegularLine)line;
             return intersection(regularLine.a, regularLine.b);
