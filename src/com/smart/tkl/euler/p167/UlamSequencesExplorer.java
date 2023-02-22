@@ -51,9 +51,6 @@ public class UlamSequencesExplorer {
                             break;
                         }
                     }
-                    if(i == sequence.length - 1) {
-                       break;
-                    }
                     x = sequence[++i];
                     y = testSum - x;
                 }
