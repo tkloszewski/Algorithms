@@ -17,7 +17,7 @@ public class CrissCross {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        CrissCross crissCross = new CrissCross(9);
+        CrissCross crissCross = new CrissCross();
         int count = crissCross.count();
         long time2 = System.currentTimeMillis();
         System.out.println("Count: " + count);
@@ -55,23 +55,35 @@ public class CrissCross {
                         }
 
                         int p = b + c + d - f - k;
-                        if(isNotValidDigit(p)) {
+                        if(p > this.maxDigit) {
+                           break;
+                        }
+                        if(p < 0) {
                            continue;
                         }
 
                         int o = a + b + d - g - k;
-                        if(isNotValidDigit(o)) {
-                           continue;
+                        if(o > this.maxDigit) {
+                            break;
+                        }
+                        if(o < 0) {
+                            continue;
                         }
 
                         int n = a + c + d - f - j;
-                        if(isNotValidDigit(n)) {
-                           continue;
+                        if(n < 0) {
+                            break;
+                        }
+                        if(n > this.maxDigit) {
+                            continue;
                         }
 
                         int m = a + b + c - g - j;
-                        if(isNotValidDigit(m)) {
-                           continue;
+                        if(m < 0) {
+                            break;
+                        }
+                        if(m > this.maxDigit) {
+                            continue;
                         }
 
                         int l = a - d + f - h + k;
