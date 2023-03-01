@@ -7,6 +7,7 @@ public class StringExplorer {
     private final long[][] memo = new long[27][27];
 
     public static void main(String[] args) {
+        System.out.println((long) Math.pow(16, 12));
         long time1 = System.currentTimeMillis();
         long max = new StringExplorer().getMaximumValue();
         long time2 = System.currentTimeMillis();
