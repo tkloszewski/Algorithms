@@ -56,9 +56,6 @@ public class HexadecimalNumbers {
                long permutations = permutationsCount;
                for(int freq : freqTab) {
                    long denominator = MathUtils.factorial(freq);
-                   if(permutations % denominator != 0) {
-                      System.out.println("Sth wrong happened: " + denominator);
-                   }
                    permutations = permutations / denominator;
                }
                long stringCombinations = numOfCombinations * permutations;
