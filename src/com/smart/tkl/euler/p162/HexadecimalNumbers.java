@@ -20,8 +20,10 @@ public class HexadecimalNumbers {
         int n = 16;
         HexadecimalNumbers hexadecimalNumbers = new HexadecimalNumbers(n);
         long totalCount = hexadecimalNumbers.totalCount();
+        long totalFastCount = hexadecimalNumbers.superFastCount();
         long time2 = System.currentTimeMillis();
         System.out.println("Total count: " + totalCount);
+        System.out.println("Total super fast count: " + totalFastCount);
         System.out.println("Hexadecimal format : " + String.format("%x", totalCount).toUpperCase());
         System.out.println("Time in ms: " + (time2 - time1));
     }
@@ -64,6 +66,19 @@ public class HexadecimalNumbers {
 
         }
         return count;
+    }
+
+    public long superFastCount() {
+        int n = this.limit;
+
+        long result = 0;
+
+        result += 256 * (((long)Math.pow(16, n - 2) - 1)) ;
+        result -= 9675 * (((long)Math.pow(15, n - 2)) / 14);
+        result += 8036 * (((long)Math.pow(14, n - 2)) / 13);
+        result -= 2197 * (((long)Math.pow(13, n - 2)) / 12);
+
+        return result;
     }
 
     private static void fillFrequencies(int sumLeft, int pos, int[] tab, List<int[]> sums) {
