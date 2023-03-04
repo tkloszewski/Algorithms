@@ -1,0 +1,26 @@
+Around 15 miliseconds. The idea is to build table of frequency of sums of 2 digits before last digit. Then for every appended digit we add those sums. For example for digit 7 we add following sums:
+
+digit 0 => doubleSuffixSums[0] + doubleSuffixSums[1] + doubleSuffixSums[2] + ... + doubleSuffixSums[9]
+digit 1 => doubleSuffixSums[0] + doubleSuffixSums[1] + doubleSuffixSums[2] + ... + doubleSuffixSums[8]
+.......
+digit 7 => doubleSuffixSums[0] + doubleSuffixSums[1] + doubleSuffixSums[2]
+digit 8 => doubleSuffixSums0] + doubleSuffixSums[1]
+digit 9 => doubleSuffixSums[0]
+
+In order to compute suffixSums I maintain a double array which contains the current count of numbers with no consecutive digits exceeding 9. The first index is the sum of two digit suffix and last index is the last digit of this suffix. For the suffix sum of 7 this table has following indexes:
+
+suffixSums[7][0] => current count of numbers with last two digit sum = 7 and last digit = 0
+suffixSums[7][1] => current count of numbers with last two digit sum = 7 and last digit = 1
+suffixSums[7][2] => current count of numbers with last two digit sum = 7 and last digit = 2
+suffixSums[7][3] => current count of numbers with last two digit sum = 7 and last digit = 3
+suffixSums[7][4] => current count of numbers with last two digit sum = 7 and last digit = 4
+suffixSums[7][5] => current count of numbers with last two digit sum = 7 and last digit = 5
+suffixSums[7][6] => current count of numbers with last two digit sum = 7 and last digit = 6
+suffixSums[7][7] => current count of numbers with last two digit sum = 7 and last digit = 7
+
+suffixSums are computed till the digit before the last one. Then we can compute the doubleSuffixSums for the last two digit suffix by simply adding suffixSums. For example:
+
+doubleSuffixSums[7] = suffixSums[7][0] + suffixSums[7][1] + ... + suffixSums[7][7]
+
+The final result is calculated by adding doubleSuffixSums for all digitts presented at the beginning.
+The time complexity is O(n) because inner loops doesn't depend on numbers length, but only on the maximum sum.
