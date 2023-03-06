@@ -12,7 +12,7 @@ public class LuckyNumberGenerator {
     }
 
     public static void main(String[] args) {
-        System.out.println(new LuckyNumberGenerator(1000).generate());
+        System.out.println(new LuckyNumberGenerator(1000).generate().subList(0, 50));
     }
 
     public List<Integer> generate() {

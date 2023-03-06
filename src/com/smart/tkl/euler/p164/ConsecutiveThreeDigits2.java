@@ -24,7 +24,7 @@ public class ConsecutiveThreeDigits2 {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        ConsecutiveThreeDigits2 consecutiveThreeDigits = new ConsecutiveThreeDigits2(10000, 3, 9);
+        ConsecutiveThreeDigits2 consecutiveThreeDigits = new ConsecutiveThreeDigits2(20, 3, 9);
         BigInteger count = consecutiveThreeDigits.count();
         long time2 = System.currentTimeMillis();
         System.out.println("Count 2: " + count);
