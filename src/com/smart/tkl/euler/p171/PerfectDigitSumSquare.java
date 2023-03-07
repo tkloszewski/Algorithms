@@ -1,24 +1,28 @@
 package com.smart.tkl.euler.p171;
 
+import com.smart.tkl.combinatorics.CombinatoricsUtils;
+
 public class PerfectDigitSumSquare {
 
     private final int limit;
     private final boolean[] squares;
-    private final int lastDigitsLength;
     private final long mod;
     private final long[] factorials;
+    private final long[] repUnits;
 
     public PerfectDigitSumSquare(int limit, int lastDigitsLength) {
         this.limit = limit;
         this.factorials = new long[limit + 1];
         this.squares = new boolean[1 + limit * 81];
-        this.lastDigitsLength = lastDigitsLength;
+        this.repUnits = new long[limit + 1];
         this.mod = (long) Math.pow(10, lastDigitsLength);
         initFactorials();
         initSquares();
+        initRepUnits();
     }
 
     public static void main(String[] args) {
+        System.out.println(CombinatoricsUtils.countCombinations(28, 20));
         long time1 = System.currentTimeMillis();
         PerfectDigitSumSquare perfectDigitSumSquare = new PerfectDigitSumSquare(20, 9);
         long sumOfNumbers = perfectDigitSumSquare.sumOfNumbers(20);
@@ -39,6 +43,12 @@ public class PerfectDigitSumSquare {
         for(int i = 1; i * i <= bound; i++) {
             int square = i * i;
             squares[square] = true;
+        }
+    }
+
+    private void initRepUnits() {
+        for(int i = 1; i <= this.limit; i++) {
+            this.repUnits[i] = (10 * this.repUnits[i - 1] + 1) % this.mod;
         }
     }
 
@@ -65,8 +75,7 @@ public class PerfectDigitSumSquare {
     }
 
     private long sumOfPermutations(int[] digits, int len) {
-        long repUnit = getRepUnit(Math.min(len, this.lastDigitsLength)) % this.mod;
-
+        long repUnit = this.repUnits[len];
         long sum = this.factorials[len];
 
         int term = 0;
@@ -81,15 +90,5 @@ public class PerfectDigitSumSquare {
         sum = (sum % this.mod);
 
         return (sum * repUnit)  % this.mod;
-    }
-
-    private long getRepUnit(int k) {
-        long repUnit = 1;
-        int i = 1;
-        while (i < k) {
-            repUnit = 10 * repUnit + 1;
-            i++;
-        }
-        return repUnit;
     }
 }
