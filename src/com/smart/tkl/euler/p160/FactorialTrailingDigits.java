@@ -20,6 +20,25 @@ public class FactorialTrailingDigits {
        System.out.println("Time in ms: " + (time2 - time1));
     }
 
+    /*
+    * (!2 ^ !5)! => 3 * 7 * 9 * 11 * 13 * 17 * 19 * 21 * 23 * 27 * 29 * 31 * ... * 91 * 93 * 97 * 99
+    * rf = remaining factors
+    * rf(2) => 3 * 7 * 9 * 11 * 13 * 17 * 19 * 21 * 23 * 27 * 29 * 31 * 33 * 37 * 39 * 41 * 43 * 47 * 49
+    * rf(4) => 3 * 7 * 9 * 11 * 13 * 17 * 19
+    * rf(8) => 3 * 7 * 9 * 11
+    * rf(16) => 3
+    * rf(32) => 3
+    * rf(64) => 1
+    * rf(5) => 3 * 7 * 9 * 11 * 13 * 17 * 19
+    * rf(25) => 3
+    * rf(10) => 3 * 7 * 9
+    * rf(50) => 1
+    * rf(20) => 3
+    * rf(100) => 1
+    * remaining 2 powers => (100/2 + 100/4 + 100/8 + 100/16 + 100/32 + 100/64) - (100/5 + 100/25) = 91 - 24 = 67
+    * f(100) = (3 * 7 * 9 * 11 * ... 97 * 99) * 2^67 * rf(2) * rf(4) * rf(8) * rf(16) * rf(32) * rf(64) * rf(5) *
+    *  * rf(25) * rf(10) * rf(50) * rf(20) * rf(100)
+    * */
     public long f() {
         long result = 1;
 
@@ -47,8 +66,8 @@ public class FactorialTrailingDigits {
         if(remainingPow > 0) {
            long remainingFactorsModPower = MathUtils.moduloPower(remainingFactors[(int) endIdx], remainingPow, mod);
            result = MathUtils.moduloMultiply(result, remainingFactorsModPower, mod);
-
         }
+
         long remainingModPow2 = MathUtils.moduloPower(2, remainingPow2, mod);
         result = MathUtils.moduloMultiply(result, remainingModPow2, mod);
 
