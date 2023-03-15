@@ -42,13 +42,6 @@ public class TriColorTriangle {
     private long count(int row, int pos) {
         int rowLength = 2 * row + 1;
 
-        if(row > 0 && pos == 0) {
-            int hash = getRowHashValue(row - 1);
-            if(this.memo[row - 1][hash] != 0) {
-                return this.memo[row - 1][hash];
-            }
-        }
-
         int nextRow = row;
         int nextPos = pos + 1;
 
@@ -59,6 +52,13 @@ public class TriColorTriangle {
 
         if(row == this.height) {
             return 1;
+        }
+
+        if(row > 0 && pos == 0) {
+            int hash = getRowHashValue(row - 1);
+            if(this.memo[row - 1][hash] != 0) {
+                return this.memo[row - 1][hash];
+            }
         }
 
         long result = 0;
