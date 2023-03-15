@@ -1,0 +1,32 @@
+Around 5 ms. The searched number n must satisfy the equation:
+$(n-d)/10 + 10^l * d = i * n$ where d is the last digit and l = log10n and i is the multiplier from 1 to 9.
+
+The equation can be rewritten to the following form:
+
+$9d * R(k) = n * (10i - 1)$  where R(k) is the rep unit with k digits.
+
+The right hand side has the following values: 9n, 19n, 29n, 39n, 49n, 59n, 69n, 79n, 89n
+For prime multipliers we must find all rep units that are divisible by given multiplier. If we find such rep unit then we can divide and multiple by 9d term and check if the last digit equals d.
+
+Every time the value of n is calculated as:
+
+$9d * R(k) = n * term$
+$n = 9d * R(k) / term$
+
+For i = 1 we get the following equation:
+$d * R(k) = n$ So the solution will be all R(k) multiplied by 1 to 9 for all k from 2 to 100.
+
+For the right hand side being equal 39n and 69n we get the following 2 equations:
+
+$3d * R(k) = 13n$
+$3d * R(k) = 23n$
+
+We find all k for which R(k) is divided by 13 and 23.
+
+The last term $9d * R(k) = n * 49$
+Here we have two cases:
+
+1. d = 7 => $9d * R(k) = n * 7$. We must find all R(k) divided by 7 and not divided by 49
+2. d != 7 => $9d * R(k) = n * 49$. We must find all R(k) divided by 49.
+
+Last but not least we must treat all calculated n with modulo 100000.
