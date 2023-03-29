@@ -1,5 +1,6 @@
 package com.smart.tkl.euler.p187;
 
+import com.smart.tkl.primes.PrimesSieve;
 import com.smart.tkl.utils.MathUtils;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class SemiPrimes {
 
     public int fastCount() {
         int result = 0;
-        List<Long> primes = MathUtils.generatePrimesUpTo(this.limit / 2);
+        List<Long> primes = PrimesSieve.generatePrimesUpTo(this.limit / 2);
         for(int i = 0; i < primes.size(); i++) {
             for(int j = i; j < primes.size(); j++) {
                 long product = primes.get(i) * primes.get(j);
