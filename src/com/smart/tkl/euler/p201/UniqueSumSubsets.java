@@ -1,16 +1,9 @@
 package com.smart.tkl.euler.p201;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class UniqueSumSubsets {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        List<Integer> set2 = new ArrayList<>(100);
-        for(int i = 1; i <= 100; i++) {
-            set2.add(i * i);
-        }
 
         int[] tab = new int[100];
         for(int i = 1; i <= 100; i++) {
@@ -66,7 +59,7 @@ public class UniqueSumSubsets {
                 int maxSumCurrent = currentMaxSums[setSize];
 
                 for(int sum = minSumCurrent; sum <= maxSumCurrent; sum++) {
-                    if(sum - value >= 0 && ways[sum - value][setSize - 1] > used[sum - value][setSize - 1]) {
+                    if(ways[sum - value][setSize - 1] > used[sum - value][setSize - 1]) {
                         long toAdd = ways[sum - value][setSize - 1] - used[sum - value][setSize - 1];
                         ways[sum][setSize] += toAdd;
                         used[sum][setSize] += toAdd;
