@@ -31,38 +31,39 @@ public class UniqueSumSubsets {
         long[][] ways = new long[maxSum + 1][k + 1];
         ways[0][0] = 1;
 
+        boolean[] possibleValues = new boolean[maxSum + 1];
+        possibleValues[0] = true;
+
         for(int i = 0; i < set.length; i++) {
             int currentSize = i + 1;
             int value = set[i];
 
-            int[] currentMinSums = new int[k + 1];
             int[] currentMaxSums = new int[k + 1];
 
             int maxSize =  Math.min(k, currentSize);
 
             for(int setSize = 1; setSize <= maxSize; setSize++) {
-                int min = 0, max = 0;
-                for(int j = 0; j < setSize; j++) {
-                    min += set[j];
-                }
+                int max = 0;
                 for(int j = currentSize - setSize ; j < currentSize; j++) {
                     max += set[j];
                 }
-                currentMinSums[setSize] = min;
                 currentMaxSums[setSize] = max;
             }
 
             long[][] used = new long[currentMaxSums[maxSize] + 1][k + 1];
 
-            for(int setSize = 1; setSize <= Math.min(k, currentSize); setSize++) {
-                int minSumCurrent = Math.max(value, currentMinSums[setSize]);
-                int maxSumCurrent = currentMaxSums[setSize];
+            int maxSumCurrent = currentMaxSums[maxSize];
 
-                for(int sum = minSumCurrent; sum <= maxSumCurrent; sum++) {
+            for(int sum = value; sum <= maxSumCurrent; sum++) {
+                if(!possibleValues[sum - value]) {
+                   continue;
+                }
+                for(int setSize = 1; setSize <= Math.min(k, currentSize); setSize++) {
                     if(ways[sum - value][setSize - 1] > used[sum - value][setSize - 1]) {
                         long toAdd = ways[sum - value][setSize - 1] - used[sum - value][setSize - 1];
                         ways[sum][setSize] += toAdd;
                         used[sum][setSize] += toAdd;
+                        possibleValues[sum] = true;
                     }
                 }
             }
