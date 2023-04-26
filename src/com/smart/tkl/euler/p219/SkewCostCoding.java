@@ -77,9 +77,6 @@ public class SkewCostCoding {
             heap.insert(cost2);
         }
 
-        System.out.println("Min value: " + minValue);
-        System.out.println("Max cost: " + heap.get(heap.size - 1));
-
         return totalCost;
     }
 }
