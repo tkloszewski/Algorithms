@@ -18,6 +18,12 @@ public class BiNode<V extends Comparable<V>> {
         this.parent = parent;
     }
 
+    public BiNode(V item, BiNode<V> left, BiNode<V> right) {
+        this.item = item;
+        this.left = left;
+        this.right = right;
+    }
+
     public V getItem() {
         return item;
     }
