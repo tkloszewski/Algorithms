@@ -1,7 +1,6 @@
 package com.smart.tkl.euler.p187;
 
-import com.smart.tkl.primes.PrimesSieve;
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.lib.primes.PrimesSieve;
 
 import java.util.List;
 

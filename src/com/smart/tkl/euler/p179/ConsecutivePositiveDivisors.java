@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p179;
 
-import com.smart.tkl.utils.PrimeFactor;
+import com.smart.tkl.lib.utils.PrimeFactor;
 
 import java.util.ArrayList;
 import java.util.List;

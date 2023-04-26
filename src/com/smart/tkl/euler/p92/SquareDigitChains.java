@@ -1,7 +1,5 @@
 package com.smart.tkl.euler.p92;
 
-import com.smart.tkl.utils.MathUtils;
-
 public class SquareDigitChains {
 
     private final int limit;

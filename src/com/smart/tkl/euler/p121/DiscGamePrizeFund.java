@@ -1,7 +1,7 @@
 package com.smart.tkl.euler.p121;
 
-import com.smart.tkl.combinatorics.CombinatoricsUtils;
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.lib.combinatorics.CombinatoricsUtils;
+import com.smart.tkl.lib.utils.MathUtils;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

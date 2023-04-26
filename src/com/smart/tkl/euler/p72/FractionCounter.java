@@ -1,8 +1,7 @@
 package com.smart.tkl.euler.p72;
 
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.lib.utils.MathUtils;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
 public class FractionCounter {

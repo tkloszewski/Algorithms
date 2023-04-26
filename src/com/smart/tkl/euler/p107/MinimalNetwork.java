@@ -1,10 +1,8 @@
 package com.smart.tkl.euler.p107;
 
-import com.smart.tkl.euler.p96.element.SudokuSquare;
-import com.smart.tkl.euler.p96.permutation.ElementPermutationGenerator;
-import com.smart.tkl.graph.standard.StandardVertex;
-import com.smart.tkl.graph.standard.UndirectedEdge;
-import com.smart.tkl.graph.standard.UndirectedGraph;
+import com.smart.tkl.lib.graph.standard.StandardVertex;
+import com.smart.tkl.lib.graph.standard.UndirectedEdge;
+import com.smart.tkl.lib.graph.standard.UndirectedGraph;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

@@ -1,11 +1,11 @@
 package com.smart.tkl.euler;
 
-import com.smart.tkl.combinatorics.CombinatoricsUtils;
-import com.smart.tkl.graph.triangle.TriangleBuilder;
-import com.smart.tkl.graph.triangle.TriangleFileReader;
-import com.smart.tkl.graph.triangle.TriangleNode;
-import com.smart.tkl.graph.triangle.TrianglePathFinder;
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.lib.combinatorics.CombinatoricsUtils;
+import com.smart.tkl.lib.graph.triangle.TriangleBuilder;
+import com.smart.tkl.lib.graph.triangle.TriangleFileReader;
+import com.smart.tkl.lib.graph.triangle.TriangleNode;
+import com.smart.tkl.lib.graph.triangle.TrianglePathFinder;
+import com.smart.tkl.lib.utils.MathUtils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.smart.tkl.utils.MathUtils.*;
+import static com.smart.tkl.lib.utils.MathUtils.*;
 
 public class ProblemSet6 {
 

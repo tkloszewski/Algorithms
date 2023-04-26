@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p107;
 
-import com.smart.tkl.graph.standard.StandardVertex;
+import com.smart.tkl.lib.graph.standard.StandardVertex;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

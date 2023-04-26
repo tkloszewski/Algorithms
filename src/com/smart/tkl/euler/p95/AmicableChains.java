@@ -1,7 +1,5 @@
 package com.smart.tkl.euler.p95;
 
-import com.smart.tkl.utils.MathUtils;
-
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;

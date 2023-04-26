@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p211;
 
-import com.smart.tkl.primes.PrimesSieve;
+import com.smart.tkl.lib.primes.PrimesSieve;
 import java.util.List;
 
 public class DivisorSquareSum {

@@ -1,7 +1,7 @@
 package com.smart.tkl.euler.p93;
 
-import com.smart.tkl.combinatorics.CombinatoricsUtils;
-import com.smart.tkl.combinatorics.VariationsUtils;
+import com.smart.tkl.lib.combinatorics.CombinatoricsUtils;
+import com.smart.tkl.lib.combinatorics.VariationsUtils;
 
 import java.util.List;
 import java.util.Set;

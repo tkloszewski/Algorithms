@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p165;
 
-import com.smart.tkl.utils.Fraction;
+import com.smart.tkl.lib.utils.Fraction;
 import java.util.Objects;
 
 public class Intersection {

@@ -1,7 +1,7 @@
 package com.smart.tkl.euler.p162;
 
-import com.smart.tkl.combinatorics.CombinatoricsUtils;
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.lib.combinatorics.CombinatoricsUtils;
+import com.smart.tkl.lib.utils.MathUtils;
 import java.util.LinkedList;
 import java.util.List;
 

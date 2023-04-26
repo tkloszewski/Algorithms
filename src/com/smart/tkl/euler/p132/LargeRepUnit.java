@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p132;
 
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.lib.utils.MathUtils;
 
 import java.util.ArrayList;
 import java.util.List;

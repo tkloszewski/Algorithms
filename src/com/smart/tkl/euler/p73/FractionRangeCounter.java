@@ -1,9 +1,9 @@
 package com.smart.tkl.euler.p73;
 
 import com.smart.tkl.euler.p71.NearestReducedFraction;
-import com.smart.tkl.utils.Fraction;
-import com.smart.tkl.utils.MathUtils;
-import com.smart.tkl.utils.ReduceFraction;
+import com.smart.tkl.lib.utils.Fraction;
+import com.smart.tkl.lib.utils.MathUtils;
+import com.smart.tkl.lib.utils.ReduceFraction;
 
 import java.util.*;
 

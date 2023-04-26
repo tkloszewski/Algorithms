@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p158;
 
-import com.smart.tkl.combinatorics.CombinatoricsUtils;
+import com.smart.tkl.lib.combinatorics.CombinatoricsUtils;
 
 public class StringExplorer {
 

@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p71;
 
-import com.smart.tkl.utils.Fraction;
+import com.smart.tkl.lib.utils.Fraction;
 
 public class NearestReducedFraction {
 

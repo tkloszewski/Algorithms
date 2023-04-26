@@ -1,10 +1,10 @@
 package com.smart.tkl.euler.p70;
 
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.lib.utils.MathUtils;
 
 import java.util.List;
 
-import static com.smart.tkl.utils.hash.HashGenerator.*;
+import static com.smart.tkl.lib.utils.hash.HashGenerator.*;
 
 public class TotientPermutation {
 

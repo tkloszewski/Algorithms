@@ -1,7 +1,7 @@
 package com.smart.tkl.euler.p110;
 
-import com.smart.tkl.utils.MathUtils;
-import com.smart.tkl.utils.PrimeFactor;
+import com.smart.tkl.lib.utils.MathUtils;
+import com.smart.tkl.lib.utils.PrimeFactor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

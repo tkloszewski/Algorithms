@@ -1,7 +1,5 @@
 package com.smart.tkl.euler.p127;
 
-import com.smart.tkl.utils.MathUtils;
-
 import java.util.*;
 
 public class AbcHits {

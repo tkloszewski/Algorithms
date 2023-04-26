@@ -1,10 +1,9 @@
 package com.smart.tkl.euler;
 
 import com.smart.tkl.euler.p60.PrimePairSets;
-import com.smart.tkl.utils.Fraction;
-import com.smart.tkl.utils.MathUtils;
-import com.smart.tkl.utils.PeriodicFraction;
-import com.smart.tkl.utils.SquareRootPeriodicFractionGenerator;
+import com.smart.tkl.lib.utils.MathUtils;
+import com.smart.tkl.lib.utils.PeriodicFraction;
+import com.smart.tkl.lib.utils.SquareRootPeriodicFractionGenerator;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

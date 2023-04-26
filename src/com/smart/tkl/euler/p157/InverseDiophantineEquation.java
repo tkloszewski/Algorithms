@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p157;
 
-import com.smart.tkl.utils.Fraction;
+import com.smart.tkl.lib.utils.Fraction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;

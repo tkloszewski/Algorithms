@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p146;
 
-import com.smart.tkl.primes.Primes;
+import com.smart.tkl.lib.primes.Primes;
 
 import java.util.*;
 

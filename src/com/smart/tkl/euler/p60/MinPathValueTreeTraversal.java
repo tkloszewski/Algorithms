@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p60;
 
-import com.smart.tkl.tree.Node;
+import com.smart.tkl.lib.tree.Node;
 
 import java.util.Arrays;
 import java.util.LinkedList;

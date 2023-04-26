@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p93;
 
-import com.smart.tkl.combinatorics.permutation.PermutationIterator;
+import com.smart.tkl.lib.combinatorics.permutation.PermutationIterator;
 
 import java.util.List;
 import java.util.Set;

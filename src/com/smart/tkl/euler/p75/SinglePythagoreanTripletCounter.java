@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p75;
 
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.lib.utils.MathUtils;
 
 public class SinglePythagoreanTripletCounter {
 

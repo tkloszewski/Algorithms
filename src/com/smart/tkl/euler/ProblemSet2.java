@@ -1,11 +1,11 @@
 package com.smart.tkl.euler;
 
-import com.smart.tkl.combinatorics.permutation.SwapPermutationGenerator;
-import com.smart.tkl.combinatorics.permutation.PermutationListener;
-import com.smart.tkl.graph.triangle.TriangleBuilder;
-import com.smart.tkl.graph.triangle.TriangleNode;
-import com.smart.tkl.graph.triangle.TrianglePathFinder;
-import com.smart.tkl.utils.GenericUtils;
+import com.smart.tkl.lib.combinatorics.permutation.SwapPermutationGenerator;
+import com.smart.tkl.lib.combinatorics.permutation.PermutationListener;
+import com.smart.tkl.lib.graph.triangle.TriangleBuilder;
+import com.smart.tkl.lib.graph.triangle.TriangleNode;
+import com.smart.tkl.lib.graph.triangle.TrianglePathFinder;
+import com.smart.tkl.lib.utils.GenericUtils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
-import static com.smart.tkl.utils.MathUtils.*;
+import static com.smart.tkl.lib.utils.MathUtils.*;
 
 public class ProblemSet2 {
 

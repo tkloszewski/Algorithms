@@ -1,9 +1,9 @@
 package com.smart.tkl.euler;
 
-import com.smart.tkl.combinatorics.permutation.SwapPermutationGenerator;
-import com.smart.tkl.combinatorics.permutation.PermutationListener;
-import com.smart.tkl.utils.GenericUtils;
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.lib.combinatorics.permutation.SwapPermutationGenerator;
+import com.smart.tkl.lib.combinatorics.permutation.PermutationListener;
+import com.smart.tkl.lib.utils.GenericUtils;
+import com.smart.tkl.lib.utils.MathUtils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
-import static com.smart.tkl.utils.MathUtils.isPrime;
+import static com.smart.tkl.lib.utils.MathUtils.isPrime;
 
 public class ProblemSet5 {
 

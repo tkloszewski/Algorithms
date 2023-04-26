@@ -1,8 +1,6 @@
 package com.smart.tkl.euler.p77;
 
-import com.smart.tkl.utils.MathUtils;
-
-import java.util.List;
+import com.smart.tkl.lib.utils.MathUtils;
 
 public class CountingPrimes {
 

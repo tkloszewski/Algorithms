@@ -1,14 +1,14 @@
 package com.smart.tkl.euler;
 
-import com.smart.tkl.combinatorics.Combination;
-import com.smart.tkl.combinatorics.CombinationGenerator;
-import com.smart.tkl.combinatorics.CombinationListener;
-import com.smart.tkl.SortingUtils;
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.lib.combinatorics.Combination;
+import com.smart.tkl.lib.combinatorics.CombinationGenerator;
+import com.smart.tkl.lib.combinatorics.CombinationListener;
+import com.smart.tkl.lib.SortingUtils;
+import com.smart.tkl.lib.utils.MathUtils;
 
 import java.util.*;
 
-import static com.smart.tkl.utils.MathUtils.*;
+import static com.smart.tkl.lib.utils.MathUtils.*;
 
 public class ProblemSet4 {
 

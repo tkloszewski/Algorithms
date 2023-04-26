@@ -1,8 +1,8 @@
 package com.smart.tkl.euler.p101;
 
-import com.smart.tkl.linear.equations.EquationsSolution;
-import com.smart.tkl.linear.equations.LinearEquationsSolver;
-import com.smart.tkl.linear.polynomial.NaturalPolynomial;
+import com.smart.tkl.lib.linear.equations.EquationsSolution;
+import com.smart.tkl.lib.linear.equations.LinearEquationsSolver;
+import com.smart.tkl.lib.linear.polynomial.NaturalPolynomial;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,5 @@
 package com.smart.tkl.euler.p124;
 
-import com.smart.tkl.utils.MathUtils;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

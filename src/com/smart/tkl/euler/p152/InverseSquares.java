@@ -1,8 +1,8 @@
 package com.smart.tkl.euler.p152;
 
-import com.smart.tkl.combinatorics.CombinatoricsUtils;
-import com.smart.tkl.primes.Primes;
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.lib.combinatorics.CombinatoricsUtils;
+import com.smart.tkl.lib.primes.Primes;
+import com.smart.tkl.lib.utils.MathUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;

@@ -1,8 +1,8 @@
 package com.smart.tkl.euler.p80;
 
-import com.smart.tkl.utils.BigDecimalFraction;
-import com.smart.tkl.utils.PeriodicFraction;
-import com.smart.tkl.utils.SquareRootPeriodicFractionGenerator;
+import com.smart.tkl.lib.utils.BigDecimalFraction;
+import com.smart.tkl.lib.utils.PeriodicFraction;
+import com.smart.tkl.lib.utils.SquareRootPeriodicFractionGenerator;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;

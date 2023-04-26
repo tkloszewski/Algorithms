@@ -2,7 +2,7 @@ package com.smart.tkl.euler.p81;
 
 
 import com.smart.tkl.euler.MatrixFileReader;
-import com.smart.tkl.utils.GenericUtils;
+import com.smart.tkl.lib.utils.GenericUtils;
 
 import java.io.IOException;
 import java.util.Arrays;

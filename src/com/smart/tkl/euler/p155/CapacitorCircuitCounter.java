@@ -1,7 +1,7 @@
 package com.smart.tkl.euler.p155;
 
-import com.smart.tkl.FibonacciGenerator;
-import com.smart.tkl.utils.Fraction;
+import com.smart.tkl.lib.FibonacciGenerator;
+import com.smart.tkl.lib.utils.Fraction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

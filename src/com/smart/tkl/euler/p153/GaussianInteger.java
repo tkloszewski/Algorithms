@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p153;
 
-import com.smart.tkl.Stack;
+import com.smart.tkl.lib.Stack;
 
 public class GaussianInteger {
 

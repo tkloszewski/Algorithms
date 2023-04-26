@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 public class ArithmeticGeometricSequence {
 
     private final double target;
-    private static final BigDecimal EPS = BigDecimal.ONE.divide(BigDecimal.TEN.pow(15), MathContext.DECIMAL128);
+    private static final BigDecimal EPS = BigDecimal.ONE.divide(BigDecimal.TEN.pow(13), MathContext.DECIMAL128);
 
     public ArithmeticGeometricSequence(double target) {
         this.target = target;

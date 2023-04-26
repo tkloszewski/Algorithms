@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p141;
 
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.lib.utils.MathUtils;
 
 import java.util.Set;
 import java.util.TreeSet;

@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p98;
 
-import com.smart.tkl.utils.WordUtils;
+import com.smart.tkl.lib.utils.WordUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

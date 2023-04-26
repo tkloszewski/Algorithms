@@ -1,7 +1,7 @@
 package com.smart.tkl.euler.p118;
 
-import com.smart.tkl.combinatorics.permutation.SortedPermutationIterator;
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.lib.combinatorics.permutation.SortedPermutationIterator;
+import com.smart.tkl.lib.utils.MathUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

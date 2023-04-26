@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p107;
 
-import com.smart.tkl.graph.standard.UndirectedEdge;
+import com.smart.tkl.lib.graph.standard.UndirectedEdge;
 
 import java.math.BigDecimal;
 import java.util.Set;

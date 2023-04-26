@@ -1,5 +1,5 @@
 package com.smart.tkl.euler.p74;
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.lib.utils.MathUtils;
 import java.util.*;
 
 public class DigitFactorialChains {

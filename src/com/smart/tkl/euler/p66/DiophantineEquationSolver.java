@@ -1,7 +1,7 @@
 package com.smart.tkl.euler.p66;
 
-import com.smart.tkl.utils.PeriodicFraction;
-import com.smart.tkl.utils.SquareRootPeriodicFractionGenerator;
+import com.smart.tkl.lib.utils.PeriodicFraction;
+import com.smart.tkl.lib.utils.SquareRootPeriodicFractionGenerator;
 
 import java.math.BigDecimal;
 import java.util.List;

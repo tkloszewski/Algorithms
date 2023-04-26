@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p345;
 
-import com.smart.tkl.utils.GenericUtils;
+import com.smart.tkl.lib.utils.GenericUtils;
 
 import java.util.*;
 import java.util.function.Function;

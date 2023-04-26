@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p84;
 
-import com.smart.tkl.utils.MathUtils;
+import com.smart.tkl.lib.utils.MathUtils;
 
 import java.util.*;
 
