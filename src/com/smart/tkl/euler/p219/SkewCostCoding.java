@@ -21,6 +21,11 @@ public class SkewCostCoding {
         System.out.println("Time in ms (fast): " + (time2 - time1));
     }
 
+    /*
+    The code can be obtained by taking out cheapest code
+    and appending 0 or 1 to it. There are many codes with
+    the same cost so it's better to keep unique cost counter
+    */
     public long calculateCostFast() {
         if(this.targetSize == 1) {
             return 1;
