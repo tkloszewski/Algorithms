@@ -1,4 +1,4 @@
-package com.smart.tkl.euler.p233;
+package com.smart.tkl.euler.p223;
 
 import com.smart.tkl.lib.Stack;
 import java.util.ArrayList;
