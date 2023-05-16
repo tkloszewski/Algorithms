@@ -1,5 +1,6 @@
 package com.smart.tkl.euler.p237;
 
+import com.smart.tkl.lib.linear.MatrixUtils;
 import java.util.LinkedList;
 
 public class GridWalkingToursNWSE {
@@ -11,12 +12,56 @@ public class GridWalkingToursNWSE {
     }
 
     public static void main(String[] args) {
-        long count = new GridWalkingToursNWSE(3).bruteForceCount();
+        GridWalkingToursNWSE grid = new GridWalkingToursNWSE(13);
+        long count = grid.bruteForceCount();
+        System.out.println("Count: " + count);
+
+        count = grid.count();
         System.out.println("Count: " + count);
     }
 
     public long bruteForceCount() {
         return bruteForce(0, 0, 0, new LinkedList<>(), new int[this.n][4]);
+    }
+
+    public long count() {
+        long[][] u = {
+                {0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
+                {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+                {0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0},
+                {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0},
+        };
+
+
+        long[][] v = {
+                {1},
+                {1},
+                {1},
+                {0},
+                {0},
+                {0},
+                {0},
+                {0},
+                {0},
+                {0},
+                {0},
+                {0},
+                {1}
+        };
+
+        u = MatrixUtils.pow(u , this.n - 1);
+        v = MatrixUtils.multiply(u, v);
+
+        return v[12][0];
     }
 
     public long bruteForce(int x, int y, int visited, LinkedList<Coord> path, int[][] grid) {
@@ -50,17 +95,6 @@ public class GridWalkingToursNWSE {
         path.removeLast();
 
         return result;
-    }
-
-
-
-    private void printGrid(int[][] tab) {
-        for (int[] ints : tab) {
-            for (int j = 0; j < tab[0].length; j++) {
-                System.out.printf("%d ", ints[j]);
-            }
-            System.out.println();
-        }
     }
 
     private static class Coord {
