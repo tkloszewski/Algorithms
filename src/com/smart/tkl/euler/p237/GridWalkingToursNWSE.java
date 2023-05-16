@@ -1,7 +1,5 @@
 package com.smart.tkl.euler.p237;
 
-import com.smart.tkl.lib.linear.Matrix;
-import com.smart.tkl.lib.utils.GenericUtils;
 import java.util.LinkedList;
 
 public class GridWalkingToursNWSE {
