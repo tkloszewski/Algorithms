@@ -12,11 +12,8 @@ public class GridWalkingToursNWSE {
     }
 
     public static void main(String[] args) {
-        GridWalkingToursNWSE grid = new GridWalkingToursNWSE(13);
-        long count = grid.bruteForceCount();
-        System.out.println("Count: " + count);
-
-        count = grid.count();
+        GridWalkingToursNWSE grid = new GridWalkingToursNWSE(11);
+        long count = grid.count();
         System.out.println("Count: " + count);
     }
 

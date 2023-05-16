@@ -2,42 +2,6 @@ package com.smart.tkl.lib.linear;
 
 public class MatrixUtils {
 
-    public static void main(String[] args) {
-        long time1 = System.currentTimeMillis();
-        long n = (long) Math.pow(10, 12);
-        long mod = (long)Math.pow(10, 8);
-
-        long[][] v = {
-                {0, 0, 0, 1, 0, 1, 0, 0},
-                {0, 0, 0, 0, 0, 1, 0, 0},
-                {0, 0, 0, 1, 0, 1, 0, 0},
-                {0, 0, 0, 1, 0, 1, 0, 0},
-                {1, 0, 0, 0, 1, 0, 0, 0},
-                {1, 1, 1, 0, 1, 0, 1, 0},
-                {0, 0, 1, 0, 0, 0, 1, 0},
-                {0, 0, 0, 1, 0, 1, 0, 0}
-        };
-
-        long[][] u = {
-                {1},
-                {1},
-                {1},
-                {1},
-                {0},
-                {0},
-                {0},
-                {1}
-        };
-
-        v = pow(v, n - 1, mod);
-        long[][] result = multiply(v, u, mod);
-
-        long time2 = System.currentTimeMillis();
-
-        System.out.println("Result: " + result[7][0]);
-        System.out.println("Time in ms: " + (time2 - time1));
-    }
-
     public static long[][] pow(long[][] a, long pow) {
         checkMatrixIsSquare(a);
 
