@@ -3,23 +3,20 @@ package com.smart.tkl.euler.p237;
 import com.smart.tkl.lib.linear.MatrixUtils;
 import java.util.LinkedList;
 
-public class GridWalkingToursNWSE {
+public class GridWalkingToursNWNE {
 
     private final int n;
 
-    public GridWalkingToursNWSE(int n) {
+    public GridWalkingToursNWNE(int n) {
         this.n = n;
     }
 
     public static void main(String[] args) {
-        GridWalkingToursNWSE grid = new GridWalkingToursNWSE(11);
+        GridWalkingToursNWNE grid = new GridWalkingToursNWNE(10);
         long count = grid.count();
         System.out.println("Count: " + count);
-        System.out.println("Brute force count: " + grid.bruteForceCount());
-    }
-
-    public long bruteForceCount() {
-        return bruteForce(0, 0, 0, new LinkedList<>(), new int[this.n][4]);
+        count = grid.bruteForceCount();
+        System.out.println("Count: " + count);
     }
 
     public long count() {
@@ -36,9 +33,8 @@ public class GridWalkingToursNWSE {
                 {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0},
         };
-
 
         long[][] v = {
                 {1},
@@ -53,7 +49,7 @@ public class GridWalkingToursNWSE {
                 {0},
                 {0},
                 {0},
-                {1}
+                {0}
         };
 
         u = MatrixUtils.pow(u , this.n - 1);
@@ -62,9 +58,13 @@ public class GridWalkingToursNWSE {
         return v[12][0];
     }
 
+    public long bruteForceCount() {
+        return bruteForce(0, 0, 0, new LinkedList<>(), new int[this.n][4]);
+    }
+
     public long bruteForce(int x, int y, int visited, LinkedList<Coord> path, int[][] grid) {
         long result = 0;
-        if(x == this.n - 1 && y == 3) {
+        if(x == this.n - 1 && y == 0) {
             if(visited == 4 * this.n - 1) {
                 return 1;
             }
