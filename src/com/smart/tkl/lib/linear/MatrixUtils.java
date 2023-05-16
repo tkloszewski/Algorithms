@@ -105,6 +105,15 @@ public class MatrixUtils {
         return c;
     }
 
+    public static void printGrid(long[][] tab) {
+        for (long[] arr : tab) {
+            for (int j = 0; j < tab[0].length; j++) {
+                System.out.printf("%d ", arr[j]);
+            }
+            System.out.println();
+        }
+    }
+
     private static void checkMatrixIsSquare(long[][] a) {
         if(a.length != a[0].length) {
             throw new IllegalArgumentException("Non-square matrix exponentiation!!!");
