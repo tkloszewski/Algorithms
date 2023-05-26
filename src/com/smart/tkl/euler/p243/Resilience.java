@@ -86,40 +86,6 @@ public class Resilience {
         return Optional.empty();
     }
 
-    private static List<Long> increasingOrderOf(List<Long> primes, int size) {
-        List<Long> result = new ArrayList<>();
-        long smallest = 1;
-        for(long prime : primes) {
-            smallest *= prime;
-        }
-        result.add(smallest);
-
-        while (result.size() < size) {
-            Long nextSmallest = null;
-            for(long prime : primes) {
-                for(int i = 0; i < result.size() - 1; i++) {
-                    long value = prime * result.get(i);
-                    if(value > smallest) {
-                        if(nextSmallest == null || value < nextSmallest) {
-                            nextSmallest = value;
-                            break;
-                        }
-                    }
-                }
-            }
-            if(nextSmallest != null) {
-                result.add(nextSmallest);
-                smallest = nextSmallest;
-            }
-            else {
-                result.add(2 * smallest);
-                smallest = 2 * smallest;
-            }
-        }
-        System.out.println(result);
-        return result;
-    }
-
     private BigDecimal toBigDecimal(long p, long q) {
         return BigDecimal.valueOf(p).
                 divide(BigDecimal.valueOf(q), MathContext.DECIMAL128);
