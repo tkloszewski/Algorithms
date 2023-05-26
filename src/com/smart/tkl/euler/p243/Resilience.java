@@ -62,11 +62,16 @@ public class Resilience {
                     return Optional.of(smallest);
                 }
                 Long nextSmallest = null;
+
+                outer:
                 for(long prime : foundPrimes) {
                     for(int i = 0; i < sequence.size() - 1; i++) {
                         long value = prime * sequence.get(i);
                         if(value > smallest) {
-                            if(nextSmallest == null || value < nextSmallest) {
+                            if(i == 0 && nextSmallest != null && value > nextSmallest) {
+                              break outer;
+                            }
+                            else if(nextSmallest == null || value < nextSmallest) {
                                 nextSmallest = value;
                                 break;
                             }
