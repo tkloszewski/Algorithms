@@ -133,13 +133,6 @@ public class HemiPerfectFinder {
         return gcd(b, a % b);
     }
 
-    private long gcd(BigInteger a, BigInteger b) {
-        if(b.longValue() == 1) {
-           return a.longValue();
-        }
-        return gcd(b, a.remainder(b));
-    }
-
     private static class PrimeFactor {
         long prime;
         long value;
