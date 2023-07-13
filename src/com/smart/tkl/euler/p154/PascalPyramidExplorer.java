@@ -33,7 +33,7 @@ public class PascalPyramidExplorer {
         long count = 0;
 
         List<PrimeFactor> list = MathUtils.listPrimeFactors(multiple);
-        List<Integer> factors = list.stream().map(PrimeFactor::getFactor).collect(Collectors.toList());
+        List<Long> factors = list.stream().map(PrimeFactor::getFactor).collect(Collectors.toList());
 
         this.primeFactors = new int[list.size()];
         for(int i = 0; i < list.size(); i++) {
@@ -88,14 +88,14 @@ public class PascalPyramidExplorer {
         return count;
     }
 
-    private int[][] initFactorialPowers(List<Integer> factors) {
+    private int[][] initFactorialPowers(List<Long> factors) {
         int[][] result = new int[this.level + 1][factors.size()];
         int[][] factorPowers = new int[this.level + 1][factors.size()];
 
         for(int n = 0; n <= level; n++) {
             int[] powers = new int[factors.size()];
             for(int i = 0; i < factors.size(); i++) {
-                int primeFactor = factors.get(i);
+                long primeFactor = factors.get(i);
                 int freq = 0;
                 long value = n;
                 while (value > 0 && value % primeFactor == 0) {

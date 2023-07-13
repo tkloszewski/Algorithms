@@ -2,15 +2,15 @@ package com.smart.tkl.lib.utils;
 
 public class PrimeFactor {
 
-    private final int factor;
+    private final long factor;
     private int pow;
 
-    public PrimeFactor(int factor, int pow) {
+    public PrimeFactor(long factor, int pow) {
         this.factor = factor;
         this.pow = pow;
     }
 
-    public int getFactor() {
+    public long getFactor() {
         return factor;
     }
 

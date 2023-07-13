@@ -70,10 +70,10 @@ public class ConsecutivePositiveDivisors {
             if(divisorsCount != 0) {
                 return divisorsCount;
             }
-            int n = number / product;
+            long n = number / product;
             if (n > 1) {
                 for(PrimeFactor primeFactor : primeFactors) {
-                    int factor = primeFactor.getFactor();
+                    long factor = primeFactor.getFactor();
                     while (n % factor == 0) {
                         primeFactor.incrPower();
                         n = n / factor;

@@ -60,11 +60,11 @@ public class RepUnitNonFactors {
         List<PrimeFactor> factors = MathUtils.listPrimeFactors(k);
 
         if(factors.size() == 1 || factors.size() == 2) {
-           int factor1 = factors.get(0).getFactor();
+           long factor1 = factors.get(0).getFactor();
            if(factors.size() == 1) {
                return factor1 == 2 || factor1 == 5;
            }
-           int factor2 = factors.get(1).getFactor();
+           long factor2 = factors.get(1).getFactor();
            return factor1 == 2 && factor2 == 5;
         }
 
