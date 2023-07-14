@@ -83,10 +83,10 @@ public class MatrixMinMaxSum {
         time2 = System.currentTimeMillis();
         System.out.println("Max sum DP: " + maxSum + ". Time: " + (time2 - time1) + " milliseconds.");
 
-        /*time1 = System.currentTimeMillis();
+        time1 = System.currentTimeMillis();
         maxSum = matrix.calcMaxSumHungarian();
         time2 = System.currentTimeMillis();
-        System.out.println("Max sum Hungarian method: " + maxSum + ". Time: " + (time2 - time1) + " milliseconds.");*/
+        System.out.println("Max sum Hungarian method: " + maxSum + ". Time: " + (time2 - time1) + " milliseconds.");
 
         matrix = new MatrixMinMaxSum(MATRIX_30_30);
         time1 = System.currentTimeMillis();
