@@ -370,63 +370,8 @@ public class MathUtils {
         }
         return result;
     }
-
-    public static List<Long> listPrimeFactorsForPrimes(long n, List<Long> primes, boolean[] sieve) {
-        List<Long> factors = new ArrayList<>();
-        if(sieve[(int)n]){
-           factors.add(n);
-        }
-        else {
-            for (Long prime : primes) {
-                if (n % prime == 0) {
-                    factors.add(prime);
-                    while (n % prime == 0) {
-                        n = n / prime;
-                    }
-                    if (n == 1) {
-                        break;
-                    }
-                }
-            }
-        }
-        return factors;
-    }
     
     public static List<PrimeFactor> listPrimeFactors(long n) {
-        List<PrimeFactor> result = new ArrayList<>();
-        
-        int pow = 0;
-        
-        for(int i = 2; i <= 3; i++) {
-            while (n > 1 && n % i == 0) {
-                n = n / i;
-                pow++;
-            }
-            if(pow > 0) {
-                result.add(new PrimeFactor(i, pow));
-                pow = 0;
-            }
-        }
-        
-        int i = 5;
-        while (n > 1) {
-            for(int j = i; j <= i +2; j += 2) {
-                while (n > 1 && n % j == 0) {
-                    n = n / j;
-                    pow++;
-                }
-                if(pow > 0) {
-                    result.add(new PrimeFactor(j, pow));
-                    pow = 0;
-                }
-            }
-            i += 4;
-        }
-        
-        return result;
-    }
-
-    public static List<PrimeFactor> listPrimeFactors2(long n) {
         List<PrimeFactor> result = new ArrayList<>();
 
         int pow = 0;
@@ -446,13 +391,13 @@ public class MathUtils {
                 pow++;
             }
             if(pow > 0) {
-               result.add(new PrimeFactor(i, pow));
-               pow = 0;
+                result.add(new PrimeFactor(i, pow));
+                pow = 0;
             }
         }
 
         if(n > 1) {
-           result.add(new PrimeFactor(n, 1));
+            result.add(new PrimeFactor(n, 1));
         }
 
         return result;
