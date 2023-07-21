@@ -22,7 +22,7 @@ public class FractionRangeCounter {
     public static void main(String[] args) {
         long time1, time2, count;
 
-        FractionRangeCounter fractionsRange = new FractionRangeCounter(new ReduceFraction(1, 3), new ReduceFraction(1, 2), 12000);
+        FractionRangeCounter fractionsRange = new FractionRangeCounter(new ReduceFraction(1, 3), new ReduceFraction(1, 2), 1200000);
 
         time1 = System.currentTimeMillis();
         count = fractionsRange.fastCount();

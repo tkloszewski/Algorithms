@@ -1,5 +1,8 @@
 package com.smart.tkl.lib.utils;
 
+import static com.smart.tkl.lib.utils.ContinuedFraction.compareContinuedFractions;
+import static com.smart.tkl.lib.utils.ContinuedFraction.toContinuedFractions;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
@@ -14,9 +17,6 @@ public class MathUtils {
         System.out.println("Is permutation: " + formDigitPermutations(1234567890, 3021987465L));
         System.out.println("Prime factors: " + listPrimeFactors(322));
         System.out.println("Is prime: " + isPrime(99194853094755497L));
-        System.out.println("To fraction sqrt(2): " + toContinuedFractions(toFraction(Math.sqrt(2))));
-        System.out.println("Continued fractions: " + toContinuedFractions(43, 19));
-        System.out.println("From continued fraction: " + fromContinuedFractions(toContinuedFractions(43, 19)));
         System.out.println(GCD(323, 361));
         System.out.println(generateRotationValues(1234));
         System.out.println("Truncatable prime: " + isTruncatablePrime(3797, notPrime(5000)));
@@ -42,59 +42,7 @@ public class MathUtils {
         long gcd = GCD((long)(m * f), m);
         return new Fraction((long)(m * f)/gcd, m/gcd);
     }
-    
-    public static Fraction fromContinuedFractions(List<Long> fractions) {
-        long[] previousP = new long[]{1, fractions.get(0)};
-        long[] previousQ = new long[]{0, 1};
-        long p = previousP[1];
-        long q = previousQ[1];
-        
-        for(int i = 1; i < fractions.size(); i++) {
-            p = fractions.get(i) * previousP[1] + previousP[0];
-            q = fractions.get(i) * previousQ[1] + previousQ[0];
-            previousP[0] = previousP[1];
-            previousP[1] = p;
-            previousQ[0] = previousQ[1];
-            previousQ[1] = q;
-        }
-        return new Fraction(p, q);
-    }
-    
-    public static BigDecimalFraction fromContinuedFractionsToBigDecimal(List<Long> fractions) {
-        BigDecimal[] previousP = new BigDecimal[]{BigDecimal.ONE, BigDecimal.valueOf(fractions.get(0))};
-        BigDecimal[] previousQ = new BigDecimal[]{BigDecimal.ZERO, BigDecimal.ONE};
-        BigDecimal p = previousP[1];
-        BigDecimal q = previousQ[1];
-        
-        for(int i = 1; i < fractions.size(); i++) {
-            p = BigDecimal.valueOf(fractions.get(i)).multiply(previousP[1]).add(previousP[0]);
-            q = BigDecimal.valueOf(fractions.get(i)).multiply(previousQ[1]).add(previousQ[0]);
-            
-            previousP[0] = previousP[1];
-            previousP[1] = p;
-            previousQ[0] = previousQ[1];
-            previousQ[1] = q;
-        }
-        return new BigDecimalFraction(p, q);
-    }
-    
-    
-    public static List<Long> toContinuedFractions(Fraction f) {
-        return toContinuedFractions(f.getNumerator(), f.getDenominator());
-    }
-    
-    public static List<Long> toContinuedFractions(long p, long q) {
-        List<Long> fractions = new ArrayList<>();
-        long remainder;
-        while((remainder = p % q) != 0) {
-            fractions.add(p/q);
-            p = q;
-            q = remainder;
-        }
-        fractions.add(p/q);
-        return fractions;
-    }
-    
+
     public static boolean[] notPrime(int n) {
         boolean[] notPrime = new boolean[n];
         notPrime[0] = true;
@@ -274,6 +222,8 @@ public class MathUtils {
         
         return LinearSolution.solution(x * q, y * q, gcd);
     }
+
+
 
 
     /*
