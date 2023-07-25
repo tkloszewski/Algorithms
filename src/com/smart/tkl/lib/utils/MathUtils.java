@@ -1,7 +1,6 @@
 package com.smart.tkl.lib.utils;
 
-import static com.smart.tkl.lib.utils.ContinuedFraction.compareContinuedFractions;
-import static com.smart.tkl.lib.utils.ContinuedFraction.toContinuedFractions;
+import static com.smart.tkl.lib.utils.ContinuedFractionUtils.toContinuedFractions;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
