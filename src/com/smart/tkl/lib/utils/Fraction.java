@@ -28,6 +28,10 @@ public class Fraction implements Comparable<Fraction> {
         return (double) this.p / this.q;
     }
 
+    public BigDecimal toBigDecimal() {
+        return new BigDecimal(this.p).divide(new BigDecimal(this.q), MathContext.DECIMAL128);
+    }
+
     public boolean isOne() {
         return p == q;
     }
