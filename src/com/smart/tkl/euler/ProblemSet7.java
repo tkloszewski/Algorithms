@@ -18,22 +18,11 @@ public class ProblemSet7 {
     public static void main(String[] args) {
         System.out.println("Prime pair sets: " + primePairSets());
         System.out.println("Powerful digit counts: " + powerfulDigitCounts());
-        System.out.println("Passcode derivation: " + derivePasscode());
+       // System.out.println("Passcode derivation: " + derivePasscode());
         System.out.println("Convergents of e: " + eContinuedFractionNumeratorDigitSum());
-        System.out.println("Odd period square roots: " + oddPeriodSquareRoots(10000));
     }
 
-    public static int oddPeriodSquareRoots(int upperBound) {
-        int result = 0;
-        for(int n = 2; n <= upperBound; n++) {
-            PeriodicFraction periodicFraction = new SquareRootPeriodicFractionGenerator(n).generate();
-            int periodSize = periodicFraction.getPeriodSize();
-            if(periodSize % 2 == 1) {
-               result++;
-            }
-        }
-        return result;
-    }
+
 
     public static long primePairSets() {
         PrimePairSets primePairSets = new PrimePairSets(30000, 5);
