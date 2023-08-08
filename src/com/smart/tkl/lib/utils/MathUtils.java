@@ -1,16 +1,24 @@
 package com.smart.tkl.lib.utils;
 
-import static com.smart.tkl.lib.utils.ContinuedFractionUtils.toContinuedFractions;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class MathUtils {
     
     public static void main(String[] args) {
         System.out.println("Maximum sub array index: " + Arrays.toString(getMaxSubArrayIndex(new int[]{2, 1, 3, 4, -1, 2, 1, 5, -4, -20, 21, 2})));
-        System.out.println("Linear diophantine equation: " + solveLinearEquation(5, 3, 13));
+        System.out.println("Linear diophantine equation: " + solveLinearEquation(6, 4, 12));
+        System.out.println("Modulo inverse of 7 mod 15: " + moduloInverse(7, 15));
+        System.out.println("Inverse of range: " + Arrays.toString(modInvInRange(11)));
+        System.out.println("Inverse mod list of (1,2,3,4,5,6) % 7: " + modInverseInList(List.of(1L, 2L, 3L, 4L, 5L, 6L), 7));
         System.out.println("Modulo power 2639^3648 mod 7297: " + moduloPower(2639, 3648, 7279));
         System.out.println("Modulo power mod 10000000000: " + moduloPower(2, 7830457, 10000000000L));
         System.out.println("Is permutation: " + formDigitPermutations(1234567890, 3021987465L));
@@ -713,6 +721,39 @@ public class MathUtils {
            swap(input, i, nextIdx);
         }
         return input;
+    }
+
+    public static long moduloInverse(long x, long m) {
+        if(x <= 1) {
+           return x;
+        }
+        return m - (m / x) * moduloInverse(m % x, m);
+    }
+
+    public static int[] modInvInRange(int m) {
+        int[] inv = new int[m + 1];
+        inv[1] = 1;
+        for(int i = 2; i < m; i++) {
+            inv[i] = m - (m / i) * inv[m % i] % m;
+        }
+        return inv;
+    }
+
+    public static List<Long> modInverseInList(List<Long> list, int m) {
+        List<Long> invList = new ArrayList<>(list.size());
+        long v = 1;
+        for (Long value : list) {
+            invList.add(v);
+            v = (v * value) % m;
+        }
+        long invV = moduloInverse(v, m);
+        v = 1;
+        for(int i = invList.size() - 1; i >= 0; i--) {
+            long inv = (v * invList.get(i) * invV) % m;
+            invList.set(i, inv);
+            v = (v * list.get(i)) % m;
+        }
+        return invList;
     }
     
     private static List<Integer> rotateLeft(List<Integer> digits) {
