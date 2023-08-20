@@ -14,6 +14,7 @@ import java.util.TreeSet;
 public class MathUtils {
     
     public static void main(String[] args) {
+        System.out.println("Congruences solution: " + solveCongruences(List.of(new Congruence(2, 3), new Congruence(3, 5), new Congruence(2, 7))));
         System.out.println("Maximum sub array index: " + Arrays.toString(getMaxSubArrayIndex(new int[]{2, 1, 3, 4, -1, 2, 1, 5, -4, -20, 21, 2})));
         System.out.println("Linear diophantine equation: " + solveLinearEquation(6, 4, 12));
         System.out.println("Modulo inverse of 7 mod 15: " + moduloInverse(7, 15));
@@ -230,8 +231,21 @@ public class MathUtils {
         return LinearSolution.solution(x * q, y * q, gcd);
     }
 
-
-
+    public static long solveCongruences(List<Congruence> congruences) {
+        long result = 0;
+        long M = 1;
+        for(Congruence congruence : congruences) {
+            M *= congruence.getM();
+        }
+        for(Congruence congruence : congruences) {
+            long mi = congruence.getM();
+            long ai = congruence.getA();
+            long Mi = M / mi;
+            long inv = moduloInverse(Mi, mi);
+            result = (result + ai * inv * Mi) % M;
+        }
+        return result;
+    }
 
     /*
     * xi+2 = xi - q * xi+1
@@ -724,6 +738,9 @@ public class MathUtils {
     }
 
     public static long moduloInverse(long x, long m) {
+        if(x > m) {
+           x = x % m;
+        }
         if(x <= 1) {
            return x;
         }
