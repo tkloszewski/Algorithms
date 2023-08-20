@@ -12,6 +12,8 @@ public class ModDiscreteLog {
       System.out.println("Generic solution: " + x);
       x = solve(4, 2, 10);
       System.out.println("Generic solution: " + x);
+
+
     }
 
     public static long solve(long a, long b, long m) {

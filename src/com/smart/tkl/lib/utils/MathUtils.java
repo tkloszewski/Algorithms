@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class MathUtils {
     
@@ -373,6 +374,8 @@ public class MathUtils {
 
         return result;
     }
+
+
     
     public static int sumProperDivisors(int n) {
         List<Integer> divisors = listProperDivisors(n);
@@ -435,6 +438,20 @@ public class MathUtils {
                 result.add((long)i);
             }
         }
+        return result;
+    }
+
+    public static long phi(long n) {
+        List<Long> primes = listPrimeFactors(n).stream()
+                .map(PrimeFactor::getFactor)
+                .collect(Collectors.toList());
+
+        long result = n;
+        for(long prime : primes) {
+            result = result / prime;
+            result = result * (prime - 1);
+        }
+
         return result;
     }
     
