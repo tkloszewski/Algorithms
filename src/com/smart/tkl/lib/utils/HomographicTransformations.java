@@ -41,7 +41,7 @@ public class HomographicTransformations {
          }
 
          long a0 = periodicFraction.getBase();
-         List<Integer> sequence = periodicFraction.getSequence();
+         List<Long> sequence = periodicFraction.getSequence();
          long periodSize = periodicFraction.getPeriodSize();
          long numOfPeriods = k / periodSize;
 

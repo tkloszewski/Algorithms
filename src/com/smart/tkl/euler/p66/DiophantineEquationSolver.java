@@ -36,7 +36,7 @@ public class DiophantineEquationSolver {
 
     public static BigDecimalFraction findFirstSolutionToEquation(int parameter) {
         PeriodicFraction periodicFraction = new SquareRootPeriodicFractionGenerator(parameter).generate();
-        List<Integer> sequence = periodicFraction.getSequence();
+        List<Long> sequence = periodicFraction.getSequence();
 
         BigDecimal[] previousP = new BigDecimal[]{BigDecimal.ONE, BigDecimal.valueOf(periodicFraction.getBase())};
         BigDecimal[] previousQ = new BigDecimal[]{BigDecimal.ZERO, BigDecimal.ONE};

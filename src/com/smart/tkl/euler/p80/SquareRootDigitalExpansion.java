@@ -73,7 +73,7 @@ public class SquareRootDigitalExpansion {
         BigDecimal diff = value.subtract(previousValue).abs();
 
         int i = 0;
-        List<Integer> seq = periodicFraction.getSequence();
+        List<Long> seq = periodicFraction.getSequence();
 
         while (diff.compareTo(epsilon) > 0) {
             p = BigDecimal.valueOf(seq.get(i)).multiply(previousP[1]).add(previousP[0]);

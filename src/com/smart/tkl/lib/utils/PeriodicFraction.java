@@ -5,17 +5,17 @@ import java.util.List;
 
 public class PeriodicFraction {
 
-    private final int value;
-    private final int base;
+    private final long value;
+    private final long base;
 
-    private final List<Integer> sequence = new LinkedList<>();
+    private final List<Long> sequence = new LinkedList<>();
 
-    public PeriodicFraction(int value, int base) {
+    public PeriodicFraction(long value, long base) {
         this.value = value;
         this.base = base;
     }
 
-    public void addToSequence(int a) {
+    public void addToSequence(long a) {
         this.sequence.add(a);
     }
 
@@ -23,15 +23,15 @@ public class PeriodicFraction {
         return sequence.size();
     }
 
-    public int getValue() {
+    public long getValue() {
         return value;
     }
 
-    public int getBase() {
+    public long getBase() {
         return base;
     }
 
-    public List<Integer> getSequence() {
+    public List<Long> getSequence() {
         return sequence;
     }
 

@@ -6,15 +6,15 @@ import java.util.Set;
 
 public class SquareRootPeriodicFractionGenerator {
 
-    private final int value;
+    private final long value;
 
-    public SquareRootPeriodicFractionGenerator(int value) {
+    public SquareRootPeriodicFractionGenerator(long value) {
         this.value = value;
     }
 
     public PeriodicFraction generate() {
         double squareRoot = Math.sqrt(this.value);
-        int a0 = (int)squareRoot;
+        long a0 = (long)squareRoot;
 
         PeriodicFraction periodicFraction = new PeriodicFraction(this.value, a0);
 
@@ -38,20 +38,20 @@ public class SquareRootPeriodicFractionGenerator {
     }
 
 
-    private Triplet nextTriplet(Triplet triplet, int a0) {
-        int nextM = triplet.a * triplet.d - triplet.m;
-        int nextD = (this.value - nextM * nextM) / triplet.d;
-        int nextA = (a0 + nextM) / nextD;
+    private Triplet nextTriplet(Triplet triplet, long a0) {
+        long nextM = triplet.a * triplet.d - triplet.m;
+        long nextD = (this.value - nextM * nextM) / triplet.d;
+        long nextA = (a0 + nextM) / nextD;
         return new Triplet(nextA, nextM, nextD);
     }
 
     /*In the form of (S^0.5 + m)/n*/
     private static class Triplet {
-        int a;
-        int m;
-        int d;
+        long a;
+        long m;
+        long d;
 
-        public Triplet(int a, int m, int d) {
+        public Triplet(long a, long m, long d) {
             this.a = a;
             this.m = m;
             this.d = d;
