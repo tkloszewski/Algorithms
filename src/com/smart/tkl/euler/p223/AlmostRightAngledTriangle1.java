@@ -6,8 +6,6 @@ import java.util.List;
 
 public class AlmostRightAngledTriangle1 {
 
-
-
     public static void main(String[] args) {
         int limit = 25000000;
         long time1 = System.currentTimeMillis();
