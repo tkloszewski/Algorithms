@@ -1,6 +1,8 @@
 package com.smart.tkl.euler.p223;
 
 import com.smart.tkl.lib.Stack;
+import com.smart.tkl.lib.tree.pythagorean.PythagoreanTriple;
+import com.smart.tkl.lib.tree.pythagorean.PythagoreanTripleTree;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,58 +35,12 @@ public class AlmostRightAngledTriangle1 {
     public static void main(String[] args) {
         int limit = 25000000;
         long time1 = System.currentTimeMillis();
-        AlmostRightAngledTriangle1 counter = new AlmostRightAngledTriangle1(limit);
-        long count = counter.countTriangles();
+        List<PythagoreanTriple> initialTriples = List.of(
+                new PythagoreanTriple(1, 1, 1), new PythagoreanTriple(1, 2, 2));
+        long count = new PythagoreanTripleTree(limit, initialTriples).countTriangles();
         long time2 = System.currentTimeMillis();
         System.out.println("Fast force count: " + count);
         System.out.println("Time in ms: " + (time2 - time1));
-    }
-
-    public long countTriangles() {
-        long result = 2;
-
-        Stack<Triple> stack = new Stack<>();
-        stack.push(new Triple(1, 1, 1));
-        stack.push(new Triple(1, 2, 2));
-
-        while (!stack.isEmpty()) {
-            Triple triple = stack.pop();
-
-            Triple nextTriple = transform(triple, T1);
-            if(nextTriple.perimeter <= perimeterLimit) {
-               result++;
-               stack.push(nextTriple);
-            }
-
-            if(triple.a != triple.b) {
-               nextTriple = transform(triple, T2);
-               if(nextTriple.perimeter <= perimeterLimit) {
-                   result++;
-                   stack.push(nextTriple);
-               }
-            }
-
-            nextTriple = transform(triple, T3);
-            if(nextTriple.perimeter <= perimeterLimit) {
-                result++;
-                stack.push(nextTriple);
-            }
-        }
-
-        return result;
-    }
-
-    private static Triple transform(Triple triple, int[][] transformation) {
-        int[] product = new int[3];
-        int[] tripleVector = new int[]{triple.a, triple.b, triple.c};
-
-        for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 3; j++) {
-                product[i] += transformation[i][j] * tripleVector[j];
-            }
-        }
-
-        return new Triple(product[0], product[1], product[2]);
     }
 
     private static class Triple {
