@@ -13,6 +13,7 @@ public class SortedPermutationIterator implements Iterator<int[]> {
     private final Stack<StackEntry> stack = new Stack<>();
 
     private int permutationCount = 0;
+    private long value;
 
     public SortedPermutationIterator(int[] tab) {
         this(tab, true);
@@ -21,6 +22,7 @@ public class SortedPermutationIterator implements Iterator<int[]> {
     public SortedPermutationIterator(int[] tab, boolean ascending) {
         int[] sortedTab = SortingUtils.bubbleSort(tab);
         this.tab = ascending ? sortedTab : revert(sortedTab);
+        value = 0;
         totalPermutationsCount = countTotalPermutations(this.tab);
         stack.push(new StackEntry(0, new int[tab.length], 0, (int)Math.pow(2, tab.length) - 1));
     }
@@ -73,6 +75,44 @@ public class SortedPermutationIterator implements Iterator<int[]> {
         return null;
     }
 
+    public PermutedElement nextPermutedElement() {
+        while (!stack.isEmpty()) {
+            StackEntry stackEntry = stack.peek();
+            int mask = stackEntry.freeSlotMask;
+            int[] array = stackEntry.array;
+            int pos = stackEntry.pos;
+
+            if(mask == 0 || stackEntry.i >= tab.length) {
+                stack.pop();
+                if (mask == 0) {
+                    permutationCount++;
+                    return new PermutedElement(array, value);
+                }
+            }
+            else {
+                for (int k = stackEntry.i; k < tab.length; k++) {
+                    stackEntry.i = k + 1;
+                    if(((mask >> k) & 1) == 0) {
+                        continue;
+                    }
+                    if(stackEntry.lastValue != null && tab[k] == stackEntry.lastValue) {
+                        continue;
+                    }
+                    int bit = 1 << k;
+
+                    long pow = (long)Math.pow(10, tab.length - 1 - pos);
+                    value -= pow * array[pos];
+                    array[pos] = tab[k];
+                    value += pow * array[pos];
+                    stackEntry.lastValue = tab[k];
+                    stack.push(new StackEntry(0, array, pos + 1, mask & ~bit));
+                    break;
+                }
+            }
+        }
+        return null;
+    }
+
     private long countTotalPermutations(int[] sortedTab) {
         long result = 1;
         long numerator = 1;
@@ -109,6 +149,14 @@ public class SortedPermutationIterator implements Iterator<int[]> {
         int[] result = new int[tab.length];
         for(int i = tab.length - 1, k = 0; i >=0 ;i--, k++) {
             result[k] = tab[i];
+        }
+        return result;
+    }
+
+    private long toValue(int[] arr) {
+        long result = 0, pow = 1;
+        for(int i = arr.length - 1;  i >= 0; i--, pow *= 10) {
+            result += pow * arr[i];
         }
         return result;
     }
