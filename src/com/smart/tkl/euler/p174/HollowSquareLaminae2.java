@@ -43,7 +43,6 @@ public class HollowSquareLaminae2 {
                    frequencyMap.put(tiles, 1L);
                }
            }
-           result += hMax;
         }
 
         return result;
