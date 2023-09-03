@@ -1,5 +1,7 @@
 package com.smart.tkl.euler.p174;
 
+import com.smart.tkl.lib.utils.MathUtils;
+import com.smart.tkl.lib.utils.PrimeFactor;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +17,7 @@ public class HollowSquareLaminae2 {
         long time1 = System.currentTimeMillis();
         long limit = 1000000L;
         HollowSquareLaminae2 hollowSquareLaminae = new HollowSquareLaminae2(limit);
-        long count = hollowSquareLaminae.count();
+        long count = hollowSquareLaminae.countWithDiv();
         long time2 = System.currentTimeMillis();
         System.out.println("Count: " + count);
         System.out.println("Time in ms: " + (time2 - time1));
@@ -45,6 +47,21 @@ public class HollowSquareLaminae2 {
            }
         }
 
+        return result;
+    }
+
+    public long countWithDiv() {
+        long result = 0;
+        for(long i = 2; i <= limit/ 4; i++) {
+            long t = 1;
+            for(PrimeFactor primeFactor : MathUtils.listPrimeFactors(i)) {
+                t *= (primeFactor.getPow() + 1);
+            }
+            t = t / 2;
+            if(t <= 10) {
+               result++;
+            }
+        }
         return result;
     }
 }
