@@ -24,7 +24,7 @@ public class MathUtils {
         System.out.println("Modulo power 2639^3648 mod 7297: " + moduloPower(2639, 3648, 7279));
         System.out.println("Modulo power mod 10000000000: " + moduloPower(2, 7830457, 10000000000L));
         System.out.println("Is permutation: " + formDigitPermutations(1234567890, 3021987465L));
-        System.out.println("Prime factors: " + listPrimeFactors(322));
+        System.out.println("Prime factors: " + listPrimeFactors(763012L));
         System.out.println("Is prime: " + isPrime(99194853094755497L));
         System.out.println(GCD(323, 361));
         System.out.println(generateRotationValues(1234));
@@ -346,18 +346,32 @@ public class MathUtils {
     public static List<PrimeFactor> listPrimeFactors(long n) {
         List<PrimeFactor> result = new ArrayList<>();
 
-        int pow = 0;
-        while (n % 2 == 0) {
-            n = n / 2;
-            pow++;
+        for (int num : new int[]{2, 3, 5}) {
+            int pow = 0;
+            while (n % num == 0) {
+                n = n / num;
+                pow++;
+            }
+            if(pow > 0) {
+               result.add(new PrimeFactor(num, pow));
+            }
         }
 
-        if(pow > 0) {
-            result.add(new PrimeFactor(2, pow));
-            pow = 0;
+        int[] increments = new int[]{4, 2, 4, 2, 4, 6, 2, 6};
+        int i = 0;
+        for(long p = 7; p * p <= n; p += increments[i], i = (i + 1) % 8) {
+            int pow = 0;
+            while (n % p == 0) {
+                n = n / p ;
+                pow++;
+            }
+            if(pow > 0) {
+                result.add(new PrimeFactor(p, pow));
+            }
         }
 
-        for(long i = 3; i <= Math.sqrt(n); i += 2) {
+
+        /*for(long i = 3; i <= Math.sqrt(n); i += 2) {
             while (n % i == 0) {
                 n = n / i ;
                 pow++;
@@ -367,7 +381,7 @@ public class MathUtils {
                 pow = 0;
             }
         }
-
+*/
         if(n > 1) {
             result.add(new PrimeFactor(n, 1));
         }

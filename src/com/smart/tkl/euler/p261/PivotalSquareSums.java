@@ -14,7 +14,7 @@ public class PivotalSquareSums {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        long limit = 100000000000L;
+        long limit = 10000000000L;
         PivotalSquareSums pivotalSquareSums = new PivotalSquareSums(limit);
         long sum = pivotalSquareSums.sumAllPivots();
         long time2 = System.currentTimeMillis();
