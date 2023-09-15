@@ -4,9 +4,11 @@ import com.smart.tkl.lib.primes.Primes;
 import com.smart.tkl.lib.utils.MathUtils;
 import com.smart.tkl.lib.utils.PrimeFactor;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class BrentFactorization {
 
@@ -15,7 +17,8 @@ public class BrentFactorization {
     public static void main(String[] args) {
         System.out.println(factor(169));
 
-        long n = 551093930956115711L;
+        //long n = 7510939309561157112L;
+        long n = 4;
         long time1 = System.currentTimeMillis();
         List<PrimeFactor> primeFactors1 = MathUtils.listPrimeFactors(n);
         long time2 = System.currentTimeMillis();
@@ -73,10 +76,14 @@ public class BrentFactorization {
            }
         } while (!factors.isEmpty());
 
+        result.sort(Comparator.comparingLong(PrimeFactor::getFactor));
         return result;
     }
 
     static long factor(long n) {
+        if(n == 4) {
+           return 2;
+        }
         long x0 = 2;
         long g = 1;
         long xs = 0, y = 0;
@@ -112,7 +119,10 @@ public class BrentFactorization {
                    g = MathUtils.GCD(n, Math.abs(xs - y));
                 } while (g == 1);
             }
-            x0++;
+            x0 = (x0 + 1) % n;
+            while (c == 0 || c == n - 2) {
+                c = new Random().nextInt((int)n) % n;
+            }
         }
         return g;
     }
