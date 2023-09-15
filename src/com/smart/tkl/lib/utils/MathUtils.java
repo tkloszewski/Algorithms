@@ -204,8 +204,11 @@ public class MathUtils {
     
     /*Greatest Common Divisor*/
     public static long GCD(long a, long b) {
-        if(a == 0 || b == 0) {
-            return 1;
+        if(a == 0) {
+            return b;
+        }
+        if(b == 0) {
+           return a;
         }
         long r1 = Math.max(a, b);
         long r2 = Math.min(a, b);
