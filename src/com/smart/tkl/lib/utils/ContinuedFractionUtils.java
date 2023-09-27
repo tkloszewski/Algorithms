@@ -2,7 +2,6 @@ package com.smart.tkl.lib.utils;
 
 import static com.smart.tkl.lib.utils.MathUtils.toFraction;
 
-import java.awt.geom.Point2D;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.List;
 public class ContinuedFractionUtils {
 
     public static void main(String[] args) {
-        System.out.println(toConvexHullUnderTheLine(4, 7, 20));
         System.out.println(solveLinearEquation(5, 3, 13));
         System.out.println("Convergents: " + toConvergentList(127, 1293));
         System.out.println(compareContinuedFractions(toContinuedFractions(12, 13), toContinuedFractions(14, 13)));
@@ -134,42 +132,7 @@ public class ContinuedFractionUtils {
         }
     }
 
-    public static List<LongPoint> toConvexHullUnderTheLine(long p, long q, long limit) {
-        List<LongPoint> result = new ArrayList<>();
-        result.add(new LongPoint(0, 0));
 
-        List<Fraction> convergents = toConvergentList(p, q);
 
-        List<LongPoint> workingList = new ArrayList<>();
-        long t = limit/ q;
-        workingList.add(new LongPoint(t * q, t * p));
 
-        for(int i = 1; i <= t; i++) {
-            result.add(new LongPoint(i * q, i * p));
-        }
-
-        for(int i = convergents.size() - 1; i >= 0; i--) {
-            if(i % 2 == 1) {
-               LongPoint point = workingList.get(workingList.size() - 1);
-               while (point.getX() + convergents.get(i - 1).getDenominator() <= limit) {
-                   t = (limit - point.getX() - convergents.get(i - 1).getDenominator()) / convergents.get(i).getDenominator();
-
-                   long x = point.getX();
-                   long y = point.getY();
-                   long dx = convergents.get(i - 1).getDenominator() + t * convergents.get(i).getDenominator();
-                   long dy = convergents.get(i - 1).getNumerator() + t * convergents.get(i).getNumerator();
-                   long maxK = (limit - point.getX()) / dx;
-
-                   point = new LongPoint(x + dx * maxK, y + dy * maxK);
-                   workingList.add(point);
-
-                   for(int k = 1; k <= maxK; k++) {
-                       result.add(new LongPoint(x + dx * k, y + dy * k));
-                   }
-               }
-            }
-        }
-
-        return result;
-    }
 }
