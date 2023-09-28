@@ -9,6 +9,7 @@ import java.util.List;
 public class ContinuedFractionUtils {
 
     public static void main(String[] args) {
+        System.out.println("minMod r=4,m=7: " + minMod(4, 7, 6));
         System.out.println(solveLinearEquation(5, 3, 13));
         System.out.println("Convergents: " + toConvergentList(127, 1293));
         System.out.println(compareContinuedFractions(toContinuedFractions(12, 13), toContinuedFractions(14, 13)));
@@ -132,7 +133,30 @@ public class ContinuedFractionUtils {
         }
     }
 
-
+    /*
+    * find such x <= n that r/m >= k/x
+    * which is equivalent of such x that xr (mod m) is minimum
+    * */
+    public static long minMod(long r, long m, long n) {
+        if(n >= m) {
+           throw new IllegalArgumentException("n must be smaller than m");
+        }
+        if(m % r == 0) {
+           return m / r;
+        }
+        List<Fraction> convergents = toConvergentList(r, m);
+        for(int i = 1; i < convergents.size(); i++) {
+            if(i % 2 == 1) {
+               if(i + 1 == convergents.size() || convergents.get(i + 1).getDenominator() >= n) {
+                  long q1 = convergents.get(i - 1).getDenominator();
+                  long q2 = convergents.get(i).getDenominator();
+                  long t = (n - q1) / q2;
+                  return q1 + t * q2;
+               }
+            }
+        }
+        return 1;
+    }
 
 
 }

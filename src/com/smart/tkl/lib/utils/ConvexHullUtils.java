@@ -22,10 +22,19 @@ public class ConvexHullUtils {
         return result;
     }
 
+    public static long sumFloor(long p, long q, long b, long limit) {
+        ConvexHull convexHull = toConvexHullUnderTheLine(p, q, b,limit + 1);
+        return sumFloor(convexHull, limit);
+    }
+
     public static long sumFloor(long p, long q, long limit) {
+        ConvexHull convexHull = toConvexHullUnderTheLine(p, q, limit + 1);
+        return sumFloor(convexHull, limit);
+    }
+
+    private static long sumFloor(ConvexHull convexHull, long limit) {
         long result = 0;
         long N = limit + 1;
-        ConvexHull convexHull = toConvexHullUnderTheLine(p, q, N);
         List<LatticePoint> latticePoints = convexHull.latticePoints;
         for(int i = 1; i < latticePoints.size(); i++) {
             LatticePoint p1 = latticePoints.get(i - 1);
