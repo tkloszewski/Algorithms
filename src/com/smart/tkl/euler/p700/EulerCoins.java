@@ -32,9 +32,8 @@ public class EulerCoins {
         long last = a, first = a, min = a;
         while (min != 1) {
             long k = (mod - last) / first;
-            long prevLast = last;
             last = last + k * first;
-            first = (prevLast + (k + 1) * first) % mod;
+            first = (last + first) % mod;
             if(first < min) {
                result.add(first);
                min = first;
