@@ -73,6 +73,11 @@ public class PandigitalConcatenatedProduct {
         for(int splitSize = 1; splitSize <= 9; splitSize++) {
             long right = pandigital % pow;
             long left = pandigital / pow;
+
+            if(left == 0 || right == 0) {
+                return null;
+            }
+
             long gcd = MathUtils.GCD(left, right);
             for(long factor = 2; factor <= gcd; factor++) {
                 int[] used = new int[10];
