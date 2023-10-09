@@ -75,7 +75,7 @@ public class PandigitalConcatenatedProduct {
             long left = pandigital / pow;
 
             if(left == 0 || right == 0) {
-                return null;
+                continue;
             }
 
             long gcd = MathUtils.GCD(left, right);
