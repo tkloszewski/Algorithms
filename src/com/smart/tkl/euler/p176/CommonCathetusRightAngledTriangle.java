@@ -10,8 +10,9 @@ import java.util.Map;
 public class CommonCathetusRightAngledTriangle {
 
     public static void main(String[] args) {
+        long n = 88573;
         long time1 = System.currentTimeMillis();
-        long cathetus = findSmallestCathetus(47547);
+        long cathetus = findSmallestCathetus(n);
         long time2 = System.currentTimeMillis();
         System.out.println("Smallest cathetus: " + cathetus);
         System.out.println("Time in ms: " + (time2 - time1));
