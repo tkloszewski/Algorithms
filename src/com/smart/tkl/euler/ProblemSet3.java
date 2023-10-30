@@ -135,7 +135,7 @@ public class ProblemSet3 {
         return nonAbundantNumbers.stream().reduce(0, Integer::sum);
     }
 
-    private static boolean isAbundant(int n) {
+    private static boolean isAbundant(long n) {
         return sumProperDivisors(n) > n;
     }
 
@@ -189,15 +189,15 @@ public class ProblemSet3 {
     }
 
 
-    public static int sumAmicableDivisorsLessThan(int n) {
-        Map<Integer, Integer> divisorsMap = new HashMap<>();
-        Set<Integer> amicableNumbers = new LinkedHashSet<>();
+    public static long sumAmicableDivisorsLessThan(int n) {
+        Map<Long, Long> divisorsMap = new HashMap<>();
+        Set<Long> amicableNumbers = new LinkedHashSet<>();
 
-        for(int i = 1; i < n; i++) {
-            int sum1 = divisorsMap.containsKey(i) ? divisorsMap.get(i) : sumProperDivisors(i);
+        for(long i = 1; i < n; i++) {
+            long sum1 = divisorsMap.containsKey(i) ? divisorsMap.get(i) : sumProperDivisors(i);
             divisorsMap.putIfAbsent(i, sum1);
             if(i != sum1) {
-                int sum2 = divisorsMap.containsKey(sum1) ? divisorsMap.get(sum1) : sumProperDivisors(sum1);
+                long sum2 = divisorsMap.containsKey(sum1) ? divisorsMap.get(sum1) : sumProperDivisors(sum1);
                 divisorsMap.putIfAbsent(sum1, sum2);
                 if(sum2 == i) {
                     amicableNumbers.add(i);
@@ -206,10 +206,10 @@ public class ProblemSet3 {
             }
         }
         System.out.println(amicableNumbers);
-        return amicableNumbers.stream().reduce(0, Integer::sum);
+        return amicableNumbers.stream().reduce(0L, Long::sum);
     }
 
-    public static int sumProperDivisors(int n) {
+    public static long sumProperDivisors(long n) {
         return MathUtils.sumProperDivisors(n);
     }
 

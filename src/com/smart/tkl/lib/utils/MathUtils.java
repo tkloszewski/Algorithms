@@ -394,28 +394,28 @@ public class MathUtils {
 
 
     
-    public static int sumProperDivisors(int n) {
-        List<Integer> divisors = listProperDivisors(n);
-        return divisors.stream().reduce(0, Integer::sum);
+    public static long sumProperDivisors(long n) {
+        List<Long> divisors = listProperDivisors(n);
+        return divisors.stream().reduce(0L, Long::sum);
     }
     
-    public static List<Integer> listProperDivisors(int n) {
-        List<Integer> result = new ArrayList<>();
-        result.add(1);
+    public static List<Long> listProperDivisors(long n) {
+        List<Long> result = new ArrayList<>();
+        result.add(1L);
         if(isPrime(n)) {
             return result;
         }
         
         int step = n % 2 == 0 ? 1 : 2;
         int start = n % 2 == 0 ? 2 : 3;
-        int sqrt = (int)Math.sqrt(n);
-        int end = sqrt;
+        long sqrt = (long)Math.sqrt(n);
+        long end = sqrt;
         if(sqrt * sqrt == n) {
             result.add(sqrt);
             end = sqrt - 1;
         }
         
-        for(int i = start; i <= end; i += step) {
+        for(long i = start; i <= end; i += step) {
             if(n % i == 0) {
                 result.add(i);
                 result.add(n/i);
