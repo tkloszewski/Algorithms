@@ -3,12 +3,14 @@ package com.smart.tkl.lib;
 public class Stack<V> {
 
     private Node<V> head;
+    private int size;
 
     public V pop() {
         V result = null;
         if(head != null) {
            result = head.item;
            head = head.next;
+           size--;
         }
         return result;
     }
@@ -26,6 +28,7 @@ public class Stack<V> {
            newHead.next = head;
            head = newHead;
         }
+        size++;
     }
 
     private static class Node<V> {
@@ -39,6 +42,10 @@ public class Stack<V> {
 
     public boolean isEmpty() {
         return head == null;
+    }
+
+    public int size() {
+        return size;
     }
 
     public void print() {
