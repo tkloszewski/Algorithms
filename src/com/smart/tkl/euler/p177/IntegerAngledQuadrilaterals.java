@@ -6,14 +6,24 @@ import java.util.Set;
 public class IntegerAngledQuadrilaterals {
 
     private static final double EPS = 1e-9;
-    private static final Set<Long> hashedValues = new HashSet<>();
+    private static final Set<Long> HASHED_VALUES = new HashSet<>();
+    private static final double[] SINE = new double[181];
+    private static final double[] COSINE = new double[181];
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
+        precompute();
         long count = count();
         long time2 = System.currentTimeMillis();
         System.out.println("Count: " + count);
         System.out.println("Time in ms: " + (time2 - time1));
+    }
+
+    private static void precompute() {
+        for(int i = 1; i <= 180; i++) {
+            SINE[i] = sin(i);
+            COSINE[i] = cos(i);
+        }
     }
 
     public static long count() {
@@ -25,9 +35,9 @@ public class IntegerAngledQuadrilaterals {
                     int angle8 = 180 - angle1 - angle2 - angle3;
                     for(int angle4 = angle1; angle4 <= 180 - angle1 - angle2 - angle3; angle4++) {
                         int angle5 = 180 - angle2 - angle3 - angle4;
-                        double AC = sin(angle3 + angle4) / sin(angle5);
-                        double AD = sin(angle3) / sin(angle8);
-                        double DC = Math.sqrt(AC * AC + AD * AD - 2 * AC * AD * cos(angle1));
+                        double AC = SINE[angle3 + angle4] / SINE[angle5];
+                        double AD = SINE[angle3] / SINE[angle8];
+                        double DC = Math.sqrt(AC * AC + AD * AD - 2 * AC * AD * COSINE[angle1]);
                         double calculatedAngle = acos((DC * DC + AC * AC - AD * AD) / (2 * DC * AC));
                         if(isWithinLimit(calculatedAngle)) {
                             int angle6 = (int)Math.round(calculatedAngle);
@@ -49,13 +59,13 @@ public class IntegerAngledQuadrilaterals {
 
                             boolean unique = true;
                             for(long hash : hashes) {
-                                if(hashedValues.contains(hash)) {
+                                if(HASHED_VALUES.contains(hash)) {
                                    unique = false;
                                    break;
                                 }
                             }
                             if(unique) {
-                               hashedValues.add(hash1);
+                               HASHED_VALUES.add(hash1);
                                result++;
                             }
                         }
