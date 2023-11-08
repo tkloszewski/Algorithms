@@ -1,0 +1,59 @@
+Around 4 seconds.
+
+Like of most of the others I enumerate first 4 angles. Let's mark angles in quadrilateral from bottom
+left corner to upper left corner in counter clock wise fashion. Let's call all those 8 angles as:
+
+$α_1,α_2,α_3,α_4,α_5,α_6,α_7,α_8$
+
+We treat $α_1$ as the smallest angle so its value must not exceed 45. The max values of first 4 angles are given by:
+
+$max(α_1) = 45$
+$max(α_2) = 180 - 3α_1$ (from triangle ABC)
+$max(α_3) = 180 - α_2 - 2α_1$ (from triangle ABD)
+$max(α_4) = 180 - α_1 - α_2 - α_3$ (from triangle ABD)
+
+The angles $α_5$ and $α_8$ can be directly calculated as:
+
+$α_5=180-(α_2+α_3+α_4)$
+$α_8=180-(α_1+α_2+α_3)$
+
+In order to calculate $α_6$ and $α_7$ we must use sine and cosine law. Their values are independent
+of the side lengths with given values of $α_1,α_2,α_3,α_4$. Let's assume we have the length of AB. (Actual length doesn't matter as it is eliminated in further calculations). We can calculate the length of AC and AD using sine law:
+
+$AC=\dfrac{AB*sin(α_1+α_2)}{sin(α_2+α_3+α_4)}$
+
+$AD=\dfrac{AB*sin(α_3)}{sin(α_1+α_2+α_3)}$
+
+$DC^2=AC^2 + AD^2 - 2AC*AD*cos(α_1)$
+
+
+To calculate $α_6$ we can use cosine law for triangle ACD:
+
+$AD^2= DC^2 + AC^2 - 2DC*AC*cos(α_6)$
+
+$α_6 = acos(\dfrac{DC^2 + AC^2 - AD^2}{2AC*DC})$
+
+It's better to use acos than asin as the first one gives value in range of (0, 180).
+
+Having calculated $α_6$ the value of $α_7$ is trivial:
+
+$α_7=α_2+α_3-α_6$
+
+Now comes the tricky part. We must only count non similar quadrilaterals so it means we must get rid of all similar ones. We get similar quadrilaterals by rotating and flipping the original one.
+
+For given quadrilateral with angles $α_1,α_2,α_3,α_4,α_5,α_6,α_7,α_8$ we get following similar ones with angles from bottom left to upper left counter clock-wise:
+
+By rotation
+1 => $α_7,α_8,α_1,α_2,α_3,α_4,α_5,α_6$
+2 => $α_5,α_6,α_7,α_8,α_1,α_2,α_3,α_4$
+3 => $α_3,α_4,α_5,α_6,α_7,α_8,α_1,α_2$
+
+By rotating 'reflected' quadrilateral
+4 => $α_4,α_3,α_2,α_1,α_8,α_7,α_6,α_5$
+5 => $α_6,α_5,α_4,α_3,α_2,α_1,α_8,α_7$
+6 => $α_8,α_7,α_6,α_5,α_4,α_3,α_2,α_1$
+7 => $α_2,α_1,α_8,α_7,α_6,α_5,α_4,α_3$
+
+We take into account only 4 first angles as the rest is uniquely determined and we calculate the unique hash value using 8 bits (every angle is less than 180 and can be written in one byte)
+
+To slightly improve performance sin and cos values are precomputed.
