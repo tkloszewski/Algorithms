@@ -1,0 +1,54 @@
+250 ms to count all triangles. This is more mathematical challenge than coding one. First of all we must derive the formula for the inscribed circle radius. From cosine law we get:
+
+$c^2 = a^2 + b^2 - 2ab*cos60 = a^2 + b^2 - ab$
+
+Then we can solve for ab product:
+
+$ab = a^2 + b^2 - c^2 = (a + b)^2 -2ab -c^2$
+
+$3ab = (a + b)^2 - c^2 = (a + b + c)*(a + b - c)$
+
+The radius of a triangle r can be derived by observing that the sum of area of the 3 triangles which heights have length of the inscribed circle radius equals the are of the 60 degrees triangle.
+
+$r = \dfrac{S}{0.5 * (a + b + c)} = \dfrac{ab*sin60}{a + b + c}$
+
+By substituting ab calculated from cosine equation we get:
+
+$r = \dfrac{(a + b + c)*(a + b - c) * \sqrt{3}}{6 * (a + b + c)}$
+
+$r = \dfrac{(a + b - c) * \sqrt{3}}{6}$
+
+Another key observation is the fact that we can obtain 60 degrees integer triangles by extending one of the side of 120 degrees integer triangle.
+
+The sides 120 degrees integer triangle satisfy the equation:
+$c^2 = a^2 + b^2 + ab$
+
+If we extend a side by length b and building equilateral triangle or extending side a by length b
+we get the 60 degrees integer triangle (a, a + b, c).
+
+Indeed $c^2 = a^2 + (a+b)^2 - a*(a+b) = a^2 + a^2 + 2ab + b^2 - a^2 - ab = a^2 + b^2 + ab$
+
+120 degrees integer triangles are described by Eisenstein triple:
+For any m > n, GCD(m,n)=1 and (m - n) mod 3 = 0 we have a triple:
+
+${a=k*\dfrac{2mn + n^2}{3}, b=k*\dfrac{m^2 - n^2}{3}, c=k*\dfrac{m^2 + n^2 + mn}{3}}$
+
+From this we can obtain 2 distinct sets of 60 degrees integer triples:
+
+1. m > n, GCD(m,n)=1 and $(m - n) \equiv 0 \pmod{3}$ => ${a=k*\dfrac{2mn + n^2}{3}, b=k*\dfrac{2mn + m^2}{3}, c=k*\dfrac{m^2 + n^2 + mn}{3}}$
+
+2. m > n, GCD(m,n)=1 and $(m - n) \not\equiv 0 \pmod{3}$ => ${a=k*(2mn + n^2), b=k*(2mn + m^2), c=k*(m^2 + n^2 + mn)}$
+
+By substituting first and seconds triple to the radius formula we get respectively:
+
+$r = \dfrac{\sqrt{3} * k*mn}{6}$
+
+$r = \dfrac{\sqrt{3} * k*mn}{2}$
+
+So for the given pair of m and n the number of 60 triangles is respectively:
+
+$k = \dfrac{6r}{\sqrt{3} * mn}$
+
+$k = \dfrac{2r}{\sqrt{3} * mn}$
+
+The counting is done by the 2 double nested loops.
