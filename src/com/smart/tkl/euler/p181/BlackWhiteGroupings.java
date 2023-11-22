@@ -1,8 +1,5 @@
 package com.smart.tkl.euler.p181;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class BlackWhiteGroupings {
 
     private final int maxBlack;
@@ -22,7 +19,6 @@ public class BlackWhiteGroupings {
         long time2 = System.currentTimeMillis();
         System.out.println("Count: " + count);
         System.out.println("Time in ms: " + (time2 - time1));
-        System.out.println(getSolution(maxBlack, maxWhite));
     }
 
     public long count() {
@@ -51,38 +47,6 @@ public class BlackWhiteGroupings {
                 }
             }
         }
-
-
-
         return groupings[maxBlack][maxWhite][1];
     }
-
-    static long  getSolution(int black, int white)
-    {
-        long[][] sol = new long[black + 1][white + 1];
-        int b, w, j, k;
-
-        sol[0][0] = 1;
-
-        for (b = 0; b <= black; b++)
-        {
-            for (w = b > 0 ? 0 : 1; w <= white; w++)
-            {
-                for (j = b; j <= black; j++)
-                {
-                    for (k = w; k <= white; k++)
-                    {
-                        sol[j][k] += sol[j - b][k - w];
-                    }
-                }
-            }
-        }
-
-        int h = 3;
-
-
-        return sol[black][white];
-    }
-
-
 }
