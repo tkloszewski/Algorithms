@@ -42,7 +42,7 @@ public class DigitPowerSum {
                          return sequence;
                       }
                    }
-                   pow = (long)Math.pow(digitSum, ++exp);
+                   pow *= digitSum;
                 }
             }
             digitsCount++;

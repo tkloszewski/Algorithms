@@ -15,10 +15,11 @@ public class DiscreteRoot {
 
     public static List<Long> findAllDiscreteRoots(int k, long a, long n) {
         List<Long> result = new ArrayList<>();
-        long root = PrimitiveRoot.generateRoot(n);
-        if(root == -1) {
+        List<Long> primitiveRoots = PrimitiveRoot.generateRoots(n);
+        if(primitiveRoots.isEmpty()) {
            return result;
         }
+        long root = primitiveRoots.get(0);
         long powRoot = MathUtils.moduloPower(root, k, n);
         long y = ModDiscreteLog.solve(powRoot, a, n);
         if(y == -1) {

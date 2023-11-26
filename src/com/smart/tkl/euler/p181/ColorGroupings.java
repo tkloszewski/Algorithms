@@ -13,7 +13,7 @@ public class ColorGroupings {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        int[] colors = new int[]{60, 40};
+        int[] colors = new int[]{4, 0};
         ColorGroupings colorGroupings = new ColorGroupings(colors);
         long result = colorGroupings.count();
         long time2 = System.currentTimeMillis();

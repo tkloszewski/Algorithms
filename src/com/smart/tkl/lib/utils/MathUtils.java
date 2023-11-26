@@ -245,8 +245,10 @@ public class MathUtils {
             long mi = congruence.getM();
             long ai = congruence.getA();
             long Mi = M / mi;
-            long inv = moduloInverse(Mi, mi);
-            result = (result + ai * inv * Mi) % M;
+            long inv = moduloInverse(Mi, mi) % M;
+            long m = moduloMultiply(ai, inv, M);
+            m = moduloMultiply(m, Mi, M);
+            result = (result + m) % M;
         }
         return result;
     }
@@ -778,7 +780,11 @@ public class MathUtils {
         if(x <= 1) {
            return x;
         }
-        return m - (m / x) * moduloInverse(m % x, m);
+        long result = m - (m / x) * moduloInverse(m % x, m);
+        if(result < 0) {
+           result = m - result;
+        }
+        return result;
     }
 
     public static int[] modInvInRange(int m) {

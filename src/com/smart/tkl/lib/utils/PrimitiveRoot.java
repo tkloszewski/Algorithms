@@ -1,5 +1,6 @@
 package com.smart.tkl.lib.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -7,23 +8,25 @@ import java.util.stream.Collectors;
 public class PrimitiveRoot {
 
    public static void main(String[] args) {
-       long root = generateRoot(10);
-       System.out.println("Primitive Root: " + root);
+       List<Long> roots = generateRoots(19);
+       System.out.println("Primitive roots 19: " + roots);
+       roots = generateRoots(37);
+       System.out.println("Primitive roots 37: " + roots);
    }
 
-   public static long generateRoot(long n) {
+   public static List<Long> generateRoots(long n) {
        List<PrimeFactor> primeFactors = MathUtils.listPrimeFactors(n);
        if(primeFactors.size() > 2) {
-          return -1;
+          return List.of();
        }
        else if(primeFactors.size() == 2) {
-           if(primeFactors.get(0).getFactor() != 2) {
-              return -1;
+           if(primeFactors.get(0).getFactor() != 2 || primeFactors.get(0).getPow() != 1) {
+              return List.of();
            }
        }
        else if(primeFactors.size() == 1) {
            if(primeFactors.get(0).getFactor() == 2 && !Set.of(1L, 2L, 4L).contains(n)) {
-              return -1;
+              return List.of();
            }
        }
 
@@ -34,30 +37,15 @@ public class PrimitiveRoot {
                .filter(f -> f < phi)
                .collect(Collectors.toList());
 
-       if(primeFactors.size() == 2) {
-           long prime = primeFactors.get(1).getFactor();
-           for (long i = 3; i <= n; i += 2) {
-               if(i % prime == 0) {
-                  continue;
-               }
-               if(isRoot(i, phiPrimeFactors, phi, n)) {
-                   return i;
-               }
-           }
-       }
-       else if(primeFactors.size() == 1) {
-           long prime = primeFactors.get(0).getFactor();
-           for(long i = 2; i <= n; i++) {
-               if(i % prime == 0) {
-                  continue;
-               }
-               if(isRoot(i, phiPrimeFactors, phi, n)) {
-                  return i;
-               }
+       List<Long> roots = new ArrayList<>();
+
+       for(long factor = 2; factor < n; factor++) {
+           if(isRoot(factor, phiPrimeFactors, phi, n)) {
+              roots.add(factor);
            }
        }
 
-       return -1;
+       return roots;
    }
 
    private static boolean isRoot(long x, List<Long> phiPrimeFactors, long phi, long n) {
