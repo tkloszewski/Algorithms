@@ -27,7 +27,7 @@ public class RSAEncryption {
     public long sumAllKeys() {
         long result = 0;
         long min = p * q;
-        for(int e = 2; e < phi; e++) {
+        for(int e = 3; e < phi; e += 2) {
             if(MathUtils.GCD(e, phi) == 1) {
                 long solutions = (1 + MathUtils.GCD(e - 1, p - 1)) * (1 + MathUtils.GCD(e - 1, q - 1));
                 if (solutions == min) {

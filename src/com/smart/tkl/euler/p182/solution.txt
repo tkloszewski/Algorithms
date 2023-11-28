@@ -1,0 +1,52 @@
+This task is quite difficult, because it requires some knowledge of number theory.
+Nevertheless the key to efficient algorithm is finding the formula of all unconcealed messages
+for given secret key e.
+
+The unconcealed message by the definition is the message:
+
+$m^e \equiv m$ (mod n)
+
+This is equivalent to 2 equations:
+
+$m^e \equiv m$ (mod p)
+$m^e \equiv m$ (mod q)
+
+Let's solve the first one.
+The trivial solution is m = 0. The other solutions can be found by solving this equation:
+
+$m^{e-1} \equiv 1$ (mod p)
+
+This equation has at least one solution which is: $m \equiv 1$ (mod p). Generally all solutions
+are in the form of $g^k$ where g is one of the primitive root modulo p and 0 <= k < p - 1. Substituting $g^k$ we obtain:
+
+$g^{k*(e-1)} \equiv 1$ (mod p)
+The order of g that is the least value of exponent n where $g^n \equiv 1 $ (mod p) is p-1, because g is the primitive root modulo p, and the order of any primitive root is $\phi(n)$ which is Euler's totient function.
+
+Hence we have that:
+ $p-1$ | $k*(e-1)$
+
+ If gcd(p-1, e-1) = d then we have that: $\dfrac{p-1}{d}$ | $k * \dfrac{e-1}{d}$ which means
+that:
+  $\dfrac{p-1}{d}$ | $k$, because $gcd(\dfrac{p-1}{d},\dfrac{e-1}{d}) = 1$
+
+  In other words k is multiple of $\dfrac{p-1}{d}$ and 0<=k<=d-1 which means there are d solutions to
+the equation:
+  $m^(e-1) \equiv 1$ (mod p)
+Together with trivial solution m = 0, we have $1+d=1+gcd(e-1,p-1)$ solutions of the equation
+
+$m^e \equiv m$ (mod p)
+
+Similarly we have $1+gcd(e-1,q-1)$ to the equation:
+
+$m^e \equiv m$ (mod q)
+
+Every possible pair of solutions of these 2 equations gives unique solution mod p*q. (from Chinese Reminder Theory)
+So the total number of solutions that is the total number of unconcealed messages for given encryption key e is:
+
+$(1+gcd(e-1,p-1))*(1+gcd(e-1,q-1))$
+
+Let's first check if gcd(e-1,p-1) = 1 and gcd(e-1,q-1) = 1 can be solution. Becuase both p-1 and q-1 are even numbers the e-1 must be odd. This means that e is even, but then gcd(e, (p-1)(q-1)) > 1
+becuase (p-1)(q-1) is even. So those e for which gcd(e-1,p-1) = 1 and gcd(e-1,q-1) = 1 cannot be taken to the final sum. This also means that the minimum number of solutions is 9.
+
+
+The final algorithm is straightforward. It takes all possible values of e and take only those for which gcd(e, (p-1)(q-1)) = 1 and the number of unconcealed messages is minimum that is 9.
