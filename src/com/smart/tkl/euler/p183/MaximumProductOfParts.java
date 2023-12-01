@@ -2,7 +2,6 @@ package com.smart.tkl.euler.p183;
 
 import com.smart.tkl.lib.utils.MathUtils;
 import com.smart.tkl.lib.utils.PrimeFactor;
-import java.math.BigInteger;
 import java.util.Map;
 import java.util.stream.Collectors;
 
