@@ -1,9 +1,6 @@
 package com.smart.tkl.euler.p183;
 
 import com.smart.tkl.lib.utils.MathUtils;
-import com.smart.tkl.lib.utils.PrimeFactor;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class MaximumProductOfParts {
 
@@ -26,12 +23,6 @@ public class MaximumProductOfParts {
     public long sum() {
         long result = 0;
 
-        Map<Long, Integer>[] primeFactors = new Map[N + 1];
-        for(int n = 1; n <= N; n++) {
-            primeFactors[n] = MathUtils.listPrimeFactors(n).stream()
-                    .collect(Collectors.toMap(PrimeFactor::getFactor, PrimeFactor::getPow));
-        }
-
         for(int n = 5; n <= N; n++) {
             double x = n / Math.E;
             int k = (int)x;
@@ -40,7 +31,7 @@ public class MaximumProductOfParts {
             double value2 = k * Math.log10(k) + Math.log10(n);
 
             k = value1 > value2 ? k : k + 1;
-            if(!isTerminatedDecimal(primeFactors[n], primeFactors[k])) {
+            if(!isTerminatedDecimal(n, k)) {
                 result += n;
             }
             else {
@@ -51,15 +42,14 @@ public class MaximumProductOfParts {
         return result;
     }
 
-    private static boolean isTerminatedDecimal(Map<Long, Integer> numeratorMap, Map<Long, Integer> denominatorMap) {
-        for(Long factor : denominatorMap.keySet()) {
-            if(factor != 2 && factor != 5) {
-                if(!numeratorMap.containsKey(factor) || numeratorMap.get(factor) < denominatorMap.get(factor)) {
-                    return false;
-                }
-            }
+    private static boolean isTerminatedDecimal(long n, long k) {
+        k = k / MathUtils.GCD(n, k);
+        while (k % 2 == 0) {
+            k = k / 2;
         }
-
-        return true;
+        while (k % 5 == 0) {
+            k = k / 5;
+        }
+        return k == 1;
     }
 }
