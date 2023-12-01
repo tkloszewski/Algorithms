@@ -37,10 +37,10 @@ public class MaximumProductOfParts {
             double x = n / Math.E;
             int k = (int)x;
 
-            BigInteger v1 = BigInteger.valueOf(k + 1).pow(k + 1);
-            BigInteger v2 = BigInteger.valueOf(k).pow(k).multiply(BigInteger.valueOf(n));
+            double value1 = (k + 1) * Math.log10(k + 1);
+            double value2 = k * Math.log10(k) + Math.log10(n);
 
-            k = v1.compareTo(v2) > 0 ? k : k + 1;
+            k = value1 > value2 ? k : k + 1;
             if(!isTerminatedDecimal(primeFactors[n], primeFactors[k])) {
                 result += n;
             }
