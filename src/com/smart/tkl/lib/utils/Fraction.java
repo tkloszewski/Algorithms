@@ -24,6 +24,10 @@ public class Fraction implements Comparable<Fraction> {
         return new Fraction(this.q, this.p, true);
     }
 
+    public Fraction toMinusSign() {
+        return new Fraction(- this.p, this.q, true);
+    }
+
     public double toDouble() {
         return (double) this.p / this.q;
     }
