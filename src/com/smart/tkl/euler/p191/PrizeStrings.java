@@ -18,9 +18,12 @@ public class PrizeStrings {
     }
 
     public static void main(String[] args) {
+        long time1 = System.currentTimeMillis();
         int period = 30;
         PrizeStrings prizeStrings = new PrizeStrings(period);
+        long time2 = System.currentTimeMillis();
         System.out.println(prizeStrings.count());
+        System.out.println("Time in ms: " + (time2 - time1));
     }
 
     /* 0 -> no latency in last day and no absence
