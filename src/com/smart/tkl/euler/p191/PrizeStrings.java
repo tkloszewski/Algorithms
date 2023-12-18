@@ -1,9 +1,11 @@
 package com.smart.tkl.euler.p191;
 
+import java.math.BigInteger;
+
 public class PrizeStrings {
 
     private final int period;
-    private final long[][] states;
+    private final BigInteger[][] states;
 
     private static final int L0_A0 = 0;
     private static final int L0_A1 = 1;
@@ -14,7 +16,7 @@ public class PrizeStrings {
 
     public PrizeStrings(int period) {
         this.period = period;
-        this.states = new long[period + 1][6];
+        this.states = new BigInteger[period + 1][6];
     }
 
     public static void main(String[] args) {
@@ -40,19 +42,22 @@ public class PrizeStrings {
       L2A0: | LOA1  |   -    | L0A0
       L2A1: |  -    |   -    | L0A1
      * */
-    public long count() {
-        long result = 0;
+    public BigInteger count() {
+        BigInteger result = BigInteger.ZERO;
 
-        states[1][L0_A0] = 1;
-        states[1][L0_A1] = 1;
-        states[1][L1_A0] = 1;
+        states[1][L0_A0] = BigInteger.ONE;
+        states[1][L0_A1] = BigInteger.ONE;
+        states[1][L1_A0] = BigInteger.ONE;
+        states[1][L1_A1] = BigInteger.ZERO;
+        states[1][L2_A0] = BigInteger.ZERO;
+        states[1][L2_A1] = BigInteger.ZERO;
 
         for(int days = 2; days <= period; days++) {
-            states[days][L0_A0] = states[days - 1][L0_A0] + states[days - 1][L1_A0] + states[days - 1][L2_A0];
+            states[days][L0_A0] = states[days - 1][L0_A0].add(states[days - 1][L1_A0]).add(states[days - 1][L2_A0]);
 
-            states[days][L0_A1] = states[days - 1][L0_A0] + states[days - 1][L0_A1] +
-                    states[days - 1][L1_A0] + states[days - 1][L1_A1] +
-                    states[days - 1][L2_A0] + states[days - 1][L2_A1];
+            states[days][L0_A1] = states[days - 1][L0_A0].add(states[days - 1][L0_A1])
+                    .add(states[days - 1][L1_A0]).add(states[days - 1][L1_A1])
+                    .add(states[days - 1][L2_A0]).add(states[days - 1][L2_A1]);
 
             states[days][L1_A0] = states[days - 1][L0_A0];
 
@@ -64,7 +69,7 @@ public class PrizeStrings {
         }
 
         for(int state = 0; state <= 5; state++) {
-            result += states[period][state];
+            result = result.add(states[period][state]);
         }
 
         return result;
