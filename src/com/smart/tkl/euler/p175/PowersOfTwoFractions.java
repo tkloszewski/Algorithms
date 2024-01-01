@@ -51,6 +51,22 @@ public class PowersOfTwoFractions {
         return doSearch(p ,q);
     }
 
+
+    /*
+     q > p then n must be odd and in the form of 2(n/2) + 1 because f(2(n/2) + 1) = f(n/2) and
+        f(2(n/2)) = f(n/2) + f(n/2 - 1). If q/p = pow * p + r then 2 cases:
+        r = 0 =>  f(k) * (q - (pow - 1) * p) = f(k-1) * p => f(k) * p => f(k-1)*p => f(k) = f(k-1) => k = 1
+        => then n = 2^(pow-1) + 2^(pow-2) + 2^(pow-3) + ... + 1 = 2^(pow-1) + (2^(pow-1) - 1)
+        if r > 0 then we have
+        f(k) (q - pow * p) = f(k-1) * p => f(k) * r = f(k-1) * p => f(k)/f(k-1) = p/r
+        and n = 2^pow * k + 2^(pow-1) + ... + 1 = 2^pow * k + 2^pow - 1.
+
+     q < p then n must even and the form of 2(n/2) because f(2(n/2)) = f(n/2) + f(n/2 - 1) and
+        f(2(n/2) - 1) = f(n/2 - 1). If p/q = pow * q + r then 2 cases:
+        r = 0 => f(k-1) * (p - (pow-1) * q) = q * f(k) => n = 2^(pow-1)
+        r > 0 => f(k-1) * (p - pow * q) = q * f(k) => f(k-1) * r = q * f(k) => n = 2^pow * k and
+        f(k)/f(k-1) = r/q
+    * */
     private static BigInteger doSearch(long p, long q) {
         if(p == q || p == 0 || q == 0) {
            return BigInteger.ONE;
@@ -94,6 +110,13 @@ public class PowersOfTwoFractions {
         return doSearch2(p ,q);
     }
 
+    /*1. If list size is even it means we have even number and there is 0 at the end. We left shift this number
+      by k and add ones. On the other hand at the is one and we have to add k ones to the Shorted Binary Expansion.
+
+      2. If n = 2^(k-1) then Shorted Binary Expansion is one of 1 and k-1 zeroes.
+         If n = 2^k * f(n/2^k) then if n/2^k is even the list size is also even and we add k zeroes so the last elemnt
+         of the list equals value + k. If at the end are one (list size is odd) we just add k zeroes to the end of the list.
+    * */
     private static LinkedList<Integer> doSearch2(long p, long q) {
         if(p == q || p == 0 || q == 0) {
             return listOf(1);
@@ -121,7 +144,7 @@ public class PowersOfTwoFractions {
             int k = (int)(p / q);
 
             long r = p % q;
-            if(r == 0) {
+            if(r == 0) { //
                 LinkedList<Integer> list = listOf(1);
                 list.add(k - 1);
                 return list;
