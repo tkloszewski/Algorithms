@@ -13,6 +13,14 @@ public class GenericUtils {
         return out;
     }
 
+    public static long[][] clone(long[][] in) {
+        long[][] out = new long[in.length][];
+        for(int i = 0; i < in.length; i++) {
+            out[i] = in[i].clone();
+        }
+        return out;
+    }
+
     public static boolean hasUniqueChars(String s) {
         Set<Integer> set = new HashSet<>();
         for(char c : s.toCharArray()) {

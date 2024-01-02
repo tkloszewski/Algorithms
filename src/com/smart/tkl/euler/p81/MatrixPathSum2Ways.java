@@ -11,7 +11,7 @@ public class MatrixPathSum2Ways {
 
     private static final String MATRIX_80_80_FILE_PATH = "C:\\Projects\\personal\\Algorithms\\src\\com\\smart\\tkl\\euler\\p81\\p081_matrix.txt";
 
-    private static final int[][] TEST_MATRIX = {
+    private static final long[][] TEST_MATRIX = {
             {131, 673, 234, 103, 18},
             {201, 96,  342, 965, 150},
             {630, 803, 746, 422, 111},
@@ -19,7 +19,7 @@ public class MatrixPathSum2Ways {
             {805, 732, 524, 37,  331}
     };
 
-    private final int[][] matrix;
+    private final long[][] matrix;
 
     public static void main(String[] args) {
         MatrixPathSum2Ways matrixPathSum2Ways = new MatrixPathSum2Ways(TEST_MATRIX);
@@ -28,7 +28,7 @@ public class MatrixPathSum2Ways {
         try {
             matrixPathSum2Ways = new MatrixPathSum2Ways(MATRIX_80_80_FILE_PATH);
             long time1 = System.currentTimeMillis();
-            int sum = matrixPathSum2Ways.getMinimumSum();
+            long sum = matrixPathSum2Ways.getMinimumSum();
             long time2 = System.currentTimeMillis();
             System.out.println("Min path sum of 80x80 matrix: " + sum + ". => time ms: " + (time2 - time1));
         } catch (IOException e) {
@@ -40,16 +40,16 @@ public class MatrixPathSum2Ways {
         this.matrix = new MatrixFileReader(matrixFilePath).readMatrix();
     }
 
-    public MatrixPathSum2Ways(int[][] matrix) {
+    public MatrixPathSum2Ways(long[][] matrix) {
         this.matrix = matrix;
     }
 
-    public int getMinimumSum() {
-        int[][] tab = GenericUtils.clone(this.matrix);
+    public long getMinimumSum() {
+        long[][] tab = GenericUtils.clone(this.matrix);
         return getMinimumSum(tab);
     }
 
-    private int getMinimumSum(int[][] tab) {
+    private long getMinimumSum(long[][] tab) {
         int lastRow = tab.length - 1;
         int lastColumn = tab[0].length - 1;
         for(int i = lastColumn - 1; i >= 0; i--) {

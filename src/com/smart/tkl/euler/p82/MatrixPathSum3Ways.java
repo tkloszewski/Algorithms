@@ -9,7 +9,7 @@ public class MatrixPathSum3Ways {
 
     private static final String MATRIX_80_80_FILE_PATH = "C:\\Projects\\personal\\Algorithms\\src\\com\\smart\\tkl\\euler\\p82\\p082_matrix.txt";
 
-    private static final int[][] TEST_MATRIX = {
+    private static final long[][] TEST_MATRIX = {
             {131, 673, 234, 103, 18},
             {201, 96,  342, 965, 150},
             {630, 803, 746, 422, 111},
@@ -17,11 +17,11 @@ public class MatrixPathSum3Ways {
             {805, 732, 524, 37,  331}
     };
 
-    private final int[][] matrix;
+    private final long[][] matrix;
 
     public static void main(String[] args) {
         MatrixPathSum3Ways matrix = new MatrixPathSum3Ways(TEST_MATRIX);
-        int minPath = matrix.getMinPath();
+        long minPath = matrix.getMinPath();
         System.out.println("Min path for test matrix: " + minPath);
 
         try {
@@ -39,21 +39,21 @@ public class MatrixPathSum3Ways {
         this.matrix = new MatrixFileReader(matrixFilePath).readMatrix();
     }
 
-    public MatrixPathSum3Ways(int[][] matrix) {
+    public MatrixPathSum3Ways(long[][] matrix) {
         this.matrix = matrix;
     }
 
-    public int getMinPath() {
-        int[][] dp = getPathMatrix(this.matrix);
-        int minElem = Integer.MAX_VALUE;
-        for (int[] row : dp) {
+    public long getMinPath() {
+        long[][] dp = getPathMatrix(this.matrix);
+        long minElem = Long.MAX_VALUE;
+        for (long[] row : dp) {
             minElem = Math.min(minElem, row[0]);
         }
         return minElem;
     }
 
-    private int[][] getPathMatrix(int[][] a) {
-        int[][] dp = new int[a.length][a[0].length];
+    private long[][] getPathMatrix(long[][] a) {
+        long[][] dp = new long[a.length][a[0].length];
         int lastColumn = a[0].length - 1;
         for(int i = 0; i < dp.length; i++) {
             dp[i][lastColumn] = a[i][lastColumn];
@@ -61,7 +61,7 @@ public class MatrixPathSum3Ways {
 
         for(int j = lastColumn - 1; j >= 0; j--) {
             for(int i = 0; i < dp.length; i++) {
-                int min = getMinPathToPrevColumnForElem(i, j, dp, a);
+                long min = getMinPathToPrevColumnForElem(i, j, dp, a);
                 dp[i][j] = min;
             }
         }
@@ -69,9 +69,9 @@ public class MatrixPathSum3Ways {
         return dp;
     }
 
-    private int getMinPathToPrevColumnForElem(int rowIdx, int columnIdx, int[][] dp, int[][] a) {
-        int min = a[rowIdx][columnIdx] + dp[rowIdx][columnIdx + 1];
-        int s = a[rowIdx][columnIdx];
+    private long getMinPathToPrevColumnForElem(int rowIdx, int columnIdx, long[][] dp, long[][] a) {
+        long min = a[rowIdx][columnIdx] + dp[rowIdx][columnIdx + 1];
+        long s = a[rowIdx][columnIdx];
 
         for(int i = rowIdx; i <= a.length - 2; i++) {
             if(s + a[i + 1][columnIdx] + dp[i + 1][columnIdx + 1] < min) {

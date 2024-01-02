@@ -14,7 +14,7 @@ public class MatrixFileReader {
         this.filePath = filePath;
     }
 
-    public int[][] readMatrix() throws IOException {
+    public long[][] readMatrix() throws IOException {
         List<String> lines = new ArrayList<>(1000);
         try(FileReader fr = new FileReader(filePath)) {
             BufferedReader br = new BufferedReader(fr);
@@ -23,10 +23,10 @@ public class MatrixFileReader {
                 lines.add(line.trim());
             }
         }
-        int[][] result = new int[lines.size()][];
+        long[][] result = new long[lines.size()][];
         for(int i = 0; i < lines.size(); i++) {
             String[] nums = lines.get(i).split(",");
-            result[i] = new int[nums.length];
+            result[i] = new long[nums.length];
             for(int k = 0; k < nums.length; k++) {
                 result[i][k] = Integer.parseInt(nums[k]);
             }

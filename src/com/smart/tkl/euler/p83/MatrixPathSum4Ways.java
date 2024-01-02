@@ -9,14 +9,14 @@ import java.util.List;
 
 public class MatrixPathSum4Ways {
 
-    private static final int[][] TEST_MATRIX_1 = {
+    private static final long[][] TEST_MATRIX_1 = {
             {7, 5, 4, 3},
             {2, 2, 1, 7},
             {3, 4, 5, 1},
             {4, 5, 6, 2}
     };
 
-    private static final int[][] TEST_MATRIX_2 = {
+    private static final long[][] TEST_MATRIX_2 = {
             {131, 673, 234, 103, 18},
             {201, 96,  342, 965, 150},
             {630, 803, 746, 422, 111},
@@ -29,13 +29,13 @@ public class MatrixPathSum4Ways {
     private static final int[] ROW_VECTOR = {-1, 0, 1, 0};
     private static final int[] COL_VECTOR = {0, -1, 0, 1};
 
-    private final int[][] matrix;
+    private final long[][] matrix;
     private final int rowCount;
     private final int colCount;
 
     public static void main(String[] args) {
         MatrixPathSum4Ways matrix = new MatrixPathSum4Ways(TEST_MATRIX_1);
-        int minPathSum  = matrix.findMinPathSum();
+        long minPathSum  = matrix.findMinPathSum();
         System.out.println("Min path sum for test matrix 1: " + minPathSum);
 
         matrix = new MatrixPathSum4Ways(TEST_MATRIX_2);
@@ -57,19 +57,19 @@ public class MatrixPathSum4Ways {
         this(new MatrixFileReader(filePath).readMatrix());
     }
 
-    public MatrixPathSum4Ways(int[][] matrix) {
+    public MatrixPathSum4Ways(long[][] matrix) {
         checkSize(matrix);
         this.matrix = matrix;
         this.rowCount = matrix.length;
         this.colCount = matrix[0].length;
     }
 
-    public int findMinPathSum() {
+    public long findMinPathSum() {
         CostEntry[][] costTable = buildCostTable(this.matrix);
         return costTable[0][0].value;
     }
 
-    private CostEntry[][] buildCostTable(int[][] a) {
+    private CostEntry[][] buildCostTable(long[][] a) {
         int lastRow = a.length - 1;
         int lastColumn = a[0].length - 1;
 
@@ -103,8 +103,8 @@ public class MatrixPathSum4Ways {
     }
 
     private int findMinEntryClosestToTopLeft(List<CostEntry> estimatedCostEntries) {
-        int foundIdx = -1, minValue = Integer.MAX_VALUE;
-        int minDistance = Integer.MAX_VALUE;
+        int foundIdx = -1;
+        long minDistance = Long.MAX_VALUE, minValue = Long.MAX_VALUE;
         for(int i = 0; i < estimatedCostEntries.size(); i++) {
             CostEntry costEntry = estimatedCostEntries.get(i);
             int distance = costEntry.rowIdx + costEntry.colIdx;
@@ -117,7 +117,7 @@ public class MatrixPathSum4Ways {
         return foundIdx;
     }
 
-    private CostEntry[][] initCostTable(int[][] a) {
+    private CostEntry[][] initCostTable(long[][] a) {
         CostEntry[][] costTable = new CostEntry[a.length][a[0].length];
         for(int i = 0; i < a.length; i++) {
             for(int j = 0; j < a[0].length; j++) {
@@ -131,12 +131,12 @@ public class MatrixPathSum4Ways {
         return (rowIdx < this.rowCount && rowIdx >= 0) && (colIdx < this.colCount && colIdx >= 0);
     }
 
-    private static void checkSize(int[][] m) {
+    private static void checkSize(long[][] m) {
         if(m == null || m.length == 0) {
             throw new IllegalArgumentException("Matrix mus be not empty.");
         }
         int size = m[0].length;
-        for(int[] row : m) {
+        for(long[] row : m) {
             if(row == null || row.length != size) {
                 throw new IllegalArgumentException("Invalid matrix size.");
             }
@@ -160,12 +160,12 @@ public class MatrixPathSum4Ways {
     private static class CostEntry {
         int rowIdx;
         int colIdx;
-        int value;
+        long value;
 
         Status status;
         CostEntry next;
 
-        public CostEntry(int rowIdx, int colIdx, int value) {
+        public CostEntry(int rowIdx, int colIdx, long value) {
             this.rowIdx = rowIdx;
             this.colIdx = colIdx;
             this.value = value;
