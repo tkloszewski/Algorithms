@@ -27,7 +27,7 @@ public class PrimesRangeSieve {
             if(primesSieve.isPrime(i)) {
                 long lower = i;
                 long k = low / i;
-                if(k > 1) {
+                if(k >= 1) {
                     if(low % i == 0) {
                         lower = low;
                     }
