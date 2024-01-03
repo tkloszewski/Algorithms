@@ -27,8 +27,11 @@ public class SixtyDegreesIntegerTriangles {
         int rLimit2 = (int)((double)inscribedRadiusLimit * 2.0 / Math.sqrt(3.0));
 
         for(long n = 1; n * n < rLimit1; n++) {
+            if(n % 3 == 0) {
+               continue;
+            }
             for(long m = n + 3; m * n <= rLimit1; m += 3) {
-                if(n % 3 == 0 || (m % 2 == 0 && n % 2 == 0)) {
+                if(m % 2 == 0 && n % 2 == 0) {
                    continue;
                 }
                 if(MathUtils.GCD(m, n) == 1) {
@@ -39,12 +42,9 @@ public class SixtyDegreesIntegerTriangles {
         }
 
         for(long n = 1; n * n < rLimit2; n++) {
-            for(long m = n + 1; m * n <= rLimit2; m++) {
-                if(m % 2 == 0 && n % 2 == 0) {
-                    continue;
-                }
-
-                if((m - n) % 3 != 0 && MathUtils.GCD(m, n) == 1) {
+            long step = n % 2 == 0 ? 2 : 1;
+            for(long m = n + 1; m * n <= rLimit2; m += step) {
+                if((m - n) % 3 != 0 && (n == 1 || MathUtils.GCD(m, n) == 1)) {
                     long k = rLimit2 / (m * n);
                     result += k;
                 }
