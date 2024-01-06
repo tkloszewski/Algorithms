@@ -1,0 +1,23 @@
+Around 1.9 seconds. The key to solving the problem is to find ambiguous numbers. If we have Farey sequence of some order n with two neighboring fractions $\dfrac{a}{b}$ and $\dfrac{c}{d}$ then the number which is their arithmetic average: $\dfrac{bc + ad}{2bd}$ is searched ambiguous number which has 2 best approximations $\dfrac{a}{b}$ and $\dfrac{c}{d}$ with the denominator doesn't exceeding n.
+
+Fraction $\dfrac{bc + ad}{2bd}$ is also in reduced form so it belongs to Farey sequence.
+
+From Farey sequence properties we know that neighboring fractions satisfy the equation:
+
+$bc - ad = 1$ => $gcd(bc + ad, d) = gcd(1 + 2ad,d) = 1$ from the gcd properties.
+$gcd(bc + ad, b) = gcd(2bc - 1, b) = gcd(b, b-1) = 1$
+
+So we proved so far that $gcd(bc+ad, bd) = 1$. We have to also prove that
+$gcd(bc+ad,2) = 1$ In other words we just have to show that bc+ad is odd. In order to this we will use induction.
+
+For $\dfrac{a}{b} = \dfrac{0}{1}$ and $\dfrac{c}{d} = \dfrac{1}{1}$ we have: $bc+ad=1$. Suppose that bc+ad is odd. The next fraction between $\dfrac{a}{b}$ and $\dfrac{c}{d}$ is mediant $\dfrac{a+c}{b+d}$. So the new arithmetic average of mediant and $\dfrac{a}{b}$ equals:
+
+$\dfrac{2ab + bc + ad}{2b(b+d)}$. Because $bc + ad$ is odd then $2ab + bc + ad$ is also odd.
+
+The average of mediant and $\dfrac{c}{d}$ equals: $\dfrac{2dc + bc + ad}{2d(b+d)}$
+Numerator $2dc + bc + ad$ is also odd because bc + ad is odd.
+
+In this way we have proved that any fraction being the arithmetic of two neighboring fractions in Farey sequence is already in reduced form: $\dfrac{bc + ad}{2bd}$. This is important because we don't have to perform any GCD calculations.
+
+In order to find ambiguous numbers we start searching in range: $\dfrac{0}{1} : \dfrac{1}{1}$ because best approximations might lie outside our range: $\dfrac{0}{1} : \dfrac{1}{100}$
+The algorithm then split each range in two parts : left and right using mediant value. If the average number denominator exceeds the limit we discard that range because further splits will have even bigger denominator. Likewise we discard the ranges that lie outside our range: $\dfrac{0}{1} : \dfrac{1}{100}$
