@@ -29,7 +29,7 @@ public class CrissCross {
 
         List<List<int[]>> allCombinations = new ArrayList<>();
         for(int sum = 0; sum <= 4 * this.maxDigit; sum++) {
-            List<int[]> combinations = new CombinationsFinder(sum).findCombinations();
+            List<int[]> combinations = new CombinationsFinder(sum, this.maxDigit).findCombinations();
             allCombinations.add(combinations);
         }
 

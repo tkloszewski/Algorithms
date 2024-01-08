@@ -1,7 +1,5 @@
 package com.smart.tkl.euler.p171;
 
-import com.smart.tkl.lib.combinatorics.CombinatoricsUtils;
-
 public class PerfectDigitSumSquare {
 
     private final int limit;
@@ -10,22 +8,22 @@ public class PerfectDigitSumSquare {
     private final long[] factorials;
     private final long[] repUnits;
 
-    public PerfectDigitSumSquare(int limit, int lastDigitsLength) {
+    public PerfectDigitSumSquare(int limit, long mod) {
         this.limit = limit;
         this.factorials = new long[limit + 1];
         this.squares = new boolean[1 + limit * 81];
         this.repUnits = new long[limit + 1];
-        this.mod = (long) Math.pow(10, lastDigitsLength);
+        this.mod = mod;
         initFactorials();
         initSquares();
         initRepUnits();
     }
 
     public static void main(String[] args) {
-        System.out.println(CombinatoricsUtils.countCombinations(28, 20));
         long time1 = System.currentTimeMillis();
-        PerfectDigitSumSquare perfectDigitSumSquare = new PerfectDigitSumSquare(20, 9);
-        long sumOfNumbers = perfectDigitSumSquare.sumOfNumbers(20);
+        long mod = (long)Math.pow(10, 9);
+        PerfectDigitSumSquare perfectDigitSumSquare = new PerfectDigitSumSquare(2, mod);
+        long sumOfNumbers = perfectDigitSumSquare.sumOfNumbers(2);
         long time2 = System.currentTimeMillis();
         System.out.println("Sum of numbers: " + sumOfNumbers);
         System.out.println("Time in ms: " + (time2 - time1));
@@ -91,4 +89,6 @@ public class PerfectDigitSumSquare {
 
         return (sum * repUnit)  % this.mod;
     }
+
+
 }

@@ -4,8 +4,9 @@ public class HollowSquareLaminae1 {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        long limit = 1000000L;
-        long count = countAll(limit);
+        long limit = 1000000000000L;
+      //  long count = countAll(limit);
+        long count = countFast(limit);
         long time2 = System.currentTimeMillis();
         System.out.println("Count: " + count);
         System.out.println("Time in ms: " + (time2 - time1));
@@ -47,6 +48,19 @@ public class HollowSquareLaminae1 {
       double b = tilesInLayer + 4;
       double sqrtDelta = Math.sqrt(b * b - 16 * limit);
       return (long) ((b - sqrtDelta) / 8.0);
+    }
+
+    public static long countFast(long N) {
+        long result = 0;
+        long tMax = (long)((Math.sqrt(1 + N) - 1) / 2);
+
+
+        for(long t = 1; t <= tMax; t++) {
+            long count = N / (4 * t) - t;
+            result += count;
+        }
+
+        return result;
     }
 
 }

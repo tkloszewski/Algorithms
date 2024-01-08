@@ -14,7 +14,7 @@ public class NumberRotations {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        NumberRotations numberRotations = new NumberRotations(100);
+        NumberRotations numberRotations = new NumberRotations(2);
         long sum = numberRotations.sum();
         long time2 = System.currentTimeMillis();
         System.out.println("Sum: " + sum);
