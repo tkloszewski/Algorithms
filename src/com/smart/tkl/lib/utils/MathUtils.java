@@ -375,18 +375,6 @@ public class MathUtils {
             }
         }
 
-
-        /*for(long i = 3; i <= Math.sqrt(n); i += 2) {
-            while (n % i == 0) {
-                n = n / i ;
-                pow++;
-            }
-            if(pow > 0) {
-                result.add(new PrimeFactor(i, pow));
-                pow = 0;
-            }
-        }
-*/
         if(n > 1) {
             result.add(new PrimeFactor(n, 1));
         }
