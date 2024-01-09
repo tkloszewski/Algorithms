@@ -53,17 +53,4 @@ public class HyperExponentiation {
            }
         }
     }
-
-
-    public static void test(long a, long b, long m) {
-        long result1 = MathUtils.moduloPower(a, b, m);
-        long phi = MathUtils.phi(m);
-
-        long pow = phi + b % phi;
-        long result2 = MathUtils.moduloPower(a, pow, m);
-
-        System.out.println("Result1: " + result1);
-        System.out.println("Result2: " + result2);
-    }
-
 }
