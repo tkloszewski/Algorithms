@@ -1,6 +1,9 @@
 package com.smart.tkl.euler.p188;
 
-import com.smart.tkl.lib.utils.MathUtils;
+import static com.smart.tkl.lib.utils.MathUtils.GCD;
+import static com.smart.tkl.lib.utils.MathUtils.moduloMultiply;
+import static com.smart.tkl.lib.utils.MathUtils.moduloPower;
+import static com.smart.tkl.lib.utils.MathUtils.phi;
 
 public class HyperExponentiation {
     private final long a;
@@ -40,16 +43,16 @@ public class HyperExponentiation {
             return 0;
         }
         else {
-           long gcd = MathUtils.GCD(a, mod);
-           long phi = MathUtils.phi(mod);
+           long gcd = GCD(a, mod);
+           long phi = phi(mod);
            if(gcd == 1) {
                long exp = hyperExp(a, level - 1, phi);
-               return MathUtils.moduloPower(a, exp, mod);
+               return moduloPower(a, exp, mod);
            }
            else {
                long exp = hyperExp(a, level - 1, phi);
-               return MathUtils.moduloMultiply(MathUtils.moduloPower(a, exp, mod),
-                       MathUtils.moduloPower(a, phi, mod), mod) ;
+               return moduloMultiply(moduloPower(a, exp, mod),
+                       moduloPower(a, phi, mod), mod) ;
            }
         }
     }
