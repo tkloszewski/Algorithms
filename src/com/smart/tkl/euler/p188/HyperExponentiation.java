@@ -1,26 +1,22 @@
 package com.smart.tkl.euler.p188;
 
-import com.smart.tkl.lib.primes.Primes;
 import com.smart.tkl.lib.utils.MathUtils;
 
 public class HyperExponentiation {
-    private final int a;
-    private final int b;
+    private final long a;
+    private final long b;
     private final long mod;
 
-    public HyperExponentiation(int a, int b, long mod) {
-        if(!Primes.isPrime(a)) {
-            throw new IllegalArgumentException("Cannot perform hyper exponentiation on non-prime number");
-        }
+    public HyperExponentiation(long a, long b, long mod) {
         this.a = a;
         this.b = b;
         this.mod = mod;
     }
 
     public static void main(String[] args) {
-        int a = 1777;
-        int b = 1855;
-        long mod = 100000000;
+        long a = (long)Math.pow(10, 18);
+        long b = (long)Math.pow(10, 18);
+        long mod = (long) Math.pow(10, 18);
         long time1 = System.currentTimeMillis();
         HyperExponentiation hyperExponentiation = new HyperExponentiation(a, b, mod);
         long value = hyperExponentiation.hyperExp();
@@ -33,17 +29,41 @@ public class HyperExponentiation {
         return hyperExp(this.a, this.b, this.mod);
     }
 
-    private static long hyperExp(int p, int level, long mod) {
+    private static long hyperExp(long a, long level, long mod) {
+        if(a % mod == 0) {
+           return 0;
+        }
         if(level == 1) {
-           return p % mod;
+           return a % mod;
         }
         else if(mod == 1) {
             return 0;
         }
         else {
+           long gcd = MathUtils.GCD(a, mod);
            long phi = MathUtils.phi(mod);
-           long exp = hyperExp(p, level - 1, phi);
-           return MathUtils.moduloPower(p, exp, mod);
+           if(gcd == 1) {
+               long exp = hyperExp(a, level - 1, phi);
+               return MathUtils.moduloPower(a, exp, mod);
+           }
+           else {
+               long exp = hyperExp(a, level - 1, phi);
+               return MathUtils.moduloMultiply(MathUtils.moduloPower(a, exp, mod),
+                       MathUtils.moduloPower(a, phi, mod), mod) ;
+           }
         }
     }
+
+
+    public static void test(long a, long b, long m) {
+        long result1 = MathUtils.moduloPower(a, b, m);
+        long phi = MathUtils.phi(m);
+
+        long pow = phi + b % phi;
+        long result2 = MathUtils.moduloPower(a, pow, m);
+
+        System.out.println("Result1: " + result1);
+        System.out.println("Result2: " + result2);
+    }
+
 }

@@ -9,28 +9,32 @@ public class CycleDetection {
         System.out.println("Period Brent: " + brent(3316));
     }
 
-    static Period floyd(long n) {
+    public static Period floyd(long n) {
+        return floyd(n, 1);
+    }
+
+    public static Period floyd(long n, long c) {
         long x0 = 2;
-        long tortoise = f(x0, n);
-        long hare = f(f(x0, n), n);
+        long tortoise = f(x0, c, n);
+        long hare = f(f(x0, c, n), n);
         while (tortoise != hare) {
-            tortoise = f(tortoise, n);
-            hare = f(f(hare, n), n);
+            tortoise = f(tortoise, c, n);
+            hare = f(f(hare, c, n), c, n);
         }
 
         int m = 0;
         tortoise = x0;
         while (tortoise != hare) {
-            tortoise = f(tortoise, n);
-            hare = f(hare, n);
+            tortoise = f(tortoise, c, n);
+            hare = f(hare, c, n);
             m++;
         }
 
         int period = 1;
-        tortoise = f(tortoise, n);
+        tortoise = f(tortoise, c, n);
         while (tortoise != hare) {
             period++;
-            tortoise = f(tortoise, n);
+            tortoise = f(tortoise, c, n);
         }
 
         return new Period(m, period);
@@ -74,18 +78,18 @@ public class CycleDetection {
     }
 
     static class Period {
-        int m, period;
+        int m, length;
 
         public Period(int m, int period) {
             this.m = m;
-            this.period = period;
+            this.length = period;
         }
 
         @Override
         public String toString() {
             return "Period{" +
                     "m=" + m +
-                    ", period=" + period +
+                    ", length=" + length +
                     '}';
         }
     }
