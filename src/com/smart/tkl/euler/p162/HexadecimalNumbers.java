@@ -2,6 +2,7 @@ package com.smart.tkl.euler.p162;
 
 import com.smart.tkl.lib.combinatorics.CombinatoricsUtils;
 import com.smart.tkl.lib.utils.MathUtils;
+import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,7 +21,8 @@ public class HexadecimalNumbers {
         int n = 16;
         HexadecimalNumbers hexadecimalNumbers = new HexadecimalNumbers(n);
         long totalCount = hexadecimalNumbers.totalCount();
-        long totalFastCount = hexadecimalNumbers.superFastCount();
+        BigInteger totalFastCount = superFastCount(n);
+        System.out.println("HEX: " + totalFastCount.toString(16).toUpperCase());
         long time2 = System.currentTimeMillis();
         System.out.println("Total count: " + totalCount);
         System.out.println("Total super fast count: " + totalFastCount);
@@ -79,6 +81,21 @@ public class HexadecimalNumbers {
         result -= 2197 * (((long)Math.pow(13, n - 2)) / 12);
 
         return result;
+    }
+
+    public static BigInteger superFastCount(int n) {
+        BigInteger term1 = BigInteger.valueOf(16).pow(n - 2).subtract(BigInteger.ONE).multiply(BigInteger.valueOf(256));
+        BigInteger term2 = BigInteger.valueOf(15).pow(n - 2).divide(BigInteger.valueOf(14)).multiply(BigInteger.valueOf(9675));
+        BigInteger term3 = BigInteger.valueOf(14).pow(n - 2).divide(BigInteger.valueOf(13)).multiply(BigInteger.valueOf(8036));
+        BigInteger term4 = BigInteger.valueOf(13).pow(n - 2).divide(BigInteger.valueOf(12)).multiply(BigInteger.valueOf(2197));
+
+       /* result += 256 * (((long)Math.pow(16, n - 2) - 1)) ;
+        result -= 9675 * (((long)Math.pow(15, n - 2)) / 14);
+        result += 8036 * (((long)Math.pow(14, n - 2)) / 13);
+        result -= 2197 * (((long)Math.pow(13, n - 2)) / 12);*/
+
+        return term1.subtract(term2).add(term3).subtract(term4);
+
     }
 
     private static void fillFrequencies(int sumLeft, int pos, int[] tab, List<int[]> sums) {
