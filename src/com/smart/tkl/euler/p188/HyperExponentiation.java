@@ -1,7 +1,6 @@
 package com.smart.tkl.euler.p188;
 
 import static com.smart.tkl.lib.utils.MathUtils.GCD;
-import static com.smart.tkl.lib.utils.MathUtils.moduloMultiply;
 import static com.smart.tkl.lib.utils.MathUtils.moduloPower;
 import static com.smart.tkl.lib.utils.MathUtils.phi;
 
@@ -26,7 +25,7 @@ public class HyperExponentiation {
         long time2 = System.currentTimeMillis();
         System.out.println("Value: " + value);
         System.out.println("Time in ms: " + (time2 - time1));
-        System.out.println(hyperExp(2, 3, 10));
+        System.out.println(hyperExp(4, 2, 1000L));
     }
 
     public long hyperExp() {
@@ -54,16 +53,15 @@ public class HyperExponentiation {
                 return moduloPower(a, exp, mod);
             }
             else {
-                long exp;
-                if((a == 2 && level <= 4) || (a == 3 && level <= 3) || (level == 2 && a <= 15)) {
-                   exp = calcDirect(a, level);
-                   if(exp < phi) {
-                      return moduloPower(a, exp, mod);
-                   }
+                boolean smaller = checkIfSmaller(a, level - 1, phi);
+                if(smaller) {
+                   long b = calcDirect(a, level - 1);
+                   return moduloPower(a, b, mod);
                 }
-                exp = hyperExp(a, level - 1, phi);
-                return moduloMultiply(moduloPower(a, exp, mod),
-                        moduloPower(a, phi, mod), mod);
+                else {
+                    long b = hyperExp(a, level - 1, phi);
+                    return moduloPower(a, b + phi, mod);
+                }
             }
         }
     }
@@ -76,40 +74,24 @@ public class HyperExponentiation {
         return result;
     }
 
-    private static Result hyperExp2(long a, long level, long mod) {
-        if(level <= 1) {
-           return new Result(moduloPower(a, level, mod), false);
+    private static boolean checkIfSmaller(long a, long level, long phi) {
+        if(a >= phi) {
+           return false;
         }
-        else if(mod == 1) {
-            return new Result(0, true);
-        }
-        else {
-            long phi = phi(mod);
-            Result result = hyperExp2(a, level - 1, phi);
-            if(result.flag || result.val * Math.log10(a) >= Math.log10(mod)) {
-               return new Result(moduloPower(a, result.val + phi, mod), true);
+        double left = Math.log10(a);
+        double right = Math.log10(phi);
+
+        while (level > 1) {
+            left *= a;
+            right = Math.log10(right);
+
+            if(left >= right) {
+                return false;
             }
-            else {
-                return new Result(moduloPower(a, result.val, mod), false);
-            }
-        }
-    }
 
-    private static class Result {
-        private final long val;
-        private final boolean flag;
-
-        public Result(long val, boolean flag) {
-            this.val = val;
-            this.flag = flag;
+            level--;
         }
 
-        @Override
-        public String toString() {
-            return "Result{" +
-                    "val=" + val +
-                    ", flag=" + flag +
-                    '}';
-        }
+        return true;
     }
 }
