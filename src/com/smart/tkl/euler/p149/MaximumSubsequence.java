@@ -1,7 +1,5 @@
 package com.smart.tkl.euler.p149;
 
-import java.util.function.BiFunction;
-
 public class MaximumSubsequence {
 
     private static final long[][] EXAMPLE_TAB = {
@@ -12,14 +10,14 @@ public class MaximumSubsequence {
     };
 
     private final int limit;
-    private final BiFunction<long[][], Integer, Long> nextElementResolver;
+    private final TriFunction<long[][], Integer, Integer, Long> nextElementResolver;
     private final long[][] tab;
     private final long[] rowSums;
     private final long[] columnSums;
     private final long[] diagonalSums;
     private final long[] antiDiagonalSums;
 
-    public MaximumSubsequence(int limit, BiFunction<long[][], Integer, Long> nextElementResolver) {
+    public MaximumSubsequence(int limit,TriFunction<long[][], Integer, Integer, Long> nextElementResolver) {
         this.limit = limit;
         this.nextElementResolver = nextElementResolver;
         this.tab = new long[limit][limit];
@@ -31,14 +29,14 @@ public class MaximumSubsequence {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        MaximumSubsequence maximumSubsequence = new MaximumSubsequence(4, (tab, k) -> EXAMPLE_TAB[(k - 1) / 4][(k - 1) % 4]);
+        MaximumSubsequence maximumSubsequence = new MaximumSubsequence(4, (tab, k, n) -> EXAMPLE_TAB[(k - 1) / 4][(k - 1) % 4]);
         long max = maximumSubsequence.resolveMax();
         long time2 = System.currentTimeMillis();
         System.out.println("Max: " + max);
         System.out.println("Time : " + (time2 - time1));
 
         time1 = System.currentTimeMillis();
-        maximumSubsequence = new MaximumSubsequence(2000, MaximumSubsequence::nextElement);
+        maximumSubsequence = new MaximumSubsequence(3000, MaximumSubsequence::nextElement);
         max = maximumSubsequence.resolveMax();
         time2 = System.currentTimeMillis();
         System.out.println("Max: " + max);
@@ -53,7 +51,7 @@ public class MaximumSubsequence {
             int diagonalIdx = rowIdx + colIdx;
             int antiDiagonalIdx = rowIdx - colIdx + limit - 1;
 
-            long value = nextElementResolver.apply(this.tab, k + 1);
+            long value = nextElementResolver.apply(this.tab, k + 1, this.limit);
 
             long sum = Math.max(rowSums[rowIdx] + value, 0);
             rowSums[rowIdx] = sum;
@@ -77,13 +75,13 @@ public class MaximumSubsequence {
         return max;
     }
 
-    private static long nextElement(long[][] tab, int k) {
+    private static long nextElement(long[][] tab, int k, int limit) {
         if(k <= 55) {
           return (100003 - 200003L * k + 300007L * k * k * k) % 1000000 - 500000;
         }
-        int m2 = (k - 25) / 2000;
-        int m3 = (k - 56) / 2000;
-        return (tab[m2][(k - 25) % 2000] + tab[m3][(k - 56) % 2000] + 1000000) % 1000000 - 500000;
+        int m2 = (k - 25) / limit;
+        int m3 = (k - 56) / limit;
+        return (tab[m2][(k - 25) % limit] + tab[m3][(k - 56) % limit] + 1000000) % 1000000 - 500000;
     }
 
 }
