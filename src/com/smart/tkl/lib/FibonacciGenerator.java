@@ -1,7 +1,5 @@
 package com.smart.tkl.lib;
 
-import java.util.Arrays;
-
 public class FibonacciGenerator {
 
     public static void main(String[] args) {

@@ -8,19 +8,24 @@ import java.util.stream.Collectors;
 public class PascalPyramidExplorer {
 
     private final int level;
-    private final long multiple;
+    private final List<PrimeFactor> list;
 
     private int[] primeFactors;
     private int[][] factorialPrimeFactors;
 
     public PascalPyramidExplorer(int level, long multiple) {
         this.level = level;
-        this.multiple = multiple;
+        this.list = MathUtils.listPrimeFactors(multiple);
+    }
+
+    public PascalPyramidExplorer(int level, long p1, int a1, long p2, int a2) {
+        this.level = level;
+        this.list = List.of(new PrimeFactor(p1, a1), new PrimeFactor(p2, a2));
     }
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        int level = 200000;
+        int level = 100000;
         long multiple = 1000000000000L;
         PascalPyramidExplorer pascalPyramidExplorer = new PascalPyramidExplorer(level, multiple);
         long count = pascalPyramidExplorer.countFast();
@@ -32,7 +37,7 @@ public class PascalPyramidExplorer {
     public long countFast() {
         long count = 0;
 
-        List<PrimeFactor> list = MathUtils.listPrimeFactors(multiple);
+        //List<PrimeFactor> list = MathUtils.listPrimeFactors(multiple);
         List<Long> factors = list.stream().map(PrimeFactor::getFactor).collect(Collectors.toList());
 
         this.primeFactors = new int[list.size()];
