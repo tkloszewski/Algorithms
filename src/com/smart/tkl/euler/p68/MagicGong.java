@@ -3,7 +3,9 @@ package com.smart.tkl.euler.p68;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MagicGong {
 
@@ -22,6 +24,18 @@ public class MagicGong {
         for(Gong gong: gongs) {
             System.out.println("Magic ring: " + gong);
         }
+
+        gongs = magicGong.findMagicRingsForTotal(20);
+        System.out.println(gongs.size());
+        for(Gong gong: gongs) {
+            System.out.println("Magic ring: " + gong);
+        }
+    }
+
+    public List<Gong> findMagicRingsForTotal(int total) {
+        List<Gong> gongs = findMagicRings().stream().filter(g -> g.total == total).collect(Collectors.toList());
+        gongs.sort(Comparator.comparing(Gong::asString));
+        return gongs;
     }
 
     public List<Gong> findMagicRings() {
@@ -119,6 +133,7 @@ public class MagicGong {
     private static class Gong {
         final int size;
         final List<int[]> groups;
+        int total;
 
         public Gong(int size) {
             this.size = size;
@@ -127,6 +142,9 @@ public class MagicGong {
 
         public void addGroup(int[] group) {
             this.groups.add(group);
+            if(this.groups.size() == 1) {
+               total = Arrays.stream(group).sum();
+            }
         }
 
         @Override
@@ -139,7 +157,21 @@ public class MagicGong {
                     result.append(";");
                 }
             }
-            result.append("]");
+            result.append("]: ");
+            result.append(total);
+            result.append(" => ");
+            result.append(asString());
+            return result.toString();
+        }
+
+        public String asString() {
+            StringBuilder result = new StringBuilder();
+            for(int i = 0; i < groups.size(); i++) {
+                int[] group = groups.get(i);
+                for(int j = 0; j < group.length; j++) {
+                    result.append(group[j]);
+                }
+            }
             return result.toString();
         }
     }

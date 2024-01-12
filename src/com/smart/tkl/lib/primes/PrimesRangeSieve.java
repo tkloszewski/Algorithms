@@ -35,10 +35,16 @@ public class PrimesRangeSieve {
                         lower = k * i + i;
                     }
                 }
+
+                if(lower == i) {
+                   lower += i;
+                }
+
                 for(long j = lower; j <= high; j += i) {
                     result[(int)(j - low)] = true;
                 }
             }
+
 
             if(i >= 5) {
                if(i == 5) {
