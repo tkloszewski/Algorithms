@@ -53,64 +53,65 @@ public class PrimeProofSqubes {
         while (true) {
             Long sqube = priorityQueue.deleteFirst();
             if(isPrimeProofSqube(sqube)) {
-               foundCount++;
-               if(foundCount == position) {
-                  return sqube;
-               }
+                foundCount++;
+                if(foundCount == position) {
+                    return sqube;
+                }
             }
         }
     }
 
-    private boolean isPrimeProofSqube(Long sqube) {
-        String sequence = sqube.toString();
-        char[] digits = sequence.toCharArray();
-        int lastDigit = digits[digits.length - 1] - '0';
+    private static boolean isPrimeProofSqube(Long sqube) {
+        int lastDigit = (int)(sqube % 10);
         if(lastDigit % 2 == 0 || lastDigit == 5) {
-           return checkLastDigit(digits, lastDigit);
+            return checkLastDigit(sqube, lastDigit);
         }
         else {
-           boolean isPrimeProofForLastDigit = checkLastDigit(digits, lastDigit);
-           if(!isPrimeProofForLastDigit) {
-              return false;
-           }
-           for(int i = digits.length - 2; i >= 0; i--) {
-               boolean isPrimeProofForPosition = checkDigitAtPosition(digits, i);
-               if(!isPrimeProofForPosition) {
-                  return false;
-               }
-           }
+            boolean isPrimeProofForLastDigit = checkLastDigit(sqube, lastDigit);
+            if(!isPrimeProofForLastDigit) {
+               return false;
+            }
+            long number = sqube / 10;
+            long pow = 10;
+            int pos = 1;
+            while (number > 0) {
+                int digit = (int)(number % 10);
+                boolean isPrimeProofForPosition = checkDigitAtPosition(sqube, digit, pos, pow);
+                if(!isPrimeProofForPosition) {
+                    return false;
+                }
+                number = number / 10;
+                pos++;
+                pow *= 10;
+            }
         }
+
         return true;
     }
 
-    private boolean checkLastDigit(char[] digits, int lastDigit) {
-        for(int digit = 1; digit <= 9; digit += 2) {
-            if (digit != lastDigit) {
-                digits[digits.length - 1] = (char)('0' + digit);
-                long number = Long.parseLong(new String(digits));
+    private static boolean checkLastDigit(long sqube, int lastDigit) {
+        for(int checkDigit = 1; checkDigit <= 9; checkDigit += 2) {
+            if (checkDigit != lastDigit) {
+                long number = sqube + (checkDigit - lastDigit);
                 if(Primes.isPrime(number)) {
                     return false;
                 }
             }
         }
-        digits[digits.length - 1] = (char)('0' + lastDigit);
         return true;
     }
 
-    private boolean checkDigitAtPosition(char[] digits, int pos) {
-        int replacedDigit = digits[pos];
+    private static boolean checkDigitAtPosition(long sqube, int digit, int pos, long pow) {
         int start = pos == 0 ? 1 : 0;
-        for(int digit = start; digit <= 9; digit ++) {
-            if (digit != replacedDigit) {
-                digits[pos] = (char)('0' + digit);
-                long number = Long.parseLong(new String(digits));
-               // System.out.println("Checking number: " + number);
+        for(int checkDigit = start; checkDigit <= 9; checkDigit++) {
+            if(checkDigit != digit) {
+                long number = sqube + (checkDigit - digit) * pow;
                 if(Primes.isPrime(number)) {
                     return false;
                 }
             }
         }
-        digits[pos] = (char)replacedDigit;
+
         return true;
     }
 }
