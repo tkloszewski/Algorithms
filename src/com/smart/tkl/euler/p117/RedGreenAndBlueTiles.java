@@ -1,5 +1,6 @@
 package com.smart.tkl.euler.p117;
 
+import com.smart.tkl.lib.linear.MatrixUtils;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
@@ -27,17 +28,26 @@ public class RedGreenAndBlueTiles {
     }
 
     public static void main(String[] args) {
+        int length = 50;
         long time1 = System.currentTimeMillis();
-        RedGreenAndBlueTiles redGreenAndBlueTiles = new RedGreenAndBlueTiles(100);
+        RedGreenAndBlueTiles redGreenAndBlueTiles = new RedGreenAndBlueTiles(length);
         long totalCount = redGreenAndBlueTiles.countAllWays();
         long time2 = System.currentTimeMillis();
         System.out.println("Total count: " + totalCount);
         System.out.println("Solution took: " + (time2 - time1));
+
         time1 = System.currentTimeMillis();
         BigDecimal totalCountBg = redGreenAndBlueTiles.countRecursive();
         time2 = System.currentTimeMillis();
         System.out.println("Recursive total count: " + totalCountBg);
         System.out.println("Recursive solution took: " + (time2 - time1));
+
+        long mod = Long.MAX_VALUE;
+        long result = doCountWithMatrix(length, mod);
+
+        System.out.println("Original result: " + totalCountBg);
+        System.out.println("Original mod: " + totalCountBg.remainder(BigDecimal.valueOf(mod)));
+        System.out.println("Result with mod: " + result);
     }
 
     public BigDecimal countRecursive() {
@@ -50,10 +60,10 @@ public class RedGreenAndBlueTiles {
 
     private BigDecimal countRecursive(int length) {
         if(length == 0) {
-           return BigDecimal.ONE;
+            return BigDecimal.ONE;
         }
         if(!recursiveSolutions[length].equals(BigDecimal.ZERO)) {
-           return recursiveSolutions[length];
+            return recursiveSolutions[length];
         }
         BigDecimal result = BigDecimal.ZERO;
         for(int tileLength = 1; tileLength <= 4 && tileLength <= length; tileLength++) {
@@ -61,6 +71,35 @@ public class RedGreenAndBlueTiles {
         }
         recursiveSolutions[length] = result;
         return result;
+    }
+
+    private static long doCountWithMatrix(long n, long mod) {
+        if(n <= 0) {
+           return 0;
+        }
+
+        long[][] initial = new long[][]{
+                {8},
+                {4},
+                {2},
+                {1}
+        };
+        if(n <= 4) {
+            return initial[(int)(4 - n)][0];
+        }
+        else {
+            long[][] matrix = new long[][]
+                    {
+                            {1, 1, 1, 1},
+                            {1, 0, 0, 0},
+                            {0, 1, 0, 0},
+                            {0, 0, 1, 0}
+                    };
+
+            matrix = MatrixUtils.pow(matrix, n - 4, mod);
+            long[][] result = MatrixUtils.multiply(matrix, initial, mod);
+            return result[0][0];
+        }
     }
 
     public long countAllWays() {
@@ -261,14 +300,14 @@ public class RedGreenAndBlueTiles {
                     int startPos = redTiles * 2 + greenTiles * 3 + blueTiles * 4;
                     for(int pos = startPos; pos <= this.length; pos++) {
                         if(pos == startPos) {
-                          solutions[redTiles][greenTiles][blueTiles][pos] = countPermutations(redTiles, greenTiles, blueTiles).longValue();
+                            solutions[redTiles][greenTiles][blueTiles][pos] = countPermutations(redTiles, greenTiles, blueTiles).longValue();
                         }
                         else {
                             solutions[redTiles][greenTiles][blueTiles][pos] = solutions[redTiles][greenTiles][blueTiles][pos - 1];
 
                             //count one less red tile
                             if(redTiles - 1 == 0) {
-                               solutions[redTiles][greenTiles][blueTiles][pos] += this.greenBlueSolutions[greenTiles][blueTiles][pos - 2];
+                                solutions[redTiles][greenTiles][blueTiles][pos] += this.greenBlueSolutions[greenTiles][blueTiles][pos - 2];
                             }
                             else {
                                 solutions[redTiles][greenTiles][blueTiles][pos] += solutions[redTiles - 1][greenTiles][blueTiles][pos - 2];

@@ -61,8 +61,8 @@ public class MatrixUtils {
         for(int i = 0; i < a.length; i++) {
             for(int j = 0; j < b[0].length; j++) {
                 for(int k = 0; k < a[0].length; k++) {
-                    c[i][j] += (a[i][k] * b[k][j]) % mod;
-                    c[i][j] = c[i][j] % mod;
+                    long mul = ((a[i][k] % mod) * (b[k][j] % mod)) % mod;
+                    c[i][j] = (c[i][j] + mul) % mod;
                 }
             }
         }
