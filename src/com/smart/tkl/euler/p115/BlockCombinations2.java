@@ -23,10 +23,10 @@ public class BlockCombinations2 {
         System.out.println("Solution found in ms: " + (time2 - time1));
 
        // long limit1 = (long)Math.pow(10, 18);
-        long limit1 = 1;
-        long m = 10000000;
-        rowLength = findMaxRowLength(m, limit1);
-        System.out.println("Row length: " + rowLength);
+        long limit1 = 1000000000000000000L;
+        long m = (long)Math.pow(10, 18);
+        /*rowLength = findMaxRowLength(m, limit1);
+        System.out.println("Row length: " + rowLength);*/
 
        // m = (long)Math.pow(10, 18);
         rowLength = search(m, limit1);
@@ -94,7 +94,7 @@ public class BlockCombinations2 {
     }
 
     private static boolean test(long n, long m, long limit) {
-        long count = 1;
+        long count = 0;
         long max = (n + 1) / (m + 1);
 
         for(int b = 0; b <= max; b++) {
