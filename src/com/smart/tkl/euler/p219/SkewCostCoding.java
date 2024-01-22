@@ -2,18 +2,21 @@ package com.smart.tkl.euler.p219;
 
 public class SkewCostCoding {
 
-    private final int targetSize;
+    private final long targetSize;
+    private final int a, b;
     private final long[] sameCosts;
 
-    public SkewCostCoding(int size) {
+    public SkewCostCoding(long size, int a, int b) {
         this.targetSize = size;
+        this.a = a;
+        this.b = b;
         this.sameCosts = new long[1000];
     }
 
     public static void main(String[] args) {
-        int size = 1000000000;
+        long size = 1000000000L;
 
-        SkewCostCoding skewCostCoding = new SkewCostCoding(size);
+        SkewCostCoding skewCostCoding = new SkewCostCoding(size, 1, 4);
         long time1 = System.currentTimeMillis();
         long cost = skewCostCoding.calculateCostFast();
         long time2 = System.currentTimeMillis();
@@ -30,11 +33,14 @@ public class SkewCostCoding {
         if(this.targetSize == 1) {
             return 1;
         }
-        int codesSize = 2;
-        long totalCost = 5;
+        long codesSize = 2;
+        long totalCost = a + b;
 
-        sameCosts[1] = 1;
-        sameCosts[4] = 1;
+        sameCosts[a] = 1;
+        sameCosts[b] = 1;
+        if(a == b) {
+            sameCosts[a] = 2;
+        }
 
         while (codesSize < targetSize) {
             int minCost = 0;
@@ -43,8 +49,8 @@ public class SkewCostCoding {
                 minCost++;
             }
 
-            int cost1 = minCost + 1;
-            int cost2 = minCost + 4;
+            int cost1 = minCost + a;
+            int cost2 = minCost + b;
 
             long count = sameCosts[minCost];
             if(count > targetSize - codesSize) {
@@ -55,7 +61,7 @@ public class SkewCostCoding {
             sameCosts[cost1] += count;
             sameCosts[cost2] += count;
 
-            totalCost += count * (minCost + 5);
+            totalCost += count * (minCost + a + b);
 
             codesSize += count;
         }
@@ -67,7 +73,7 @@ public class SkewCostCoding {
             return 1;
         }
         long totalCost = 5;
-        MinHeap heap = new MinHeap(this.targetSize);
+        MinHeap heap = new MinHeap((int)this.targetSize);
         heap.insert(1L);
         heap.insert(4L);
 

@@ -1,19 +1,26 @@
 package com.smart.tkl.euler;
 
-import com.smart.tkl.lib.combinatorics.permutation.SwapPermutationGenerator;
+import static com.smart.tkl.lib.utils.MathUtils.generatePermutations;
+import static com.smart.tkl.lib.utils.MathUtils.getDigits;
+import static com.smart.tkl.lib.utils.MathUtils.isPrime;
+import static com.smart.tkl.lib.utils.MathUtils.writtenMultiplication;
+
 import com.smart.tkl.lib.combinatorics.permutation.PermutationListener;
+import com.smart.tkl.lib.combinatorics.permutation.SwapPermutationGenerator;
 import com.smart.tkl.lib.graph.triangle.TriangleBuilder;
 import com.smart.tkl.lib.graph.triangle.TriangleNode;
 import com.smart.tkl.lib.graph.triangle.TrianglePathFinder;
 import com.smart.tkl.lib.utils.GenericUtils;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
-
-import static com.smart.tkl.lib.utils.MathUtils.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class ProblemSet2 {
 
@@ -324,7 +331,6 @@ public class ProblemSet2 {
 
     public static String first10DigitsOfVeryLargeSum() {
         BigDecimal sum = BigDecimal.ZERO;
-
         try(FileReader fr = new FileReader(VERY_LARGE_NUMBERS_FILE_PATH)) {
             BufferedReader br = new BufferedReader(fr);
             String line;
