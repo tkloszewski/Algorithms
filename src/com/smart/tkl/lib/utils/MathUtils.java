@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 public class MathUtils {
     
     public static void main(String[] args) {
+        System.out.println("Proper divisors sum: " + sumProperDivisors(284));
+        System.out.println("Proper divisors sum: " + sumProperDivisors2(284));
         System.out.println("Congruences solution: " + solveCongruences(List.of(new Congruence(2, 3), new Congruence(3, 5), new Congruence(2, 7))));
         System.out.println("Maximum sub array index: " + Arrays.toString(getMaxSubArrayIndex(new int[]{2, 1, 3, 4, -1, 2, 1, 5, -4, -20, 21, 2})));
         System.out.println("Linear diophantine equation: " + solveLinearEquation(6, 4, 12));
@@ -384,6 +386,23 @@ public class MathUtils {
 
 
     
+    public static long sumProperDivisors2(long n) {
+        if(n == 1) {
+           return 0;
+        }
+        long sum = 1;
+        List<PrimeFactor> primeFactors = listPrimeFactors(n);
+
+        for(PrimeFactor primeFactor : primeFactors) {
+            int exp = primeFactor.getPow();
+            long factor = primeFactor.getFactor();
+            long term = ((long)Math.pow(factor, exp + 1) - 1) / (factor - 1);
+            sum *= term;
+        }
+
+        return sum - n;
+    }
+
     public static long sumProperDivisors(long n) {
         List<Long> divisors = listProperDivisors(n);
         return divisors.stream().reduce(0L, Long::sum);

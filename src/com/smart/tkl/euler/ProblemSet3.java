@@ -146,7 +146,7 @@ public class ProblemSet3 {
         for(int i = 0; i < names.size(); i++) {
             int pos = i + 1;
             int nameScore = getScore(names.get(i));
-            score += pos * nameScore;
+            score += (long)pos * nameScore;
         }
         return score;
     }
