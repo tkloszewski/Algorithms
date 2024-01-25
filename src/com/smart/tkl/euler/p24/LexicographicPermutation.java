@@ -17,10 +17,14 @@ public class LexicographicPermutation {
     }
 
     public static void main(String[] args) {
-        String s = "abcdefghijklm";
-        LexicographicPermutation lexicographicPermutation = new LexicographicPermutation(s);
-        String permutation = lexicographicPermutation.getNthSortedPermutation(100);
-        System.out.println("permutation: " + permutation);
+        String s = "abcde";
+
+        for(int i = 1; i <= 120; i++) {
+            LexicographicPermutation lexicographicPermutation = new LexicographicPermutation(s);
+            String permutation = lexicographicPermutation.getNthSortedPermutation(i);
+            System.out.println(permutation);
+        }
+
     }
 
     public String getNthSortedPermutation(long nth) {
@@ -49,26 +53,22 @@ public class LexicographicPermutation {
                 char currentChar = chars[currentPos];
                 int shift = (int)(nth / factorials[currentLength - 1]);
                 long rest = nth % factorials[currentLength - 1];
-                if (rest == 0) {
-                    shift--;
-                    if (shift > 0) {
-                        chars[currentPos] = chars[currentPos + shift];
-                        for (int j = currentPos + shift; j > currentPos; j--) {
-                            chars[j] = chars[j - 1];
-                        }
-                        chars[currentPos + 1] = currentChar;
-                        setSortedPermutation(chars, currentPos + 1, currentLength - 1, factorials[currentLength - 1]);
-                    }
+
+                if(rest == 0) {
+                   shift--;
+                   nth = factorials[currentLength - 1];
                 }
                 else {
-                    if (shift > 0) {
-                        chars[currentPos] = chars[currentPos + shift];
-                        for (int j = currentPos + shift; j > currentPos; j--) {
-                            chars[j] = chars[j - 1];
-                        }
-                        chars[currentPos + 1] = currentChar;
-                        setSortedPermutation(chars, currentPos + 1, currentLength - 1, rest);
+                   nth = rest;
+                }
+
+                if (shift > 0) {
+                    chars[currentPos] = chars[currentPos + shift];
+                    for (int j = currentPos + shift; j > currentPos; j--) {
+                        chars[j] = chars[j - 1];
                     }
+                    chars[currentPos + 1] = currentChar;
+                    setSortedPermutation(chars, currentPos + 1, currentLength - 1, nth);
                 }
             }
         }
