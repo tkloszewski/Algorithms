@@ -6,25 +6,27 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.*;
 
 import static com.smart.tkl.lib.utils.MathUtils.*;
 
 public class ProblemSet3 {
 
-    private static final String NAMES_FILE_PATH = "C:\\Projects\\microservices\\Algorithms\\src\\com\\smart\\tkl\\euler\\p022_names.txt";
+    private static final String NAMES_FILE_PATH = "C:\\Projects\\personal\\Algorithms\\src\\com\\smart\\tkl\\euler\\p022_names.txt";
 
     public static void main(String[] args) {
         //13752620
 
+        System.out.println("Spiral diagonals: " + spiralDiagonals(500) );
         System.out.println("sumAmicableDivisorsLessThan 10000: " + sumAmicableDivisorsLessThan(10000));
-        System.out.println("Index of first 1000-digit Fib number: " + getIndexOfFibNumber(1000));
+        System.out.println("Index of first 1000-digit Fib number: " + getIndexOfFibNumber(5000));
         System.out.println("names scores: "  + namesScores());
         System.out.println("Non-abundant sums: " + listNonAbundantNumbersLessThan(28123));
         System.out.println("Reciprocal cycles: " + reciprocalCycles());
         System.out.println("Quadratic primes: " + quadraticPrimesMaxProduct());
         System.out.println("distinctPowers: " + distinctPowerTerms(100, 100));
-        System.out.println("Digit fifth powers: " + sumOfDigitsNthPowerNumbers(5));
+        System.out.println("Digit fifth powers: " + sumOfDigitsNthPowerNumbers(6));
     }
 
     public static long sumOfDigitsNthPowerNumbers(int power) {
@@ -48,6 +50,18 @@ public class ProblemSet3 {
             }
         }
         return values.size();
+    }
+
+    /* (2 / 3) * (8n^3 + 15n^2 + 13n) + 1
+    * */
+    private static BigInteger spiralDiagonals(long n) {
+        BigInteger mod = BigInteger.valueOf((long)Math.pow(10, 9) + 7);
+        BigInteger bn = BigInteger.valueOf(n);
+        BigInteger t1 = bn.pow(3).multiply(BigInteger.valueOf(8));
+        BigInteger t2 = bn.pow(2).multiply(BigInteger.valueOf(15));
+        BigInteger t3 = bn.multiply(BigInteger.valueOf(13));
+
+        return BigInteger.TWO.multiply(t1.add(t2).add(t3)).divide(BigInteger.valueOf(3)).add(BigInteger.ONE);
     }
 
     public static int quadraticPrimesMaxProduct() {
@@ -77,7 +91,7 @@ public class ProblemSet3 {
     public static int reciprocalCycles() {
         int maxCycleLength = 0;
         int d = 2;
-        for(int i = 2; i < 1000; i++) {
+        for(int i = 2; i <= 10000; i++) {
             List<Integer> cycle = getCycle(i);
             int cycleLength = cycle.size();
             if(cycleLength > maxCycleLength) {
@@ -173,19 +187,29 @@ public class ProblemSet3 {
     }
 
     public static int getIndexOfFibNumber(int n) {
+        int[] firsTerms = new int[n + 1];
         List<Integer> a = getDigits(1);
         List<Integer> b = getDigits(1);
         int digitsNumber = 1;
         int idx = 2;
+
+        firsTerms[1] = 1;
+        int digitsSize = 1;
+
         while(digitsNumber != n) {
             List<Integer> sum = writtenAddition(a, b);
             a = b;
             b = sum;
             digitsNumber = getDigitsSize(b);
             idx++;
+
+            if(digitsNumber > digitsSize) {
+                firsTerms[digitsNumber] = idx;
+                digitsSize = digitsNumber;
+            }
         }
         System.out.println(b);
-        return idx;
+        return firsTerms[n];
     }
 
 
@@ -215,7 +239,7 @@ public class ProblemSet3 {
 
 
 
-    private static int getDigitsSize(List<Integer> number) {
+    public static int getDigitsSize(List<Integer> number) {
         for(int i = number.size() - 1; i >= 0; i--) {
             if(number.get(i) != 0) {
                 return i + 1;
