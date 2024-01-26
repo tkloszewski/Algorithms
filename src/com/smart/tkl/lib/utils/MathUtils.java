@@ -851,7 +851,7 @@ public class MathUtils {
     }
     
     private static List<Integer> toList(int[] t) {
-        List<Integer> output = new ArrayList<Integer>();
+        List<Integer> output = new ArrayList<>();
         for (int value : t) {
             output.add(value);
         }

@@ -4,14 +4,9 @@ import com.smart.tkl.lib.utils.Fraction;
 import com.smart.tkl.lib.utils.MathUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class DigitCancellingFractions {
-
-
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
@@ -49,12 +44,8 @@ public class DigitCancellingFractions {
         List<Integer> numerators = new ArrayList<>();
         List<Integer> denominators = new ArrayList<>();
 
-        //Set<Integer>
-
         int kMin = (int) Math.ceil( (double) min / denominator);
         int kMax = max / denominator;
-
-        int cancelledPow = (int)Math.pow(10, cancellingDigitsCount);
 
         for(int numerator = denominator - 1; numerator >= 1; numerator--) {
             if(kMax * numerator < min) {
@@ -107,12 +98,8 @@ public class DigitCancellingFractions {
         List<Integer> numeratorDigits = numeratorStats.digits;
         List<Integer> denominatorDigits = denominatorStats.digits;
 
-
         for(int i = 0; i < numeratorDigits.size(); i++) {
             int digit1 = numeratorDigits.get(i);
-            if(numeratorStats.number == 160 && denominatorStats.number == 640) {
-                System.out.println("Trying to cancel digit: " + digit1);
-            }
             if(digit1 == 0) {
                continue;
             }
@@ -127,21 +114,20 @@ public class DigitCancellingFractions {
                         denominatorFreq[digit2]--;
                         denominatorDigits.remove(j);
 
-                        int newNumerator = toValue(numeratorDigits);
-                        int newDenominator = toValue(denominatorDigits);
-
-                        if (cancellingLeft == 1 && newDenominator != 0) {
-                            Fraction cancelledFraction = new Fraction(newNumerator, newDenominator);
-                            if(cancelledFraction.equals(fraction)) {
-                                //  System.out.println("newNumerator: " + newNumerator);
-                                //  System.out.println("newDenominator: " + newDenominator);
-                                return true;
+                        if (cancellingLeft == 1) {
+                            int newNumerator = toValue(numeratorDigits);
+                            int newDenominator = toValue(denominatorDigits);
+                            if (newDenominator != 0) {
+                                Fraction cancelledFraction = new Fraction(newNumerator, newDenominator);
+                                if(cancelledFraction.equals(fraction)) {
+                                    return true;
+                                }
                             }
                         }
                         else {
                             boolean cancellingFraction = isCancellingFraction(fraction,
-                                    new DigitStats(newNumerator, numeratorFreq, numeratorDigits),
-                                    new DigitStats(newDenominator, denominatorFreq, denominatorDigits),
+                                    new DigitStats(numeratorFreq, numeratorDigits),
+                                    new DigitStats(denominatorFreq, denominatorDigits),
                                     cancellingLeft - 1);
 
                             if(cancellingFraction) {
@@ -178,42 +164,14 @@ public class DigitCancellingFractions {
             digits.add(digit);
             n = n / 10;
         }
-        return new DigitStats(n, freq, digits);
-    }
-
-    private static class NumDen implements Comparable<NumDen> {
-          int numerator;
-          int denominator;
-
-        public NumDen(int numerator, int denominator) {
-            this.numerator = numerator;
-            this.denominator = denominator;
-        }
-
-        @Override
-        public int compareTo(NumDen o) {
-            int result = Integer.compare(this.denominator, o.denominator);
-            if(result == 0) {
-               result = Integer.compare(this.numerator, o.numerator);
-            }
-            return result;
-        }
-
-        @Override
-        public String toString() {
-            return "{" +
-                    numerator +
-                    ", " + denominator +
-                    '}';
-        }
+        return new DigitStats(freq, digits);
     }
 
     private static class DigitStats {
-        int number;
         int[] freq;
         List<Integer> digits;
 
-        public DigitStats(int number, int[] freq, List<Integer> digits) {
+        public DigitStats(int[] freq, List<Integer> digits) {
             this.freq = freq;
             this.digits = digits;
         }
