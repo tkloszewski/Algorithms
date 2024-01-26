@@ -94,6 +94,17 @@ public class SudokuSquare extends SudokuElement {
         return sb.toString();
     }
 
+    public String asString() {
+        StringBuilder sb = new StringBuilder();
+        for(SudokuCell[] cellRow : cells) {
+            for(SudokuCell cell : cellRow) {
+                sb.append(cell);
+            }
+            sb.append(System.lineSeparator());
+        }
+        return sb.toString();
+    }
+
     public SudokuSquare toTrialModeSquare() {
         int[][] square = new int[9][9];
         for(SudokuCell[] cellRow : cells) {
