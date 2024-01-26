@@ -686,7 +686,7 @@ public class MathUtils {
     public static List<Integer> getDigits(long n) {
         List<Integer> result = new ArrayList<>();
         while(n > 0) {
-            result.add(result.size(), (int)n%10);
+            result.add((int)n%10);
             n = n/10;
         }
         return result;
