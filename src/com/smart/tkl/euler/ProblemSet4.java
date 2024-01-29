@@ -49,7 +49,7 @@ public class ProblemSet4 {
         System.out.println("Truncatable primes: " + truncatablePrimes());
         System.out.println("Pandigital multiples: " + pandigitalMultiples());
         System.out.println("integerRightTriangles: " + integerRightTriangles(1000));
-        System.out.println("Chosen digit: " + getNthDigitOfIrrationalDecimalFraction(2898));
+        System.out.println("Chosen digit: " + getNthDigitOfIrrationalDecimalFraction(19L));
         System.out.println("Champernowne's constant: " + C10());
     }
 
@@ -63,9 +63,9 @@ public class ProblemSet4 {
         return result;
     }
 
-    private static int getNthDigitOfIrrationalDecimalFraction(int n) {
-        int integersCount = 9, digitsCount = 1, previousTotalDigits = 0;
-        int totalDigitsCount = integersCount * digitsCount;
+    private static int getNthDigitOfIrrationalDecimalFraction(long n) {
+        long integersCount = 9, digitsCount = 1, previousTotalDigits = 0;
+        long totalDigitsCount = integersCount * digitsCount;
 
         while(totalDigitsCount < n) {
             integersCount *= 10;
@@ -74,9 +74,9 @@ public class ProblemSet4 {
             totalDigitsCount += integersCount * digitsCount;
         }
         
-        int digitDiff = (n - previousTotalDigits);
-        int chosenNumber = (int)Math.pow(10, digitsCount - 1) + (digitDiff - 1)/digitsCount;
-        int chosenDigitIdx = (digitDiff - 1) % digitsCount;
+        long digitDiff = (n - previousTotalDigits);
+        long chosenNumber = (long)Math.pow(10, digitsCount - 1) + (digitDiff - 1)/digitsCount;
+        int chosenDigitIdx = (int)((digitDiff - 1) % digitsCount);
 
         String chosenDigit = String.valueOf(chosenNumber).substring(chosenDigitIdx, chosenDigitIdx + 1);
         return Integer.parseInt(chosenDigit);
