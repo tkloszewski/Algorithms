@@ -42,8 +42,8 @@ public class Primes {
 
         long d = n - 1;
         int s = 0;
-        while (d % 2 == 0) {
-            d = d / 2;
+        while ((d & 1) == 0) {
+            d = d >> 1;
             s++;
         }
 
@@ -53,6 +53,11 @@ public class Primes {
 
         for(BigInteger a : bases) {
             BigInteger x = a.modPow(dBg, nBg);
+
+            if(x.equals(BigInteger.ONE) || x.equals(minusOneBgN)) {
+               continue;
+            }
+
             BigInteger y = BigInteger.ZERO;
             for(int i = 0; i < s; i++) {
                 y = x.modPow(BigInteger.TWO, nBg);

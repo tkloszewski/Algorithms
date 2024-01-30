@@ -1,21 +1,24 @@
 package com.smart.tkl.euler;
 
-import com.smart.tkl.lib.combinatorics.permutation.SwapPermutationGenerator;
+import static com.smart.tkl.lib.utils.MathUtils.isPrime;
+
 import com.smart.tkl.lib.combinatorics.permutation.PermutationListener;
+import com.smart.tkl.lib.combinatorics.permutation.SwapPermutationGenerator;
 import com.smart.tkl.lib.utils.GenericUtils;
 import com.smart.tkl.lib.utils.MathUtils;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.*;
-
-import static com.smart.tkl.lib.utils.MathUtils.isPrime;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 public class ProblemSet5 {
 
-    private static final String TRIANGLE_WORDS_FILE_PATH = "c";
+    private static final String TRIANGLE_WORDS_FILE_PATH = "C:\\Projects\\personal\\Algorithms\\src\\com\\smart\\tkl\\euler\\p042_words.txt";
 
     private static volatile long time1, time2;
 
@@ -111,12 +114,14 @@ public class ProblemSet5 {
     }
 
     public static String selfPowers() {
-        BigDecimal result = BigDecimal.ZERO;
-        for(long i = 1; i <= 1000; i++) {
-            result = result.add(new BigDecimal(i).pow((int)i));
+        BigInteger result = BigInteger.ZERO;
+        BigInteger mod = BigInteger.valueOf(1000000000);
+        for(long i = 1; i <= 2000000; i++) {
+            BigInteger bi = BigInteger.valueOf(i);
+            result = result.add(bi.modPow(bi, mod));
         }
-        String s = result.toString();
-        return s.substring(s.length() - 10);
+        result = result.mod(mod);
+        return result.toString();
     }
 
     public static int distinctPrimeFactors() {
