@@ -28,7 +28,6 @@ public class ConsecutivePrimeSum {
     }
 
     private static PrimeChain search(List<PrimeChain> chains, long limit, int left, int right){
-        System.out.println("left: " + left + " right: " + right);
         if(left == right) {
            if(left > 0 && chains.get(left).sum > limit) {
               return chains.get(left - 1);
