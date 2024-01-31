@@ -19,7 +19,7 @@ public class PrimePermutations {
         System.out.println("Time in ms: " + (time2 - time1));
     }
 
-    public static List<PermutationSequence> getAllSequences(int limit, int sequenceLength) {
+    private static List<PermutationSequence> getAllSequences(int limit, int sequenceLength) {
         List<PermutationSequence> result = new ArrayList<>();
 
         PrimesSieve primesSieve = new PrimesSieve(1000000);
