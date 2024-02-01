@@ -11,7 +11,7 @@ public class PrimePermutations {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        List<PermutationSequence> sequences = getAllSequences(1000000, 3);
+        List<PermutationSequence> sequences = getAllSequences(10000, 3);
         long time2 = System.currentTimeMillis();
         for(PermutationSequence sequence : sequences) {
             System.out.println(sequence.asString());
