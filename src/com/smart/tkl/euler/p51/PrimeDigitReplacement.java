@@ -23,7 +23,7 @@ public class PrimeDigitReplacement {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        PrimeDigitReplacement primeDigitReplacement = new PrimeDigitReplacement(5,2, 7);
+        PrimeDigitReplacement primeDigitReplacement = new PrimeDigitReplacement(6,1, 7);
         List<Integer> primeFamily = primeDigitReplacement.findFamily();
         long time2 = System.currentTimeMillis();
         System.out.println("Found family: " + primeFamily);
@@ -89,7 +89,6 @@ public class PrimeDigitReplacement {
 
         List<List<DigitPosition>> toBeReplacedPositions = new ArrayList<>();
         for(List<DigitPosition> digitPositions : filteredDigitPositions) {
-            //List<int[]> combinations = generateCombinations(digitPositions.size(), replaceCount);
             List<int[]> combinations = this.combinations[digitPositions.size() - replaceCount];
             for(int[] combination : combinations) {
                 List<DigitPosition> replaceDigitPositions = new ArrayList<>(replaceCount);
