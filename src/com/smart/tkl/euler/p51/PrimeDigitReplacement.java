@@ -8,9 +8,9 @@ import java.util.Set;
 
 public class PrimeDigitReplacement {
 
-    private int limit;
-    private int familySize;
-    private int replaceCount;
+    private final int limit;
+    private final int familySize;
+    private final int replaceCount;
     private PrimesSieve primesSieve;
     private List<int[]>[] combinations;
 
