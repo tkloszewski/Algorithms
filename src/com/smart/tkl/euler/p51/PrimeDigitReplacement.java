@@ -11,8 +11,9 @@ public class PrimeDigitReplacement {
     private final int limit;
     private final int familySize;
     private final int replaceCount;
+    private final List<int[]>[] combinations;
+
     private PrimesSieve primesSieve;
-    private List<int[]>[] combinations;
 
     public PrimeDigitReplacement(int limit, int replaceCount, int familySize) {
         this.limit = limit;
@@ -23,7 +24,7 @@ public class PrimeDigitReplacement {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        PrimeDigitReplacement primeDigitReplacement = new PrimeDigitReplacement(6,1, 7);
+        PrimeDigitReplacement primeDigitReplacement = new PrimeDigitReplacement(6,3, 8);
         List<Integer> primeFamily = primeDigitReplacement.findFamily();
         long time2 = System.currentTimeMillis();
         System.out.println("Found family: " + primeFamily);
