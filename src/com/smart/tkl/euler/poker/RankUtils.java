@@ -38,14 +38,26 @@ public class RankUtils {
     }
 
     public static boolean isStraight(Card[] cards) {
-        for(int i = 0; i < cards.length - 1; i++) {
-            int value1 = cards[i].getValue();
-            int value2 = cards[i + 1].getValue();
-            if(value1 + 1 != value2) {
-                return false;
+        if(cards[0].getType().equals(CardType.TWO) && cards[4].getType().equals(CardType.ACE)) {
+            for(int i = 0; i < cards.length - 2; i++) {
+                int value1 = cards[i].getValue();
+                int value2 = cards[i + 1].getValue();
+                if(value1 + 1 != value2) {
+                    return false;
+                }
             }
+            return true;
         }
-        return true;
+        else {
+            for(int i = 0; i < cards.length - 1; i++) {
+                int value1 = cards[i].getValue();
+                int value2 = cards[i + 1].getValue();
+                if(value1 + 1 != value2) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 
     public static boolean isThreeOfKind(Card[] cards) {
