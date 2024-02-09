@@ -30,7 +30,7 @@ public class ProblemSet7 {
     }
 
     public static int eContinuedFractionNumeratorDigitSum() {
-        BigDecimal numerator = eContinuedFractionNumerator(100);
+        BigDecimal numerator = eContinuedFractionNumerator(30000);
         return MathUtils.sumOfDigits(numerator.toString());
     }
 
