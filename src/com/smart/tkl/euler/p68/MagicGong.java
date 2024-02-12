@@ -18,17 +18,10 @@ public class MagicGong {
     }
 
     public static void main(String[] args) {
-        MagicGong magicGong = new MagicGong(7);
-        List<Gong> gongs = magicGong.findMagicRings();
-        System.out.println(gongs.size());
+        MagicGong magicGong = new MagicGong(8);
+        List<Gong> gongs = magicGong.findMagicRingsForSum(25);
         for(Gong gong: gongs) {
-            System.out.println("Magic ring: " + gong);
-        }
-
-        gongs = magicGong.findMagicRingsForTotal(20);
-        System.out.println(gongs.size());
-        for(Gong gong: gongs) {
-            System.out.println("Magic ring: " + gong);
+            System.out.println(gong.asString());
         }
     }
 
@@ -66,6 +59,25 @@ public class MagicGong {
         for(int sum = minSum; sum <= maxSum; sum++) {
             solve(1,  sum, 1, nums, result);
         }
+
+        return result;
+    }
+
+    public List<Gong> findMagicRingsForSum(int sum) {
+        List<Gong> result = new ArrayList<>(2 * size);
+
+        int maxNum = 2 * size;
+
+        this.gon[0][0] = maxNum;
+
+        int[] nums = new int[maxNum + 1];
+        nums[maxNum] = 1;
+
+        solve(1,  sum, 0, nums, result);
+        this.gon[0][1] = maxNum;
+        solve(1,  sum, 1, nums, result);
+
+        result.sort(Comparator.comparing(Gong::asString));
 
         return result;
     }
