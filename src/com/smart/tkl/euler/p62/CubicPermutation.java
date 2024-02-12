@@ -1,13 +1,18 @@
 package com.smart.tkl.euler.p62;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class CubicPermutation {
 
     private static final long R = 1779033703;
 
     private final int permutationsCount;
-    private final Map<Long, List<Long>> permutationMap = new LinkedHashMap<>();
+    private final Map<Long, LinkedList<Long>> permutationMap = new LinkedHashMap<>();
     private Long smallestCube;
 
     public static void main(String[] args) {
@@ -24,9 +29,16 @@ public class CubicPermutation {
         System.out.println("Smallest cube for 6 permutations: " + smallestPermutation + ". Time in ms: " + (time2 - time1));
 
         time1 = System.currentTimeMillis();
-        smallestPermutation = new CubicPermutation(10).getOrFindSmallestCube();
+        smallestPermutation = new CubicPermutation(49).getOrFindSmallestCube();
         time2 = System.currentTimeMillis();
         System.out.println("Smallest cube for 10 permutations: " + smallestPermutation + ". Time in ms: " + (time2 - time1));
+
+
+        time1 = System.currentTimeMillis();
+        List<Long> result = new CubicPermutation(49).getOrFindSmallestCube(1000000);
+        time2 = System.currentTimeMillis();
+        System.out.println("Smallest cube for 10 permutations: " + result + ". Time in ms: " + (time2 - time1));
+
     }
 
     public CubicPermutation(int permutationsCount) {
@@ -48,23 +60,49 @@ public class CubicPermutation {
                break;
             }
 
-            List<Long> samePermutationCubes = permutationMap.computeIfAbsent(hashResult.hash, k -> new LinkedList<>());
+            LinkedList<Long> samePermutationCubes = permutationMap.computeIfAbsent(hashResult.hash, k -> new LinkedList<>());
             samePermutationCubes.add(i);
             if(samePermutationCubes.size() == this.permutationsCount) {
-                smallestCubeCandidates.add(samePermutationCubes.get(0));
+                smallestCubeCandidates.add(samePermutationCubes.getFirst());
                 if(lastFoundHash == null) {
                     lastFoundHash = hashResult;
                 }
             }
             else if(samePermutationCubes.size() > this.permutationsCount) {
-                smallestCubeCandidates.remove(samePermutationCubes.get(0));
+              //  smallestCubeCandidates.remove(samePermutationCubes.get(0));
             }
             i++;
         }
+
         if(smallestCubeCandidates.size() > 0) {
            this.smallestCube = (long)Math.pow(smallestCubeCandidates.get(0), 3);
         }
         return this.smallestCube;
+    }
+
+    public List<Long> getOrFindSmallestCube(int limit) {
+        long i = 101;
+
+        while (i < limit) {
+            long cube = i * i * i;
+            HashResult hashResult = toHashValue(cube);
+            LinkedList<Long> samePermutationCubes = permutationMap.computeIfAbsent(hashResult.hash, k -> new LinkedList<>());
+            samePermutationCubes.add(i);
+            i++;
+        }
+
+        List<Long> result = new ArrayList<>();
+        for(long key : permutationMap.keySet()) {
+            LinkedList<Long> values = permutationMap.get(key);
+            if(values.size() == permutationsCount) {
+                long first = values.getFirst();
+                result.add(first * first * first);
+            }
+        }
+
+        Collections.sort(result);
+
+        return result;
     }
 
     private HashResult toHashValue(long cube) {
