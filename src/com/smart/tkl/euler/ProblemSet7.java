@@ -20,6 +20,7 @@ public class ProblemSet7 {
         System.out.println("Powerful digit counts: " + powerfulDigitCounts());
        // System.out.println("Passcode derivation: " + derivePasscode());
         System.out.println("Convergents of e: " + eContinuedFractionNumeratorDigitSum());
+        long l = 1000000000000000000L;
     }
 
 
