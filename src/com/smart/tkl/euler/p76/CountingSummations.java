@@ -1,5 +1,7 @@
 package com.smart.tkl.euler.p76;
 
+import java.util.Arrays;
+
 public class CountingSummations {
 
     private final int amount;
@@ -11,7 +13,7 @@ public class CountingSummations {
     }
 
     public static void main(String[] args) {
-        int amount = 100;
+        int amount = 6;
         CountingSummations countingSummations = new CountingSummations(amount);
         long time1 = System.currentTimeMillis();
         long numberOfSums = countingSummations.countSums();
@@ -34,6 +36,10 @@ public class CountingSummations {
             for(int j = number; j <= amount; j++) {
                 sums[j] = sums[j] + sums[j - number];
             }
+        }
+
+        for(int number = 1; number < amount; number++) {
+            sums[number]--;
         }
 
         return sums[amount];
