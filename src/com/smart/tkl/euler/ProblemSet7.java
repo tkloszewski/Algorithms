@@ -13,17 +13,15 @@ import java.util.*;
 
 public class ProblemSet7 {
 
-    private static final String P_079_FILE_PATH = "C:\\Projects\\microservices\\Algorithms\\src\\com\\smart\\tkl\\euler\\p079_keylog.txt";
+    private static final String P_079_FILE_PATH = "C:\\Projects\\personal\\Algorithms\\src\\com\\smart\\tkl\\euler\\p079_keylog.txt";
 
     public static void main(String[] args) {
         System.out.println("Prime pair sets: " + primePairSets());
         System.out.println("Powerful digit counts: " + powerfulDigitCounts());
-       // System.out.println("Passcode derivation: " + derivePasscode());
+        System.out.println("Passcode derivation: " + derivePasscode());
         System.out.println("Convergents of e: " + eContinuedFractionNumeratorDigitSum());
-        long l = 1000000000000000000L;
+        checkAscii();
     }
-
-
 
     public static long primePairSets() {
         PrimePairSets primePairSets = new PrimePairSets(30000, 5);
@@ -33,6 +31,12 @@ public class ProblemSet7 {
     public static int eContinuedFractionNumeratorDigitSum() {
         BigDecimal numerator = eContinuedFractionNumerator(30000);
         return MathUtils.sumOfDigits(numerator.toString());
+    }
+
+    private static void checkAscii() {
+        for(char c = 33; c <= 133; c++) {
+            System.out.printf("%c\n", c);
+        }
     }
 
     private static BigDecimal eContinuedFractionNumerator(int pos) {
@@ -76,6 +80,8 @@ public class ProblemSet7 {
         }
 
         List<Integer> passDigits = new ArrayList<>(uniqueDigits);
+
+        int[] indexes = new int[134];
 
         for(int[] login : logins) {
             for(int i = 0; i < login.length; i++) {
