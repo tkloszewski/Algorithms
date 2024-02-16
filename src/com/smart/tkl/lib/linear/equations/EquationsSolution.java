@@ -45,10 +45,10 @@ public class EquationsSolution {
         sb.append("[");
         if (!this.solutions.isEmpty()) {
             for(int i = 0; i < this.solutions.size() - 1; i++) {
-                sb.append(String.format("%5.2f", this.solutions.get(i)));
+                sb.append(String.format("%5.10f", this.solutions.get(i)));
                 sb.append(", ");
             }
-            sb.append(String.format("%5.2f", this.solutions.get(this.solutions.size() - 1)));
+            sb.append(String.format("%5.10f", this.solutions.get(this.solutions.size() - 1)));
         }
         sb.append("]");
         return sb.toString();

@@ -6,6 +6,11 @@ import java.util.stream.Collectors;
 
 public class SortingUtils {
 
+    public static int[] mergeSort(int[] input) {
+        mergeSort(input, 0, input.length - 1);
+        return input;
+    }
+
     public static List<Integer> mergeSort(List<Integer> list) {
         int[] input = toPrimitiveArray(list);
         mergeSort(input, 0, input.length - 1);

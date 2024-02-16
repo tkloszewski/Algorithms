@@ -8,16 +8,40 @@ public class LinearEquationsSolver {
 
     private static final double EPS = Math.pow(10, -14);
 
-    private final double[][] originalEquations;
     private final double[][] equations;
     private final Size size;
 
     public LinearEquationsSolver(double[][] originalEquations) {
-        this.originalEquations = originalEquations;
         this.equations = copy(originalEquations);
         this.size = getSize(originalEquations);
         if(size.m + 1 != size.n) {
             throw new IllegalArgumentException("Number of rows must be 1 less than number of columns");
+        }
+    }
+
+    public static void main(String[] args) {
+        double[][] equations1 = new double[][] {
+                {1, 1, 1, 1},
+                {-0.8, 0.3, 0.5, 0},
+                {0.6, -1, 0, 0}
+        };
+
+        LinearEquationsSolver solver = new LinearEquationsSolver(equations1);
+        EquationsSolution solution = solver.solve();
+        System.out.println("Solution 1: " + solution);
+
+        double[][] equations2 = new double[][] {
+                {1, 1, 1, 1},
+                {0.2, 0.7, -0.5, 0},
+                {0.6, -1, 0, 0}
+        };
+
+        solver = new LinearEquationsSolver(equations2);
+        solution = solver.solve();
+        System.out.println("Solution 2: " + solution);
+
+        for(double val : solution.getSolutions()) {
+            System.out.println(val);
         }
     }
 
@@ -111,15 +135,6 @@ public class LinearEquationsSolver {
             System.arraycopy(original[i], 0, result[i], 0, original[0].length);
         }
         return result;
-    }
-
-    private void printEquations() {
-        for (double[] ints : this.equations) {
-            for (int j = 0; j < this.equations[0].length; j++) {
-                System.out.printf("%5.2f ", ints[j]);
-            }
-            System.out.println();
-        }
     }
 
     private static class Size {

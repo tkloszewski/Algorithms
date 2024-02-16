@@ -23,6 +23,27 @@ public class MatrixUtils {
         return result;
     }
 
+    public static double[][] pow(double[][] a, long pow) {
+        checkMatrixIsSquare(a);
+
+        int size = a.length;
+        double[][] result = new double[size][size];
+
+        for(int i = 0; i < size; i++) {
+            result[i][i] = 1;
+        }
+
+        while (pow > 0) {
+            if(pow % 2 == 1) {
+                result = multiply(result, a);
+            }
+            a = multiply(a, a);
+            pow = pow / 2;
+        }
+
+        return result;
+    }
+
     public static long[][] pow(long[][] a, long pow, long mod) {
         checkMatrixIsSquare(a);
 
@@ -69,6 +90,19 @@ public class MatrixUtils {
         return c;
     }
 
+    public static double[][] multiply(double[][] a, double[][] b) {
+        double[][] c = new double[a.length][b[0].length];
+        for(int i = 0; i < a.length; i++) {
+            for(int j = 0; j < b[0].length; j++) {
+                for(int k = 0; k < a[0].length; k++) {
+                    double mul = a[i][k]  * b[k][j];
+                    c[i][j] = c[i][j] + mul;
+                }
+            }
+        }
+        return c;
+    }
+
     public static void printGrid(long[][] tab) {
         for (long[] arr : tab) {
             for (int j = 0; j < tab[0].length; j++) {
@@ -78,7 +112,22 @@ public class MatrixUtils {
         }
     }
 
+    public static void printGrid(double[][] tab) {
+        for (double[] arr : tab) {
+            for (int j = 0; j < tab[0].length; j++) {
+                System.out.printf("%5.2f ", arr[j]);
+            }
+            System.out.println();
+        }
+    }
+
     private static void checkMatrixIsSquare(long[][] a) {
+        if(a.length != a[0].length) {
+            throw new IllegalArgumentException("Non-square matrix exponentiation!!!");
+        }
+    }
+
+    private static void checkMatrixIsSquare(double[][] a) {
         if(a.length != a[0].length) {
             throw new IllegalArgumentException("Non-square matrix exponentiation!!!");
         }
