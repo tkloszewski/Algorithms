@@ -12,11 +12,12 @@ public class CubeDigitPairs {
     public static void main(String[] args) {
         Set<Integer> input = Set.of(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
         List<int[]> combinations = new ArrayList<>(CombinatoricsUtils.combinations(input, 6));
-        
+
+        System.out.println(combinations.size());
         int count = 0;
         
         for(int i = 0; i < combinations.size(); i++) {
-            for(int j = i + 1; j < combinations.size(); j++) {               
+            for(int j = i; j < combinations.size(); j++) {
                 Set<Integer> arrangement1  = toExtendedSet(combinations.get(i));
                 Set<Integer> arrangement2  = toExtendedSet(combinations.get(j));              
               
@@ -46,7 +47,7 @@ public class CubeDigitPairs {
     
     
     private static boolean isValidArrangement(Set<Integer> arrangement1, Set<Integer> arrangement2) {   
-        int[][] squareCombinations = {{0, 1}, {0, 4}, {0, 9}, {1, 6}, {2, 5}, {3, 6}, {4, 6}, {6, 4}, {8, 1}};
+        int[][] squareCombinations = {{0, 1}/*, {0, 4}, {0, 9}, {1, 6}, {2, 5}, {3, 6}, {4, 6}, {6, 4}, {8, 1}*/};
         
         for(int[] comb : squareCombinations) {
             boolean valid = (arrangement1.contains(comb[0]) && arrangement2.contains(comb[1])) ||
