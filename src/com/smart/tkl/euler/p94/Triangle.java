@@ -2,13 +2,13 @@ package com.smart.tkl.euler.p94;
 
 public class Triangle {
     
-    private final double a;
-    private final double b;
-    private final double c;
-    private final double perimeter;
-    private final double area;
+    final long a;
+    final long b;
+    final long c;
+    final long perimeter;
+    final double area;
     
-    public Triangle(double a, double b, double c) {
+    public Triangle(long a, long b, long c) {
         this.a = a;
         this.b = b;
         this.c = c;
@@ -16,7 +16,7 @@ public class Triangle {
         this.area = 0.25 * Math.sqrt((a + b + c) * (b + c - a) * (a + c - b) * (a + b - c));
     }
     
-    public Triangle(double a, double b, double c, double perimeter, double surface) {
+    public Triangle(long a, long b, long c, long perimeter, double surface) {
         this.a = a;
         this.b = b;
         this.c = c;

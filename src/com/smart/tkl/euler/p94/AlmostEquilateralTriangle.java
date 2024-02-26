@@ -1,24 +1,44 @@
 package com.smart.tkl.euler.p94;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class AlmostEquilateralTriangle {
     
     private final long perimeterLimit;
+    private List<Triangle> triangles;
     
-    public AlmostEquilateralTriangle(int limit) {
+    public AlmostEquilateralTriangle(long limit) {
         this.perimeterLimit = limit;
     }
     
     public static void main(String[] args) {
-        AlmostEquilateralTriangle almostEquilateralTriangle = new AlmostEquilateralTriangle(1000000000);   
+        long perimeterLimit = 1000000000000000000L;
+        AlmostEquilateralTriangle almostEquilateralTriangle = new AlmostEquilateralTriangle(perimeterLimit);
         AlmostEquilateralResult result = almostEquilateralTriangle.solveByPellsEquation();
         System.out.println("Number of triangles by Pells method: " + result.integerTriangles.size());
         System.out.println("Total perimeter by Pells method: " + result.totalPerimeter);
-    }   
+        System.out.println(result.integerTriangles);
+    }
+
+    public long sumOfAllPerimeters(long limit) {
+        if(triangles == null) {
+            triangles = solveByPellsEquation().integerTriangles;
+            triangles.sort(Comparator.comparingLong(t -> t.perimeter));
+        }
+
+        long totalPerimeter = 0;
+        for(Triangle triangle : triangles) {
+            if(triangle.perimeter > limit) {
+               break;
+            }
+            totalPerimeter += triangle.perimeter;
+        }
+        return totalPerimeter;
+    }
     
-    public AlmostEquilateralResult solveByPellsEquation() {
+    AlmostEquilateralResult solveByPellsEquation() {
         List<Triangle> triangles = new LinkedList<>();
         long totalPerimeter = 0;
         
