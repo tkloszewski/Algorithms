@@ -3,11 +3,20 @@ package com.smart.tkl.euler.p93;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class SingleParenthesesExpressionEvaluator extends BaseParenthesesExpressionEvaluator {     
     
     public SingleParenthesesExpressionEvaluator(double[] values, int[] signs, int size) {
         super(values, signs, size);
+    }
+
+    public static void main(String[] args) {
+        double[] permutation = new double[]{2, 4, 6};
+        int[] operators = new int[]{'*', '+'};
+        SingleParenthesesExpressionEvaluator evaluator = new SingleParenthesesExpressionEvaluator(permutation, operators, 3);
+        Set<Integer> evaluated = evaluator.evaluateValidValues();
+        System.out.println(evaluated);
     }
     
     @Override    

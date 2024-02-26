@@ -24,10 +24,10 @@ public class ConsecutiveCombinationEvaluator {
         while (permutationIterator.hasNext()) {
             double[] permutation = toDouble(permutationIterator.next());
             for(int[] operatorVariation : operatorVariations) {
-                List<ExpressionEvaluator> evaluators = getEvaluators(permutation, operatorVariation);
+                List<ExpressionEvaluator> evaluators = List.of(new GenericExpressionEvaluator(permutation, operatorVariation));
                 for(ExpressionEvaluator evaluator : evaluators) {
                     Set<Integer> validValues = evaluator.evaluateValidValues();
-                    if(validValues.size() > 0) {
+                    if(!validValues.isEmpty()) {
                        result.addAll(validValues); 
                     }
                 }
@@ -50,15 +50,6 @@ public class ConsecutiveCombinationEvaluator {
     
     public int[] getCombination() {
         return combination;
-    }
-    
-    private List<ExpressionEvaluator> getEvaluators(double[] permutation, int[] operators) {
-        return List.of(
-                new NoParenthesesExpressionEvaluator(permutation, operators),
-                new SingleParenthesesExpressionEvaluator(permutation, operators, 2),
-                new SingleParenthesesExpressionEvaluator(permutation, operators, 3),
-                new NestedParenthesesExpressionEvaluator(permutation, operators, 3, 2),
-                new DoubleGroupParenthesisExpressionEvaluator(permutation, operators, 2));        
     }
     
     private static double[] toDouble(int[] permutation) {
