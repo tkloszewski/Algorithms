@@ -1,5 +1,7 @@
 package com.smart.tkl.euler.p94;
 
+import com.smart.tkl.lib.utils.PeriodicFraction;
+import com.smart.tkl.lib.utils.SquareRootPeriodicFractionGenerator;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +22,10 @@ public class AlmostEquilateralTriangle {
         System.out.println("Number of triangles by Pells method: " + result.integerTriangles.size());
         System.out.println("Total perimeter by Pells method: " + result.totalPerimeter);
         System.out.println(result.integerTriangles);
+
+        SquareRootPeriodicFractionGenerator generator = new SquareRootPeriodicFractionGenerator(3);
+        PeriodicFraction fraction = generator.generate();
+        System.out.println(fraction);
     }
 
     public long sumOfAllPerimeters(long limit) {
