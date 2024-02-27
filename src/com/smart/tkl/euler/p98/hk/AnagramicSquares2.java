@@ -34,34 +34,29 @@ public class AnagramicSquares2 {
 
         List<SquareSet> squareSets = new LinkedList<>();
         int largestSize = 0;
+        long maxElement = 0;
 
         for(long number = minNumber; number <= maxNumber; number++) {
             long square = number * number;
             long rep = getRep(square);
             SquareSet squareSet = anagramicMap.get(rep);
             if(squareSet != null) {
-               squareSet.addSquare(square);
+                squareSet.addSquare(square);
             }
             else {
-               squareSet = new SquareSet(rep, square);
-               anagramicMap.put(rep, squareSet);
+                squareSet = new SquareSet(rep, square);
+                anagramicMap.put(rep, squareSet);
             }
 
             int size = squareSet.size();
 
             if(size == largestSize) {
-               squareSets.add(squareSet);
+                maxElement = Math.max(squareSet.getMax(), maxElement);
             }
             else if(size > largestSize) {
                 largestSize = size;
-                squareSets.clear();
-                squareSets.add(squareSet);
+                maxElement = squareSet.getMax();
             }
-        }
-
-        long maxElement = 0;
-        for(SquareSet squareSet : squareSets) {
-            maxElement = Math.max(squareSet.getMax(), maxElement);
         }
 
         return maxElement;
@@ -97,7 +92,7 @@ public class AnagramicSquares2 {
         }
 
         int size() {
-           return squares.size();
+            return squares.size();
         }
 
         long getMax() {
