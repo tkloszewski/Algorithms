@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class AnagramicSquares2 {
 
@@ -19,7 +17,7 @@ public class AnagramicSquares2 {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        AnagramicSquares2 anagramicSquares = new AnagramicSquares2(13);
+        AnagramicSquares2 anagramicSquares = new AnagramicSquares2(4);
         long maxElement = anagramicSquares.findMaxElementOfLargestSet();
         long time2 = System.currentTimeMillis();
         System.out.println("Max element: " + maxElement);
@@ -80,30 +78,33 @@ public class AnagramicSquares2 {
 
     private static class SquareSet {
         long rep;
-        Set<Long> squares = new TreeSet<>((l1, l2) -> Long.compare(l2, l1));
+        long max = 0;
+        int size;
 
         SquareSet(long rep, long square) {
             this.rep = rep;
-            this.squares.add(square);
+            this.max = square;
+            this.size = 1;
         }
 
         void addSquare(long square) {
-            squares.add(square);
+            max = Math.max(square, max);
+            size++;
         }
 
         int size() {
-            return squares.size();
+            return size;
         }
 
         long getMax() {
-            return squares.iterator().next();
+            return max;
         }
 
         @Override
         public String toString() {
             return "{" +
                     "rep=" + rep +
-                    ", squares=" + squares +
+                    ", size=" + size +
                     '}';
         }
     }
