@@ -30,4 +30,16 @@ public class NaturalPolynomial {
         }
         return value;
     }
+
+    public long getValueFor(long x, long mod) {
+        long value = 0;
+        long currPower = 1;
+        for (Long coefficient : coefficients) {
+            value += coefficient * currPower;
+            value = value % mod;
+            currPower *= x;
+            currPower = currPower % mod;
+        }
+        return value;
+    }
 }

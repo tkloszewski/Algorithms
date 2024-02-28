@@ -12,7 +12,7 @@ public class OptimumPolynomial {
     private final NaturalPolynomial generatingPolynomial;
 
     public static void main(String[] args) {
-        OptimumPolynomial op = new OptimumPolynomial(new NaturalPolynomial(List.of(0L, 0L, 0L, 1L)));
+        OptimumPolynomial op = new OptimumPolynomial(new NaturalPolynomial(List.of(1L, 1L, 1L, 1L, 3L, 5L, 10L)));
         System.out.println("Optimum Polynomial sum of FIT " + op.sumOfFirstIncorrectTerms());
 
         long time1 = System.currentTimeMillis();
@@ -27,7 +27,12 @@ public class OptimumPolynomial {
     }
 
     public long sumOfFirstIncorrectTerms() {
-        long result = 0;
+         List<Long> fits = getFirstIncorrectTerms();
+         return fits.stream().reduce(0L, Long::sum);
+    }
+
+    public List<Long> getFirstIncorrectTerms() {
+        List<Long> fits = new ArrayList<>();
         int maxDegree = generatingPolynomial.getDegree();
         for(int degree = 1; degree <= maxDegree; degree++) {
             NaturalPolynomial approximatedPolynomial = resolvePolynomial(degree, generatingPolynomial);
@@ -39,10 +44,10 @@ public class OptimumPolynomial {
                      resolvedValue = approximatedPolynomial.getValueFor(n);
                      n++;
                 }
-                result += resolvedValue;
+                fits.add(resolvedValue);
             }
         }
-        return result;
+        return fits;
     }
 
     private NaturalPolynomial resolvePolynomial(int degree, NaturalPolynomial polynomial) {
