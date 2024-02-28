@@ -26,6 +26,10 @@ public class OptimumPolynomial2 {
         System.out.println("Original fits: " + fits);
     }
 
+    /*
+    * OP(k, k + 1) = sum (y[i] * triangle[i] * sign) for i = 1..k
+    * Coefficients are taken from Pascal Triangle
+    * */
     public List<Long> findFITs() {
         int maxDegree = coefficients.size() - 1;
 
