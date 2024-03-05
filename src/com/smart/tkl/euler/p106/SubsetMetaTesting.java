@@ -5,9 +5,10 @@ import java.util.List;
 
 public class SubsetMetaTesting {
 
+
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        int count = countSubsetPairs(12);
+        int count = countSubsetPairs(6);
         long time2 = System.currentTimeMillis();
         System.out.println("Number of subset pairs to be tested: " + count);
         System.out.println("Solution took ms: " + (time2 - time1));

@@ -20,7 +20,7 @@ public class MathUtils {
         System.out.println("Congruences solution: " + solveCongruences(List.of(new Congruence(2, 3), new Congruence(3, 5), new Congruence(2, 7))));
         System.out.println("Maximum sub array index: " + Arrays.toString(getMaxSubArrayIndex(new int[]{2, 1, 3, 4, -1, 2, 1, 5, -4, -20, 21, 2})));
         System.out.println("Linear diophantine equation: " + solveLinearEquation(6, 4, 12));
-        System.out.println("Modulo inverse of 7 mod 2^16: " + moduloInverse(7, 2L << 32));
+        System.out.println("Modulo inverse of 7 mod 2^16: " + moduloInverse(7, 2L << 3));
         System.out.println("Inverse of range: " + Arrays.toString(modInvInRange(11)));
         System.out.println("Inverse mod list of (1,2,3,4,5,6) % 7: " + modInverseInList(List.of(1L, 2L, 3L, 4L, 5L, 6L), 7));
         System.out.println("Modulo power 2639^3648 mod 7297: " + moduloPower(2639, 3648, 7279));
