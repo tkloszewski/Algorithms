@@ -1,5 +1,7 @@
 package com.smart.tkl.lib.utils;
 
+import java.util.Optional;
+
 public class ModuloUtils {
 
     public static long modInv(long a, long mod) {
@@ -9,5 +11,14 @@ public class ModuloUtils {
         }
         long x = coefficients.getX();
         return (x % mod + mod) % mod;
+    }
+
+    public static Optional<Long> findModInv(long a, long b) {
+        try {
+            return Optional.of(modInv(a, b));
+        }
+        catch (IllegalArgumentException e) {
+            return Optional.empty();
+        }
     }
 }

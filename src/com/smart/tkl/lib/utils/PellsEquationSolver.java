@@ -5,8 +5,27 @@ import java.util.List;
 public class PellsEquationSolver {
 
     public static void main(String[] args) {
-        LongPoint solution = solve(999999999);
+        long time1 = System.currentTimeMillis();
+        long d = (long)Math.pow(10, 14) + 1;
+        LongPoint solution = solve(d);
+        long time2 = System.currentTimeMillis();
         System.out.println("Solution: " + solution);
+        System.out.println("Solution took in ms: " + (time2 - time1));
+        solution = solve(3);
+        System.out.println("Reduced solution: " + solution);
+
+        int k = 0;
+        boolean[] squares = new boolean[169];
+        for(int i = 1; i < 169; i++) {
+            int r = (i * i) % 169;
+            squares[r] = true;
+        }
+        for(int i = 1; i < 169; i++) {
+            if(squares[i]) {
+               k++;
+            }
+        }
+        System.out.println("Number of quadratic residues: " + k);
     }
 
     public static LongPoint solve(long d) {
@@ -14,7 +33,7 @@ public class PellsEquationSolver {
         PeriodicFraction periodicFraction = generator.generate();
         List<Long> sequence = periodicFraction.getSequence();
 
-        if(sequence.size() == 0) {
+        if(sequence.isEmpty()) {
            return new LongPoint(1, 0);
         }
 

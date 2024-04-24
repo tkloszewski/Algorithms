@@ -1,10 +1,10 @@
-package com.smart.tkl.lib.utils;
+package com.smart.tkl.lib.utils.congruence;
 
-public class Congruence {
+public class LinearCongruence {
 
     private final long a, m;
 
-    public Congruence(long a, long m) {
+    public LinearCongruence(long a, long m) {
         this.a = a % m;
         this.m = m;
     }

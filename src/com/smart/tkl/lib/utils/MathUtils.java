@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,9 +16,9 @@ import java.util.stream.Collectors;
 public class MathUtils {
     
     public static void main(String[] args) {
+        System.out.println("Proper divisors: " + listProperDivisors(1491493311000L));
         System.out.println("Proper divisors sum: " + sumProperDivisors(284));
         System.out.println("Proper divisors sum: " + sumProperDivisors2(284));
-        System.out.println("Congruences solution: " + solveCongruences(List.of(new Congruence(2, 3), new Congruence(3, 5), new Congruence(2, 7))));
         System.out.println("Maximum sub array index: " + Arrays.toString(getMaxSubArrayIndex(new int[]{2, 1, 3, 4, -1, 2, 1, 5, -4, -20, 21, 2})));
         System.out.println("Linear diophantine equation: " + solveLinearEquation(6, 4, 12));
         System.out.println("Modulo inverse of 7 mod 2^16: " + moduloInverse(7, 2L << 3));
@@ -237,24 +238,6 @@ public class MathUtils {
         return LinearSolution.solution(x * q, y * q, gcd);
     }
 
-    public static long solveCongruences(List<Congruence> congruences) {
-        long result = 0;
-        long M = 1;
-        for(Congruence congruence : congruences) {
-            M *= congruence.getM();
-        }
-        for(Congruence congruence : congruences) {
-            long mi = congruence.getM();
-            long ai = congruence.getA();
-            long Mi = M / mi;
-            long inv = moduloInverse(Mi, mi) % M;
-            long m = moduloMultiply(ai, inv, M);
-            m = moduloMultiply(m, Mi, M);
-            result = (result + m) % M;
-        }
-        return result;
-    }
-
     /*
     * xi+2 = xi - q * xi+1
     * yi+2 = yi - q * yi+1
@@ -409,29 +392,88 @@ public class MathUtils {
     }
     
     public static List<Long> listProperDivisors(long n) {
-        List<Long> result = new ArrayList<>();
-        result.add(1L);
-        if(isPrime(n)) {
-            return result;
+        if(n == 1) {
+           return List.of(1L);
         }
-        
-        int step = n % 2 == 0 ? 1 : 2;
-        int start = n % 2 == 0 ? 2 : 3;
-        long sqrt = (long)Math.sqrt(n);
-        long end = sqrt;
-        if(sqrt * sqrt == n) {
-            result.add(sqrt);
-            end = sqrt - 1;
-        }
-        
-        for(long i = start; i <= end; i += step) {
-            if(n % i == 0) {
-                result.add(i);
-                result.add(n/i);
+
+        long number = n;
+
+        List<List<Long>> primeFactorsList = new ArrayList<>();
+        for (int num : new int[]{2, 3, 5}) {
+            long powValue = 1;
+            List<Long> primeFactors = new ArrayList<>();
+            while (n % num == 0) {
+                n = n / num;
+                powValue *= num;
+                if(primeFactors.isEmpty()) {
+                   primeFactors.add(1L);
+                }
+                primeFactors.add(powValue);
+            }
+            if(!primeFactors.isEmpty()) {
+               primeFactorsList.add(primeFactors);
             }
         }
-        
-        return result;
+
+        int[] increments = new int[]{4, 2, 4, 2, 4, 6, 2, 6};
+        int i = 0;
+
+        for(long p = 7; p * p <= n; p += increments[i], i = (i + 1) % 8) {
+            long powValue = 1;
+            List<Long> primeFactors = new ArrayList<>();
+            while (n % p == 0) {
+                n = n / p ;
+                powValue *= p;
+                if(primeFactors.isEmpty()) {
+                   primeFactors.add(1L);
+                }
+                primeFactors.add(powValue);
+            }
+            if(!primeFactors.isEmpty()) {
+                primeFactorsList.add(primeFactors);
+            }
+        }
+
+        if(n > 1) {
+           primeFactorsList.add(List.of(1L, n));
+        }
+
+        return getDivisors(primeFactorsList, number);
+    }
+
+    private static List<Long> getDivisors(List<List<Long>> primeFactorsList, long number) {
+        List<Long> divisors = new ArrayList<>();
+        combineDivisors(primeFactorsList, divisors, 0, 1, Math.sqrt(number), number);
+        Collections.sort(divisors);
+        return divisors;
+    }
+
+    private static void combineDivisors(List<List<Long>> primeFactorsList, List<Long> divisors, int pos, long value, double limit, long number) {
+        List<Long> primeFactors = primeFactorsList.get(pos);
+        if(pos == primeFactorsList.size() - 1) {
+           for(long factor : primeFactors) {
+               long divisor = factor * value;
+               if(divisor == limit) {
+                  divisors.add(divisor);
+               }
+               else if(divisor < limit){
+                  divisors.add(divisor);
+                  divisors.add(number / divisor);
+               }
+               else {
+                   break;
+               }
+           }
+        }
+        else {
+            for(long factor : primeFactors) {
+                long newValue = factor * value;
+                if(newValue > limit) {
+                   return;
+                }
+                combineDivisors(primeFactorsList, divisors, pos + 1, newValue, limit, number);
+            }
+        }
     }
 
     public static List<Long> generatePrimeList(int size) {
