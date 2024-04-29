@@ -1,6 +1,5 @@
 package com.smart.tkl.lib.utils.congruence;
 
-import com.smart.tkl.lib.primes.PrimesSieve;
 import com.smart.tkl.lib.utils.MathUtils;
 import com.smart.tkl.lib.utils.PrimeFactor;
 import java.math.BigInteger;
@@ -19,7 +18,128 @@ public class QuadraticCongruenceSolver {
     private static final List<Long> FIRST_PRIMES = List.of(2L, 3L, 5L, 7L, 11L, 13L, 17L, 19L, 23L, 29L, 31L, 37L, 41L, 43L, 47L, 53L, 59L, 61L, 67L, 71L, 73L, 79L);
 
     public static void main(String[] args) {
-        System.out.println(solve(49, 1176));
+        System.out.println(solve(11, 11, 10, 121));
+        System.out.println(solve(13, 13, 13, 2197));
+        System.out.println(solve(11, 11, 10, 121));
+        System.out.println(solve(11, 11, 11, 3));
+        System.out.println(solve(6, 14, 8, 21));
+        System.out.println(solve(7, 13, 26, 97));
+        System.out.println(solve(5, 7, 78, 136));
+        System.out.println(solve(18, 41, 19, 24));
+        System.out.println(solve(1, 3, 17, 315));
+        System.out.println(solve(5, -8, 12, 48));
+        System.out.println(solve(1, 6, 12, 10));
+
+        System.out.println(solve(410, 847));
+        System.out.println(solve(2225, 3872));
+        System.out.println(solve(61, 169));
+        System.out.println(solve(869, 961));
+        System.out.println(solve(191, 529));
+        System.out.println(solve(281, 512));
+        System.out.println(solve(696, 943));
+        System.out.println(solve(153, 236));
+        System.out.println(solve(1225, 1552));
+    }
+
+    public static List<Long> solve(long a, long b, long c, long m) {
+        if(a == 0) {
+            return LinearCongruenceSolver.solve(b, -c, m);
+        }
+        a = a % m;
+        b = b % m;
+        c = c % m;
+        long d = b * b - 4 * a * c;
+
+        List<Long> result = new ArrayList<>();
+
+        long g = MathUtils.GCD(2 * a, m);
+        //Check if there is invertible element for 2a (mod m)
+        if(g == 1) {
+            List<Long> completeSquareSolutions = solve(d, m);
+            //2ax = t - b (mod m)
+            for (long y : completeSquareSolutions) {
+                List<Long> linearSolutions = LinearCongruenceSolver.solve(2 * a, y - b, m);
+                result.addAll(linearSolutions);
+            }
+        }
+        else {
+            double sqrtD = Math.sqrt(a);
+            long sqrt = (long)sqrtD;
+            if(sqrt == sqrtD && b % (2 * sqrt) == 0) {
+                long bb = b / (2 * sqrt);
+                d = bb * bb - c;
+                List<Long> completeSquareSolutions = solve(d, m);
+                for (long y : completeSquareSolutions) {
+                    List<Long> linearSolutions = LinearCongruenceSolver.solve(sqrt, y - b, m);
+                    result.addAll(linearSolutions);
+                }
+            }
+            else {
+                long oldA = a;
+                long oldB = b;
+
+                long g1 = MathUtils.GCD(a, 4);
+                long g2 = MathUtils.GCD(b, 4);
+                long g3 = MathUtils.GCD(g1, g2);
+
+                a = a / g3;
+                b = b / g3;
+                d = b * b - (4 / g3) * a * c;
+                d = adjust(d, m);
+
+                List<PrimeFactor> primeFactors = MathUtils.listPrimeFactors(m);
+                List<PartialSolution> partialSolutions = new ArrayList<>(primeFactors.size());
+                for (PrimeFactor primeFactor : primeFactors) {
+                    List<Long> completeSquarePartialSolutions = solve(d, primeFactor.getFactor(), primeFactor.getPow());
+                    if (completeSquarePartialSolutions.isEmpty()) {
+                        return List.of();
+                    }
+                    long mod = (long) Math.pow(primeFactor.getFactor(), primeFactor.getPow());
+                    long gcd = MathUtils.GCD(2 * a, mod);
+                    List<Long> primePowerSolutions = new ArrayList<>();
+
+                    if (gcd == 1) {
+                        for (long y : completeSquarePartialSolutions) {
+                            List<Long> linearSolutions = LinearCongruenceSolver.solve(2 * a, y - b, mod);
+                            primePowerSolutions.addAll(linearSolutions);
+                        }
+                    } else {
+                        Set<Long> uniqueSolutions = new HashSet<>();
+                        for (long y : completeSquarePartialSolutions) {
+                            List<Long> linearSolutions = LinearCongruenceSolver.solve(2 * a, y - b, mod);
+                            uniqueSolutions.addAll(linearSolutions);
+                        }
+                        for (long x : uniqueSolutions) {
+                            long value = ((oldA * x * x) % m + oldB * x + c) % mod;
+                            if (value == 0) {
+                                primePowerSolutions.add(x);
+                            }
+                        }
+                    }
+
+                    if (primePowerSolutions.isEmpty()) {
+                        return List.of();
+                    }
+
+                    partialSolutions.add(new PartialSolution(primePowerSolutions, mod));
+                }
+
+                if (partialSolutions.size() == 1) {
+                    result = partialSolutions.get(0).solutions;
+                    Collections.sort(result);
+                    return result;
+                }
+
+                List<List<LinearCongruence>> allCongruences = getCongruences(partialSolutions);
+
+                for (List<LinearCongruence> congruenceSet : allCongruences) {
+                    long solution = LinearCongruenceSolver.solveCongruencesForCoPrime(congruenceSet);
+                    result.add(solution);
+                }
+            }
+        }
+        Collections.sort(result);
+        return result;
     }
 
     /*
@@ -31,28 +151,28 @@ public class QuadraticCongruenceSolver {
             return List.of(0L);
         }
 
-        a = a % m;
+        a = adjust(a, m);
 
         List<PrimeFactor> primeFactors = MathUtils.listPrimeFactors(m);
         List<PartialSolution> partialSolutions = new ArrayList<>(primeFactors.size());
         for(PrimeFactor primeFactor : primeFactors) {
             List<Long> partialSolution = solve(a, primeFactor.getFactor(), primeFactor.getPow());
             if(partialSolution.isEmpty()) {
-               return List.of();
+                return List.of();
             }
             long mod = (long)Math.pow(primeFactor.getFactor(), primeFactor.getPow());
             partialSolutions.add(new PartialSolution(partialSolution, mod));
         }
 
         if(partialSolutions.size() == 1) {
-           return partialSolutions.get(0).solutions;
+            return partialSolutions.get(0).solutions;
         }
 
         List<Long> result = new ArrayList<>();
         List<List<LinearCongruence>> allCongruences = getCongruences(partialSolutions);
 
         for(List<LinearCongruence> congruenceSet : allCongruences) {
-            long solution = LinearCongruenceSolver.solveCongruences(congruenceSet);
+            long solution = LinearCongruenceSolver.solveCongruencesForCoPrime(congruenceSet);
             result.add(solution);
         }
 
@@ -61,11 +181,10 @@ public class QuadraticCongruenceSolver {
     }
 
     /*
-    * Solves quadratic congruence x^2 = a (mod p^k) where p is any prime
-    * */
+     * Solves quadratic congruence x^2 = a (mod p^k) where p is any prime
+     * */
     private static List<Long> solve(long a, long p, int k) {
         long mod = (long) Math.pow(p, k);
-        a = a % mod;
         if(a % mod == 0) {
             int pow = k / 2;
             long multiple = (long) Math.pow(p, pow);
@@ -106,7 +225,7 @@ public class QuadraticCongruenceSolver {
     }
 
     /*
-     * Solves pm^2 * x = a (mod pk) where p is odd prime
+     * Solves p_m^2 * x = a (mod p_k) where p is odd prime
      * */
     private static List<Long> solveForSquareRootPrime(long a, long p, long pm, long pk, int k) {
         //solves for t
@@ -329,7 +448,6 @@ public class QuadraticCongruenceSolver {
     }
 
     private static long findFirstQuadraticNonResidue(long p) {
-        List<Long> firstPrimes = List.of(2L, 3L, 5L, 7L);
         for(long prime : FIRST_PRIMES) {
             if(!isQuadraticResidue(prime, p)) {
                 return prime;
@@ -392,11 +510,11 @@ public class QuadraticCongruenceSolver {
                                         List<LinearCongruence> accumulatedCongruences, int pos) {
         PartialSolution partialSolution = partialSolutions.get(pos);
         if(pos == partialSolutions.size() - 1) {
-           for(long x : partialSolution.solutions) {
-               accumulatedCongruences.add(new LinearCongruence(x, partialSolution.mod));
-               allCongruences.add(new ArrayList<>(accumulatedCongruences));
-               accumulatedCongruences.remove(accumulatedCongruences.size() - 1);
-           }
+            for(long x : partialSolution.solutions) {
+                accumulatedCongruences.add(new LinearCongruence(x, partialSolution.mod));
+                allCongruences.add(new ArrayList<>(accumulatedCongruences));
+                accumulatedCongruences.remove(accumulatedCongruences.size() - 1);
+            }
         }
         else {
             for(long x : partialSolution.solutions) {
@@ -406,6 +524,14 @@ public class QuadraticCongruenceSolver {
                 accumulatedCongruences.remove(removeIndex);
             }
         }
+    }
+
+    private static long adjust(long a, long m) {
+        a = a % m;
+        if(a < 0) {
+           a += m;
+        }
+        return a;
     }
 
     private static class PartialSolution {

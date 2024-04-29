@@ -16,7 +16,7 @@ public class LinearCongruenceSolver {
     * Solves system of linear congruences with Chinese Reminder Theorem
     *
     * */
-    public static long solveCongruences(List<LinearCongruence> congruences) {
+    public static long solveCongruencesForCoPrime(List<LinearCongruence> congruences) {
         long result = 0;
         long M = 1;
         for(LinearCongruence congruence : congruences) {
@@ -34,12 +34,17 @@ public class LinearCongruenceSolver {
         return result;
     }
 
+
+
     /*
     * Solves linear congruence a*x = b(mod m)
     * */
     public static List<Long> solve(long a, long b, long m) {
         a = a % m;
         b = b % m;
+        if(b < 0) {
+           b = m + b;
+        }
         return solve(a, b, MathUtils.GCD(a, m), m);
     }
 
