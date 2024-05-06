@@ -1,7 +1,11 @@
-package com.smart.tkl.lib.utils;
+package com.smart.tkl.lib.utils.continuedfraction;
 
 import static com.smart.tkl.lib.utils.MathUtils.toFraction;
 
+import com.smart.tkl.lib.utils.BigDecimalFraction;
+import com.smart.tkl.lib.utils.Fraction;
+import com.smart.tkl.lib.utils.LinearSolution;
+import com.smart.tkl.lib.utils.MathUtils;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

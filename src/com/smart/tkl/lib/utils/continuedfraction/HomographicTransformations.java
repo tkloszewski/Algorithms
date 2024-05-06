@@ -1,9 +1,9 @@
-package com.smart.tkl.lib.utils;
+package com.smart.tkl.lib.utils.continuedfraction;
 
-import static com.smart.tkl.lib.utils.ContinuedFractionUtils.toContinuedFractions;
+import static com.smart.tkl.lib.utils.continuedfraction.ContinuedFractionUtils.toContinuedFractions;
 
+import com.smart.tkl.lib.utils.Fraction;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class HomographicTransformations {
@@ -41,7 +41,7 @@ public class HomographicTransformations {
          }
 
          long a0 = periodicFraction.getBase();
-         List<Long> sequence = periodicFraction.getSequence();
+         List<Long> sequence = periodicFraction.getCoefficients();
          long periodSize = periodicFraction.getPeriodSize();
          long numOfPeriods = k / periodSize;
 

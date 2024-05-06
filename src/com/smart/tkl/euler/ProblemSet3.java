@@ -1,5 +1,6 @@
 package com.smart.tkl.euler;
 
+import com.smart.tkl.lib.utils.Divisors;
 import com.smart.tkl.lib.utils.MathUtils;
 
 import java.io.BufferedReader;
@@ -234,10 +235,8 @@ public class ProblemSet3 {
     }
 
     public static long sumProperDivisors(long n) {
-        return MathUtils.sumProperDivisors(n);
+        return Divisors.sumProperDivisors(n);
     }
-
-
 
     public static int getDigitsSize(List<Integer> number) {
         for(int i = number.size() - 1; i >= 0; i--) {

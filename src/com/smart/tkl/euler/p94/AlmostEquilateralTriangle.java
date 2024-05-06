@@ -1,7 +1,7 @@
 package com.smart.tkl.euler.p94;
 
-import com.smart.tkl.lib.utils.PeriodicFraction;
-import com.smart.tkl.lib.utils.SquareRootPeriodicFractionGenerator;
+import com.smart.tkl.lib.utils.continuedfraction.PeriodicFraction;
+import com.smart.tkl.lib.utils.continuedfraction.SquareRootPeriodicFractionGenerator;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;

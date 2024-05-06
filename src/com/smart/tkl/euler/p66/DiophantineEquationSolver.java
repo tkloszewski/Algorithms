@@ -1,9 +1,8 @@
 package com.smart.tkl.euler.p66;
 
-import com.smart.tkl.lib.utils.PeriodicFraction;
-import com.smart.tkl.lib.utils.SquareRootPeriodicFractionGenerator;
+import com.smart.tkl.lib.utils.continuedfraction.PeriodicFraction;
+import com.smart.tkl.lib.utils.continuedfraction.SquareRootPeriodicFractionGenerator;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class DiophantineEquationSolver {
 
     public static BigIntegerFraction findFirstSolutionToEquation(int parameter) {
         PeriodicFraction periodicFraction = new SquareRootPeriodicFractionGenerator(parameter).generate();
-        List<Long> sequence = periodicFraction.getSequence();
+        List<Long> sequence = periodicFraction.getCoefficients();
 
         BigInteger[] previousP = new BigInteger[]{BigInteger.ONE, BigInteger.valueOf(periodicFraction.getBase())};
         BigInteger[] previousQ = new BigInteger[]{BigInteger.ZERO, BigInteger.ONE};

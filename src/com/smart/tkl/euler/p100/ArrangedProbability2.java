@@ -1,5 +1,6 @@
 package com.smart.tkl.euler.p100;
 
+import com.smart.tkl.lib.utils.Divisors;
 import com.smart.tkl.lib.utils.LinearSolution;
 import com.smart.tkl.lib.utils.MathUtils;
 import com.smart.tkl.lib.utils.Pair;
@@ -13,7 +14,7 @@ import java.util.TreeSet;
 public class ArrangedProbability2 {
 
     public static void main(String[] args) {
-        System.out.println(MathUtils.listProperDivisors(810000));
+        System.out.println(Divisors.listProperDivisors(810000));
         System.out.println(getDivisors(810, 1000));
 
         System.out.println(findSolution(1, 36, 6, 1));
@@ -64,8 +65,8 @@ public class ArrangedProbability2 {
     }
 
     private static List<Long> getDivisors(long P, long Q) {
-        List<Long> divisors1 = MathUtils.listProperDivisors(P);
-        List<Long> divisors2 = MathUtils.listProperDivisors(Q - P);
+        List<Long> divisors1 = Divisors.listProperDivisors(P);
+        List<Long> divisors2 = Divisors.listProperDivisors(Q - P);
         Set<Long> products = new TreeSet<>();
         for(long div1 : divisors1) {
             for(long div2 : divisors2) {

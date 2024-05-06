@@ -1,5 +1,6 @@
-package com.smart.tkl.lib.utils;
+package com.smart.tkl.lib.utils.continuedfraction;
 
+import com.smart.tkl.lib.utils.LongPoint;
 import java.util.List;
 
 public class PellsEquationSolver {
@@ -31,7 +32,7 @@ public class PellsEquationSolver {
     public static LongPoint solve(long d) {
         SquareRootPeriodicFractionGenerator generator = new SquareRootPeriodicFractionGenerator(d);
         PeriodicFraction periodicFraction = generator.generate();
-        List<Long> sequence = periodicFraction.getSequence();
+        List<Long> sequence = periodicFraction.getCoefficients();
 
         if(sequence.isEmpty()) {
            return new LongPoint(1, 0);

@@ -1,8 +1,8 @@
 package com.smart.tkl.euler.p80;
 
 import com.smart.tkl.lib.utils.BigDecimalFraction;
-import com.smart.tkl.lib.utils.PeriodicFraction;
-import com.smart.tkl.lib.utils.SquareRootPeriodicFractionGenerator;
+import com.smart.tkl.lib.utils.continuedfraction.PeriodicFraction;
+import com.smart.tkl.lib.utils.continuedfraction.SquareRootPeriodicFractionGenerator;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -73,7 +73,7 @@ public class SquareRootDigitalExpansion {
         BigDecimal diff = value.subtract(previousValue).abs();
 
         int i = 0;
-        List<Long> seq = periodicFraction.getSequence();
+        List<Long> seq = periodicFraction.getCoefficients();
 
         while (diff.compareTo(epsilon) > 0) {
             p = BigDecimal.valueOf(seq.get(i)).multiply(previousP[1]).add(previousP[0]);

@@ -1,6 +1,6 @@
 package com.smart.tkl.lib.utils;
 
-import static com.smart.tkl.lib.utils.ContinuedFractionUtils.toConvergentList;
+import static com.smart.tkl.lib.utils.continuedfraction.ContinuedFractionUtils.toConvergentList;
 
 import java.util.ArrayList;
 import java.util.List;
