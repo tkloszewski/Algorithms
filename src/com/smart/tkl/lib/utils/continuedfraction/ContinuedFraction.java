@@ -2,7 +2,7 @@ package com.smart.tkl.lib.utils.continuedfraction;
 
 import java.util.List;
 
-public class PeriodicFraction {
+public class ContinuedFraction {
 
     private final long value;
     private final long base;
@@ -11,11 +11,11 @@ public class PeriodicFraction {
 
     private final List<Long> coefficients;
 
-    public PeriodicFraction(long value, long base, int repetitionIndex, List<Long> coefficients) {
+    public ContinuedFraction(long value, long base, int repetitionIndex, List<Long> coefficients) {
         this(value, base, repetitionIndex, true, coefficients);
     }
 
-    public PeriodicFraction(long value, long base, int repetitionIndex, boolean periodic, List<Long> coefficients) {
+    public ContinuedFraction(long value, long base, int repetitionIndex, boolean periodic, List<Long> coefficients) {
         this.value = value;
         this.base = base;
         this.periodIndex = repetitionIndex;
@@ -23,8 +23,8 @@ public class PeriodicFraction {
         this.coefficients = coefficients;
     }
 
-    public static PeriodicFraction ofSimpleContinueFraction(long value, long base, List<Long> coefficients) {
-        return new PeriodicFraction(value, base, -1, false, coefficients);
+    public static ContinuedFraction ofSimpleContinueFraction(long value, long base, List<Long> coefficients) {
+        return new ContinuedFraction(value, base, -1, false, coefficients);
     }
 
     public int getPeriodSize() {
@@ -51,9 +51,13 @@ public class PeriodicFraction {
         return coefficients;
     }
 
+    public long getCoefficient(int index) {
+        return coefficients.get(index);
+    }
+
     @Override
     public String toString() {
-        return "PeriodicFraction{" +
+        return "ContinuedFraction{" +
                 "value=" + value +
                 ", base=" + base +
                 ", periodIndex=" + periodIndex +

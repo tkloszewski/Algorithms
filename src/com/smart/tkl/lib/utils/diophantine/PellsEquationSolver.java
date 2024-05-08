@@ -1,37 +1,15 @@
-package com.smart.tkl.lib.utils.continuedfraction;
+package com.smart.tkl.lib.utils.diophantine;
 
 import com.smart.tkl.lib.utils.LongPoint;
+import com.smart.tkl.lib.utils.continuedfraction.ContinuedFraction;
+import com.smart.tkl.lib.utils.continuedfraction.SquareRootPeriodicFractionGenerator;
 import java.util.List;
 
 public class PellsEquationSolver {
 
-    public static void main(String[] args) {
-        long time1 = System.currentTimeMillis();
-        long d = (long)Math.pow(10, 14) + 1;
-        LongPoint solution = solve(d);
-        long time2 = System.currentTimeMillis();
-        System.out.println("Solution: " + solution);
-        System.out.println("Solution took in ms: " + (time2 - time1));
-        solution = solve(3);
-        System.out.println("Reduced solution: " + solution);
-
-        int k = 0;
-        boolean[] squares = new boolean[169];
-        for(int i = 1; i < 169; i++) {
-            int r = (i * i) % 169;
-            squares[r] = true;
-        }
-        for(int i = 1; i < 169; i++) {
-            if(squares[i]) {
-               k++;
-            }
-        }
-        System.out.println("Number of quadratic residues: " + k);
-    }
-
     public static LongPoint solve(long d) {
         SquareRootPeriodicFractionGenerator generator = new SquareRootPeriodicFractionGenerator(d);
-        PeriodicFraction periodicFraction = generator.generate();
+        ContinuedFraction periodicFraction = generator.generate();
         List<Long> sequence = periodicFraction.getCoefficients();
 
         if(sequence.isEmpty()) {

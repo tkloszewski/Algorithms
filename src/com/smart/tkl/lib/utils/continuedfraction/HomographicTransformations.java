@@ -35,7 +35,7 @@ public class HomographicTransformations {
 
     public static Fraction findSquareRootConvergent(int n, long k) {
          SquareRootPeriodicFractionGenerator generator = new SquareRootPeriodicFractionGenerator(n);
-         PeriodicFraction periodicFraction = generator.generate();
+         ContinuedFraction periodicFraction = generator.generate();
          if(periodicFraction.getPeriodSize() == 0) {
             return new Fraction(periodicFraction.getBase(), 1);
          }

@@ -24,21 +24,21 @@ public class SquareRootPeriodicFractionGenerator {
     }
 
     public static void main(String[] args) {
-        long a = -22;
-        long c = 198;
-        long value = 286;
+        long a = -725;
+        long c = 608;
+        long value = 313;
 
         SquareRootPeriodicFractionGenerator generator = new SquareRootPeriodicFractionGenerator(value, a, c);
-        PeriodicFraction periodicFraction = generator.generate();
+        ContinuedFraction periodicFraction = generator.generate();
         System.out.println(periodicFraction);
     }
 
-    public PeriodicFraction generate() {
+    public ContinuedFraction generate() {
         double exactSqrt = Math.sqrt(this.value);
         long a0 = (m0 + (long) exactSqrt) / d0;
 
         if((long)exactSqrt == exactSqrt) {
-           return PeriodicFraction.ofSimpleContinueFraction(value, a0,
+           return ContinuedFraction.ofSimpleContinueFraction(value, a0,
                    ContinuedFractionUtils.toContinuedFractions(m0 + (long) a0, d0));
         }
 
@@ -67,7 +67,6 @@ public class SquareRootPeriodicFractionGenerator {
         int periodIndex = 0;
 
         while(!generatedTriplets.containsKey(triplet)) {
-            System.out.println("Triplet: " + triplet);
             generatedTriplets.put(triplet, periodIndex);
             coefficients.add(triplet.coefficient);
             triplet = nextTriplet(triplet, value, sqrt);
@@ -76,7 +75,7 @@ public class SquareRootPeriodicFractionGenerator {
 
         periodIndex = generatedTriplets.get(triplet);
 
-        return new PeriodicFraction(this.value, a0, periodIndex, coefficients);
+        return new ContinuedFraction(this.value, a0, periodIndex, coefficients);
     }
 
 

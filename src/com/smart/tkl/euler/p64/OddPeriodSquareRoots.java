@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p64;
 
-import com.smart.tkl.lib.utils.continuedfraction.PeriodicFraction;
+import com.smart.tkl.lib.utils.continuedfraction.ContinuedFraction;
 import com.smart.tkl.lib.utils.continuedfraction.SquareRootPeriodicFractionGenerator;
 
 public class OddPeriodSquareRoots {
@@ -15,7 +15,7 @@ public class OddPeriodSquareRoots {
     private static int oddPeriodSquareRoots(int upperBound) {
         int result = 0;
         for(int n = 2; n <= upperBound; n++) {
-            PeriodicFraction periodicFraction = new SquareRootPeriodicFractionGenerator(n).generate();
+            ContinuedFraction periodicFraction = new SquareRootPeriodicFractionGenerator(n).generate();
             int periodSize = periodicFraction.getPeriodSize();
             if(periodSize % 2 == 1) {
                 result++;

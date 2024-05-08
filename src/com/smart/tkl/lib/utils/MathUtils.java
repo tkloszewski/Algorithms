@@ -202,6 +202,20 @@ public class MathUtils {
         }
         return result;
     }
+
+    public static long GCD(long ...args) {
+        if(args.length == 0) {
+           throw new IllegalArgumentException("Args must not be empty");
+        }
+        long g = args[0];
+        for(long arg : args) {
+            g = GCD(g, arg);
+            if(g == 1) {
+               break;
+            }
+        }
+        return g;
+    }
     
     /*Greatest Common Divisor*/
     public static long GCD(long a, long b) {

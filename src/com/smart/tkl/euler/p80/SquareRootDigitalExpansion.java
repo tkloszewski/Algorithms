@@ -1,7 +1,7 @@
 package com.smart.tkl.euler.p80;
 
 import com.smart.tkl.lib.utils.BigDecimalFraction;
-import com.smart.tkl.lib.utils.continuedfraction.PeriodicFraction;
+import com.smart.tkl.lib.utils.continuedfraction.ContinuedFraction;
 import com.smart.tkl.lib.utils.continuedfraction.SquareRootPeriodicFractionGenerator;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -42,7 +42,7 @@ public class SquareRootDigitalExpansion {
         for(int i = 1; i <= limit; i++) {
             if(!squares[i]) {
                 SquareRootPeriodicFractionGenerator generator = new SquareRootPeriodicFractionGenerator(i);
-                PeriodicFraction periodicFraction = generator.generate();
+                ContinuedFraction periodicFraction = generator.generate();
                 BigDecimal approx = getSquareRootApproximation(periodicFraction);
                 int sum = sumOfDigits(approx);
                 result += sum;
@@ -62,7 +62,7 @@ public class SquareRootDigitalExpansion {
         return result;
     }
 
-    private BigDecimal getSquareRootApproximation(PeriodicFraction periodicFraction) {
+    private BigDecimal getSquareRootApproximation(ContinuedFraction periodicFraction) {
         BigDecimal[] previousP = new BigDecimal[]{BigDecimal.ONE, BigDecimal.valueOf(periodicFraction.getBase())};
         BigDecimal[] previousQ = new BigDecimal[]{BigDecimal.ZERO, BigDecimal.ONE};
         BigDecimal p = previousP[1];

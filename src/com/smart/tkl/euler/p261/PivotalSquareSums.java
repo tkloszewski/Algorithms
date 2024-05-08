@@ -2,7 +2,7 @@ package com.smart.tkl.euler.p261;
 
 import com.smart.tkl.lib.utils.LongPoint;
 import com.smart.tkl.lib.utils.MathUtils;
-import com.smart.tkl.lib.utils.continuedfraction.PellsEquationSolver;
+import com.smart.tkl.lib.utils.diophantine.PellsEquationSolver;
 import com.smart.tkl.lib.utils.PrimeFactor;
 import java.util.List;
 import java.util.Set;

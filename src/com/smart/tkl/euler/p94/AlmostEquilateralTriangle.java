@@ -1,6 +1,6 @@
 package com.smart.tkl.euler.p94;
 
-import com.smart.tkl.lib.utils.continuedfraction.PeriodicFraction;
+import com.smart.tkl.lib.utils.continuedfraction.ContinuedFraction;
 import com.smart.tkl.lib.utils.continuedfraction.SquareRootPeriodicFractionGenerator;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -24,7 +24,7 @@ public class AlmostEquilateralTriangle {
         System.out.println(result.integerTriangles);
 
         SquareRootPeriodicFractionGenerator generator = new SquareRootPeriodicFractionGenerator(3);
-        PeriodicFraction fraction = generator.generate();
+        ContinuedFraction fraction = generator.generate();
         System.out.println(fraction);
     }
 
