@@ -1,5 +1,7 @@
 package com.smart.tkl.lib.utils.continuedfraction;
 
+import static com.smart.tkl.lib.utils.continuedfraction.ContinuedFractionUtils.coefficient;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +9,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class SquareRootPeriodicFractionGenerator {
-
 
     private final long value;
     private long m0;
@@ -24,13 +25,17 @@ public class SquareRootPeriodicFractionGenerator {
     }
 
     public static void main(String[] args) {
-        long a = -725;
-        long c = 608;
-        long value = 313;
+        //Check for 10^7
+        long a = (long)Math.pow(10, 5);
+        long c = (long) Math.pow(10, 5);
+        long value = 332;
 
+        long time1 = System.currentTimeMillis();
         SquareRootPeriodicFractionGenerator generator = new SquareRootPeriodicFractionGenerator(value, a, c);
         ContinuedFraction periodicFraction = generator.generate();
+        long time2 = System.currentTimeMillis();
         System.out.println(periodicFraction);
+        System.out.println("Time in ms: " + (time2 - time1));
     }
 
     public ContinuedFraction generate() {
@@ -52,7 +57,7 @@ public class SquareRootPeriodicFractionGenerator {
         if((value - m0 * m0) % d0 != 0) {
            value = value * d0 * d0;
            m0 = m0 * d0;
-           sqrt = d0 * sqrt;
+           sqrt = (long)(d0 * exactSqrt);
            d0 = d0 * d0;
         }
 
@@ -84,15 +89,6 @@ public class SquareRootPeriodicFractionGenerator {
         long nextD = (value - nextM * nextM) / triplet.d;
         long nextCoefficient = coefficient(nextM,sqrt, nextD);
         return new Triplet(nextCoefficient, nextM, nextD);
-    }
-
-    private static long coefficient(long m, long sqrt, long d) {
-        long numerator = m + sqrt;
-        long coefficient = numerator / d;
-        if(coefficient < 0 || (coefficient == 0 && ((numerator < 0 && d > 0) || (numerator > 0 && d < 0)))) {
-           coefficient--;
-        }
-        return coefficient;
     }
 
     /*In the form of (S^0.5 + m)/n*/

@@ -162,5 +162,13 @@ public class ContinuedFractionUtils {
         return 1;
     }
 
+    public static long coefficient(long m, long sqrt, long d) {
+        long numerator = m + sqrt;
+        long coefficient = numerator / d;
+        if(coefficient < 0 || (coefficient == 0 && ((numerator < 0 && d > 0) || (numerator > 0 && d < 0)))) {
+            coefficient--;
+        }
+        return coefficient;
+    }
 
 }

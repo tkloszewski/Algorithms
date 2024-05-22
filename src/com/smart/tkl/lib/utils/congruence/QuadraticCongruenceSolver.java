@@ -476,7 +476,7 @@ public class QuadraticCongruenceSolver {
     }
 
     //Euler's Criterion
-    private static boolean isQuadraticResidue(long a, long p) {
+    public static boolean isQuadraticResidue(long a, long p) {
         long pow = (p - 1) / 2;
         long sign = MathUtils.moduloPower(a, pow, p);
         return sign == 1;
