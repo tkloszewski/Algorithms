@@ -18,7 +18,7 @@ public class BrentFactorization {
         System.out.println(factor(169));
 
         //long n = 7510939309561157112L;
-        long n = 4;
+        long n = 8501395401359071082L;
         long time1 = System.currentTimeMillis();
         List<PrimeFactor> primeFactors1 = MathUtils.listPrimeFactors(n);
         long time2 = System.currentTimeMillis();

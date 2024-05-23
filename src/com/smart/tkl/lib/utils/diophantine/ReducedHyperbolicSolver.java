@@ -95,13 +95,8 @@ public class ReducedHyperbolicSolver {
         long Q = a * Math.abs(f);
         Optional<XYPair> solution1 = findPrimitiveSolutionEvenWithQuotientBI(f, delta / 4, theta, -P, Q, 1);
         Optional<XYPair> solution2 = findPrimitiveSolutionEvenWithQuotientBI(f, delta / 4, theta, P, -Q, -1);
-        if(solution1.isPresent()) {
-            result.add(solution1.get());
-        }
-        if(solution2.isPresent()) {
-            result.add(solution2.get());
-        }
-
+        solution1.ifPresent(result::add);
+        solution2.ifPresent(result::add);
         return result;
     }
 
@@ -189,7 +184,6 @@ public class ReducedHyperbolicSolver {
         long sqrt = (long) exactSqrt;
         long a0 = coefficient(p, sqrt, q);
 
-
         BigInteger P = BigInteger.valueOf(p);
         BigInteger Q = BigInteger.valueOf(q);
         BigInteger D = BigInteger.valueOf(delta);
@@ -253,7 +247,6 @@ public class ReducedHyperbolicSolver {
             i++;
         }
         return Optional.empty();
-
     }
 
     private static XYPair solutionFromConvergent(XYPair convergent, BigInteger theta, BigInteger absF) {

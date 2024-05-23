@@ -1,8 +1,11 @@
 package com.smart.tkl.euler.p108;
 
+import com.smart.tkl.lib.BrentFactorization;
 import com.smart.tkl.lib.utils.MathUtils;
 import com.smart.tkl.lib.utils.PrimeFactor;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class DiophantineReciprocals {
 
@@ -29,13 +32,14 @@ public class DiophantineReciprocals {
         return number;
     }
 
-    private int countDistinctProperDivisorsPairs(int n) {
-        List<PrimeFactor> primeFactors = MathUtils.listPrimeFactors(n);
-        int count = 1;
+    private long countDistinctProperDivisorsPairs(long n) {
+        List<PrimeFactor> primeFactors = n < 100000000 ? MathUtils.listPrimeFactors(n) :
+                BrentFactorization.listPrimeFactors(n);
+        long count = 1;
         for(PrimeFactor primeFactor : primeFactors) {
-            count *= (1 + 2 * primeFactor.getPow());
+            count *= (1 + 2L * primeFactor.getPow());
         }
-        int d = count/ 2;
+        long d = count/ 2;
         if(count % 2 == 1) {
            d++;
         }

@@ -4,6 +4,7 @@ import com.smart.tkl.lib.utils.MathUtils;
 import com.smart.tkl.lib.utils.PrimeFactor;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +14,13 @@ public class DiophantineReciprocals2 {
     private final List<Long> primes;
 
     public static void main(String[] args) {
-        DiophantineReciprocals2 diophantineReciprocals = new DiophantineReciprocals2(4000000);
-        System.out.println("Diophantine reciprocals primes: " + diophantineReciprocals.primes);
+        long t1 = System.currentTimeMillis();
+        DiophantineReciprocals2 diophantineReciprocals = new DiophantineReciprocals2(1000);
         Solution foundSolution = diophantineReciprocals.findMinSolution();
+        long t2 = System.currentTimeMillis();
+        System.out.println("Diophantine reciprocals primes: " + diophantineReciprocals.primes);
         System.out.println("Min solution: " + foundSolution);
+        System.out.println("Time in ms: " + (t2 - t1));
     }
 
     public DiophantineReciprocals2(long solutionThreshold) {
@@ -32,7 +36,7 @@ public class DiophantineReciprocals2 {
     public Solution findMinSolution() {
         long[] powers = new long[primes.size()];
         int index = 1;
-        BigDecimal minValue = calcPrimesValue();
+        BigInteger minValue = calcPrimesValue();
         System.out.println("Min value: " + minValue);
         Solution minSolution = initialSolution(minValue);
         while (true) {
@@ -42,7 +46,7 @@ public class DiophantineReciprocals2 {
                index++;
             }
             else {
-               BigDecimal newValue = calcValue(powers, minValue);
+               BigInteger newValue = calcValue(powers, minValue);
                if(newValue.compareTo(minValue) < 0) {
                    minValue = newValue;
                    minSolution = new Solution(toPrimeFactors(powers), minValue);
@@ -80,25 +84,25 @@ public class DiophantineReciprocals2 {
         }
     }
 
-    private BigDecimal calcValue(long[] powers, BigDecimal minResult) {
-        BigDecimal value = BigDecimal.ONE;
+    private BigInteger calcValue(long[] powers, BigInteger minResult) {
+        BigInteger value = BigInteger.ONE;
         for(int i = 0; i < powers.length; i++) {
             if(powers[i] == 0) {
                 break;
             }
-            BigDecimal exp = new BigDecimal(primes.get(i)).pow((int)powers[i]);
+            BigInteger exp = BigInteger.valueOf(primes.get(i)).pow((int)powers[i]);
             value = value.multiply(exp);
             if(value.compareTo(minResult) > 0) {
-                return minResult.add(BigDecimal.ONE);
+                return minResult.add(BigInteger.ONE);
             }
         }
         return value;
     }
 
-    private BigDecimal calcPrimesValue() {
-        BigDecimal value = BigDecimal.ONE;
+    private BigInteger calcPrimesValue() {
+        BigInteger value = BigInteger.ONE;
         for(long prime : primes) {
-            value = value.multiply(BigDecimal.valueOf(prime));
+            value = value.multiply(BigInteger.valueOf(prime));
         }
         return value;
     }
@@ -114,7 +118,7 @@ public class DiophantineReciprocals2 {
         return primeFactors;
     }
 
-    private Solution initialSolution(BigDecimal minValue) {
+    private Solution initialSolution(BigInteger minValue) {
         List<PrimeFactor> primeFactors = new ArrayList<>();
         for(long prime : primes) {
             primeFactors.add(new PrimeFactor((int)prime, 1));
@@ -125,9 +129,9 @@ public class DiophantineReciprocals2 {
 
     private static class Solution {
         List<PrimeFactor> primeFactors;
-        BigDecimal value;
+        BigInteger value;
 
-        public Solution(List<PrimeFactor> primeFactors, BigDecimal value) {
+        public Solution(List<PrimeFactor> primeFactors, BigInteger value) {
             this.primeFactors = primeFactors;
             this.value = value;
         }
