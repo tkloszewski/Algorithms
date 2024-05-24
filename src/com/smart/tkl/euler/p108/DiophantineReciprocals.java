@@ -29,6 +29,7 @@ public class DiophantineReciprocals {
         while (countDistinctProperDivisorsPairs(number) <= threshold) {
             number++;
         }
+        System.out.println(countDistinctProperDivisorsPairs(number));
         return number;
     }
 

@@ -377,8 +377,6 @@ public class MathUtils {
 
         return result;
     }
-
-
     
     public static long sumProperDivisors2(long n) {
         if(n == 1) {
@@ -396,12 +394,6 @@ public class MathUtils {
 
         return sum - n;
     }
-
-
-
-
-
-
 
     public static List<Long> generatePrimeList(int size) {
         int sieveSize = 2 * size;
