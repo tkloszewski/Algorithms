@@ -18,6 +18,7 @@ public class QuadraticCongruenceSolver {
     private static final List<Long> FIRST_PRIMES = List.of(2L, 3L, 5L, 7L, 11L, 13L, 17L, 19L, 23L, 29L, 31L, 37L, 41L, 43L, 47L, 53L, 59L, 61L, 67L, 71L, 73L, 79L);
 
     public static void main(String[] args) {
+        System.out.println(solve(1, 0, 0, 36));
         System.out.println(solve(2, 18, 1, 585));
         System.out.println(solve(8, 0, -3, 5));
         System.out.println(solve(18, 41, 19, 6));

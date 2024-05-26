@@ -13,7 +13,7 @@ public class DiophantineReciprocals2 {
 
     public static void main(String[] args) {
         long t1 = System.currentTimeMillis();
-        DiophantineReciprocals2 diophantineReciprocals = new DiophantineReciprocals2(130754415038L);
+        DiophantineReciprocals2 diophantineReciprocals = new DiophantineReciprocals2( 4000000L);
         BigInteger minValue = diophantineReciprocals.findMinValue();
         long t2 = System.currentTimeMillis();
         System.out.println("Diophantine reciprocals primes: " + diophantineReciprocals.primes);
@@ -23,13 +23,18 @@ public class DiophantineReciprocals2 {
 
     public DiophantineReciprocals2(long solutionThreshold) {
         this.limit = solutionThreshold;
-        this.primes = MathUtils.generatePrimeList(primesCount( 2 * solutionThreshold + 1));
+        this.primes = MathUtils.generatePrimeList(primesCount(2 * solutionThreshold - 1));
         System.out.println(primes);
     }
 
     private static int primesCount(long productLimit) {
-        double log3 = Math.log10(productLimit) / Math.log10(3);
-        return (log3 == (int)log3) ? (int)log3 : (int)log3 + 1;
+        int count = 0;
+        long pow = 1;
+        while (pow < productLimit) {
+            pow *= 3;
+            count++;
+        }
+        return count;
     }
 
     public BigInteger findMinValue() {
