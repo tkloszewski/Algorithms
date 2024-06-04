@@ -300,11 +300,4 @@ public class PrimeWithRuns2 {
         long base = (long) Math.pow(10, length);
         return ((base - 1) / 9) * digit;
     }
-
-    private static String repeat(int digit, int length) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.valueOf(digit).repeat(Math.max(0, length)));
-        return sb.toString();
-    }
-
 }
