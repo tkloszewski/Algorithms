@@ -75,44 +75,6 @@ public class SortedPermutationIterator implements Iterator<int[]> {
         return null;
     }
 
-    public PermutedElement nextPermutedElement() {
-        while (!stack.isEmpty()) {
-            StackEntry stackEntry = stack.peek();
-            int mask = stackEntry.freeSlotMask;
-            int[] array = stackEntry.array;
-            int pos = stackEntry.pos;
-
-            if(mask == 0 || stackEntry.i >= tab.length) {
-                stack.pop();
-                if (mask == 0) {
-                    permutationCount++;
-                    return new PermutedElement(array, value);
-                }
-            }
-            else {
-                for (int k = stackEntry.i; k < tab.length; k++) {
-                    stackEntry.i = k + 1;
-                    if(((mask >> k) & 1) == 0) {
-                        continue;
-                    }
-                    if(stackEntry.lastValue != null && tab[k] == stackEntry.lastValue) {
-                        continue;
-                    }
-                    int bit = 1 << k;
-
-                    long pow = (long)Math.pow(10, tab.length - 1 - pos);
-                    value -= pow * array[pos];
-                    array[pos] = tab[k];
-                    value += pow * array[pos];
-                    stackEntry.lastValue = tab[k];
-                    stack.push(new StackEntry(0, array, pos + 1, mask & ~bit));
-                    break;
-                }
-            }
-        }
-        return null;
-    }
-
     private long countTotalPermutations(int[] sortedTab) {
         long result = 1;
         long numerator = 1;
