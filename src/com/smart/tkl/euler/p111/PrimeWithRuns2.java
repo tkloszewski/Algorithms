@@ -82,34 +82,34 @@ public class PrimeWithRuns2 {
         return primes;
     }
 
-    private static void fillPrimes(int digitsLength, int repeatedDigit, int posCount, int[] positions, String[] repeatingParts, List<BigInteger> foundPrimes) {
-        int prevPos = posCount > 0 ? positions[posCount - 1] : -1;
-        if(posCount == positions.length - 1) {
+    private static void fillPrimes(int digitsLength, int repeatedDigit, int posIndex, int[] positions, String[] repeatingParts, List<BigInteger> foundPrimes) {
+        int prevPos = posIndex > 0 ? positions[posIndex - 1] : -1;
+        if(posIndex == positions.length - 1) {
            int startPos = prevPos + 1;
            if(repeatedDigit % 2 == 0 || repeatedDigit == 5) {
               startPos = digitsLength - 1;
            }
            for(int pos = startPos; pos <= digitsLength - 1; pos++) {
                String repeatingPart = pos == prevPos + 1 ? "" : String.valueOf(repeatedDigit).repeat(pos - prevPos - 1);
-               repeatingParts[posCount] = repeatingPart;
-               positions[posCount] = pos;
+               repeatingParts[posIndex] = repeatingPart;
+               positions[posIndex] = pos;
                fillPrimes(digitsLength, repeatedDigit, positions, repeatingParts, new int[positions.length], 0, foundPrimes);
            }
         }
         else {
-           int startPos = posCount == 0 ? 0 : prevPos + 1;
-           int positionsLeft = positions.length - posCount - 1;
-           int endPos = posCount == 0 && repeatedDigit == 0 ? 0 : digitsLength - positionsLeft - 1;
+           int startPos = posIndex == 0 ? 0 : prevPos + 1;
+           int positionsLeft = positions.length - posIndex - 1;
+           int endPos = posIndex == 0 && repeatedDigit == 0 ? 0 : digitsLength - positionsLeft - 1;
            for(int pos = startPos; pos <= endPos; pos++) {
                String repeatingPart = pos == prevPos + 1 ? "" : String.valueOf(repeatedDigit).repeat(pos - prevPos - 1);
-               repeatingParts[posCount] = repeatingPart;
-               positions[posCount] = pos;
-               fillPrimes(digitsLength, repeatedDigit, posCount + 1, positions, repeatingParts, foundPrimes);
+               repeatingParts[posIndex] = repeatingPart;
+               positions[posIndex] = pos;
+               fillPrimes(digitsLength, repeatedDigit, posIndex + 1, positions, repeatingParts, foundPrimes);
            }
         }
     }
 
-    private static void fillPrimes(int digitsLength, int repeatingDigit, int[] positions, String[] repeatingParts, int[] digits, int digitPos,
+    private static void fillPrimes(int digitsLength, int repeatedDigit, int[] positions, String[] repeatingParts, int[] digits, int digitPos,
                                    List<BigInteger> primes) {
         if(digitPos == digits.length - 1) {
             StringBuilder numberPart1 = new StringBuilder();
@@ -123,7 +123,7 @@ public class PrimeWithRuns2 {
             int step = lastPos == digitsLength - 1 ? 2 : 1;
 
             for(int endDigit = startEndDigit; endDigit <= 9; endDigit += step){
-                if(endDigit == repeatingDigit) {
+                if(endDigit == repeatedDigit) {
                    continue;
                 }
                 if(endDigit == 5 && lastPos == digitsLength - 1) {
@@ -137,7 +137,7 @@ public class PrimeWithRuns2 {
                 numberPart2.append(endDigit);
 
                 if(lastPos < digitsLength - 1) {
-                    String lastRepeatingPart = String.valueOf(repeatingDigit).repeat(digitsLength - 1 - lastPos);
+                    String lastRepeatingPart = String.valueOf(repeatedDigit).repeat(digitsLength - 1 - lastPos);
                     numberPart2.append(lastRepeatingPart);
                 }
 
@@ -152,11 +152,11 @@ public class PrimeWithRuns2 {
             int pos = positions[digitPos];
             int startDigit = pos == 0 ? 1 : 0;
             for(int digit = startDigit; digit <= 9; digit++) {
-                if(digit == repeatingDigit) {
+                if(digit == repeatedDigit) {
                    continue;
                 }
                 digits[digitPos] = digit;
-                fillPrimes(digitsLength, repeatingDigit, positions, repeatingParts, digits, digitPos + 1, primes);
+                fillPrimes(digitsLength, repeatedDigit, positions, repeatingParts, digits, digitPos + 1, primes);
             }
         }
     }
