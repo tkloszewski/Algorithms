@@ -34,9 +34,9 @@ public class PanDigitalPrimeSets2 {
         while (permutationIterator.hasNext()) {
             digits = permutationIterator.next();
             int lastDigit = digits[digits.length - 1];
-            /*if(lastDigit != 2 && lastDigit % 2 == 0) {
+            if(lastDigit != 2 && lastDigit % 2 == 0) {
                continue;
-            }*/
+            }
             LinkedList<Integer> primesSet = new LinkedList<>();
             fillPandigitalPrimes(digits, primesSet, sums);
         }
@@ -77,28 +77,4 @@ public class PanDigitalPrimeSets2 {
         }
         return primesSieve.isPrime(value);
     }
-
-    private static class PandigitalResult implements Comparable<PandigitalResult> {
-        List<Integer> primes;
-        int sum;
-
-        public PandigitalResult(List<Integer> primes, int sum) {
-            this.primes = primes;
-            this.sum = sum;
-        }
-
-        @Override
-        public int compareTo(PandigitalResult other) {
-            return Integer.compare(this.sum, other.sum);
-        }
-
-        @Override
-        public String toString() {
-            return "PandigitalResult{" +
-                    "primes=" + primes +
-                    ", sum=" + sum +
-                    '}';
-        }
-    }
-
 }
