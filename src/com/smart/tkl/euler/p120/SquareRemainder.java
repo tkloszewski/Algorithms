@@ -17,6 +17,9 @@ public class SquareRemainder {
         long time2 = System.currentTimeMillis();
         System.out.println("Sum: " + sum);
         System.out.println("Solution took in ms: " + (time2 - time1));
+
+
+        System.out.println(maxRemainder(6));
     }
 
     public int sumOfMaxRemainders() {
@@ -28,7 +31,7 @@ public class SquareRemainder {
         return sum;
     }
 
-    private int maxRemainder(int a) {
+    private static int maxRemainder(int a) {
         boolean cycleDetected = false;
         int value = 2 * a;
         int square = a * a;
