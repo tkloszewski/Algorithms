@@ -1,6 +1,8 @@
 package com.smart.tkl.euler.p112;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -43,8 +45,11 @@ public class BouncyNumberSolver2 {
         long time2 = System.currentTimeMillis();
         System.out.println("Time in ms: " + (time2 - time1));
 
-        BigInteger foundNumber = bouncyNumberSolver.find(999999999999997840L, 1000000000000000000L);
+        BigInteger foundNumber = bouncyNumberSolver.find(999999999999999999L, 1000000000000000000L);
         System.out.println("Found number: " + foundNumber);
+
+        BigInteger bouncy = bouncyNumberSolver.countBouncy(foundNumber);
+        System.out.println("Ratio: " + new BigDecimal(bouncy).divide(new BigDecimal(foundNumber), MathContext.DECIMAL128));
     }
 
     public BigInteger find(long n, long m) {
