@@ -22,7 +22,13 @@ public class OrderedRadicals2 {
 
     //264239
     public static void main(String[] args) {
-        int T = 100;
+        test1();
+        test2();
+    }
+
+    private static void test1() {
+        long time1 = System.currentTimeMillis();
+        int T = 1000;
 
         long[] limits = new long[T];
         int[] positions = new int[T];
@@ -34,10 +40,9 @@ public class OrderedRadicals2 {
         Random random = new Random();
         for(int i = 0; i < T; i++) {
             limits[i] = Math.abs(random.nextLong()) % valueLimit + 1;
-            System.out.println("limits[i] " + limits[i]);
             int position = random.nextInt(200000) + 1;
             if(position > limits[i]) {
-               position = (int)limits[i];
+                position = (int)limits[i];
             }
             positions[i] = position;
             maxPosition = Math.max(maxPosition, positions[i]);
@@ -51,6 +56,39 @@ public class OrderedRadicals2 {
             long value = orderedRadicals.searchForValue(positions[i], limits[i]);
             System.out.println(value);
         }
+
+        long time2 = System.currentTimeMillis();
+        System.out.println("Time in ms for large L and T: " + T + " => " + (time2 - time1));
+    }
+
+    private static void test2() {
+        long time1 = System.currentTimeMillis();
+        int T = 100000;
+        long[] limits = new long[T];
+        int[] positions = new int[T];
+        int maxPosition = 0;
+        long maxSmallLimit = 0;
+
+        long valueLimit = 200000;
+
+        Random random = new Random();
+        for(int i = 0; i < T; i++) {
+            limits[i] = Math.abs(random.nextLong()) % valueLimit + 1;
+            int position = random.nextInt((int)limits[i]) + 1;
+            positions[i] = position;
+            maxPosition = Math.max(maxPosition, positions[i]);
+            if(limits[i] <= 1000000) {
+                maxSmallLimit = Math.max(maxSmallLimit, limits[i]);
+            }
+        }
+
+        OrderedRadicals2 orderedRadicals = new OrderedRadicals2(maxPosition, maxSmallLimit);
+        for(int i = 0; i < T; i++) {
+            orderedRadicals.searchForValue(positions[i], limits[i]);
+        }
+
+        long time2 = System.currentTimeMillis();
+        System.out.println("Time in ms for T=" + T + " => " + (time2 - time1));
     }
 
     private void init() {
@@ -81,8 +119,8 @@ public class OrderedRadicals2 {
             if(radical.isPureRadical()) {
                 List<Long> values = new ArrayList<>(100);
                 fillValues(0, radical.n, limit, radical.factors, values);
-                Collections.sort(values);
                 if(totalRadicalValuesCount + values.size() >= position) {
+                    Collections.sort(values);
                     int foundIdx = position - totalRadicalValuesCount - 1;
                     return values.get(foundIdx);
                 }
@@ -129,9 +167,6 @@ public class OrderedRadicals2 {
         if(segment.max <= value && k <= segment.size) {
            return radicals[segment.leftIdx + k - 1].n;
         }
-        else if(segment.size == 1 && k == 1) {
-           return radicals[segment.leftIdx].n;
-        }
         else {
             int leftCount = countLessOrEqual(segment.left, value);
             if(leftCount == 0) {
@@ -155,7 +190,7 @@ public class OrderedRadicals2 {
             return segment.count;
         }
 
-        int count = 0;
+        int count;
 
         if(segment.max <= value) {
            count = segment.size;
