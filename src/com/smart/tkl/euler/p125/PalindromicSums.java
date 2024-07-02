@@ -17,7 +17,7 @@ public class PalindromicSums {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        PalindromicSums palindromicSums = new PalindromicSums(100000000);
+        PalindromicSums palindromicSums = new PalindromicSums(1000000000);
         BigDecimal sum = palindromicSums.sumOfPalindromicSquares();
         long time2 = System.currentTimeMillis();
         System.out.println("Sum of palindromic squares: " + sum);
@@ -25,6 +25,7 @@ public class PalindromicSums {
     }
 
     public BigDecimal sumOfPalindromicSquares() {
+        System.out.println("Square limit: " + squareLimit);
         Set<Long> palindromicNumbers = new TreeSet<>();
         for(long i = squareLimit; i >= 1; i--) {
             long sumOfSquares1 = sumOfSquares(i);
@@ -38,6 +39,8 @@ public class PalindromicSums {
                 }
             }
         }
+
+        System.out.println(palindromicNumbers);
 
         BigDecimal result = BigDecimal.ZERO;
         for(Long palindromicNumber : palindromicNumbers) {
