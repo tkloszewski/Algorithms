@@ -20,7 +20,7 @@ public class CubePartnership2 {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        long primeLimit = 25 * (long)Math.pow(10, 12);
+        long primeLimit = 25 * (long) Math.pow(10, 12);
         CubePartnership2 cubePartnership = new CubePartnership2(primeLimit);
 
         int T = 100000;
@@ -32,6 +32,8 @@ public class CubePartnership2 {
         long time2 = System.currentTimeMillis();
         System.out.println("Time in ms: " + (time2 - time1));
 
+        System.out.println(cubePartnership.countPrimes(1000000));
+
     }
 
     public int countPrimes(long limit) {
@@ -39,12 +41,14 @@ public class CubePartnership2 {
     }
 
     private List<Long> generatePrimes() {
-        int maxI = (int)(Math.sqrt(primeLimit));
+        int maxPrimeSieve = (int)Math.sqrt(primeLimit);
+        double sqrtDelta = Math.sqrt(9 + 12 * (primeLimit - 1));
+        int maxI = (int)((sqrtDelta - 3) / 6);
 
         List<Long> cubanPrimes = new ArrayList<>(maxI);
-        List<Long> primes = PrimesSieve.generatePrimesUpTo(maxI);
+        List<Long> primes = PrimesSieve.generatePrimesUpTo(maxPrimeSieve);
 
-        boolean[] sieve = new boolean[(int)maxI + 1];
+        boolean[] sieve = new boolean[maxI + 1];
         Arrays.fill(sieve, true);
 
         for(int k = 2; k < primes.size(); k++) {
@@ -64,9 +68,6 @@ public class CubePartnership2 {
 
         for(int j = 1; j < sieve.length; j++) {
             long value = 3L * j * (j + 1) + 1;
-            if(value >= primeLimit) {
-               break;
-            }
             if(sieve[j]) {
                 cubanPrimes.add(value);
             }
