@@ -49,6 +49,30 @@ public class QuadraticCongruenceSolver {
         System.out.println(solve(1225, 1552));
     }
 
+    /*
+    * Solves quadratic congruence ax^2 + bx + c = 0 (mod p) where p is prime
+    *
+    * */
+    public static List<Long> solveForOddPrime(long a, long b, long c, long p) {
+        List<Long> result = new ArrayList<>();
+
+        long d = b * b - 4 * a * c;
+
+        a = adjust(a, p);
+        b = adjust(b, p);
+        d = adjust(d, p);
+
+        List<Long> completeSquareSolutions = solveForOddPrime(d, p);
+        //2ax = t - b (mod m)
+        for (long y : completeSquareSolutions) {
+            List<Long> linearSolutions = LinearCongruenceSolver.solve(2 * a, y - b, p);
+            result.addAll(linearSolutions);
+        }
+
+        Collections.sort(result);
+        return result;
+    }
+
     public static List<Long> solve(long a, long b, long c, long m) {
         a = adjust(a, m);
         b = adjust(b, m);
