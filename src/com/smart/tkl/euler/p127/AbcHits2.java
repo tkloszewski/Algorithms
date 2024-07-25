@@ -30,7 +30,7 @@ public class AbcHits2 {
     }
 
     public static void main(String[] args) {
-        int limit = 100000;
+        int limit = 150000;
         double rLimit = 1.5;
         long time1 = System.currentTimeMillis();
         AbcHits2 abcHits = new AbcHits2(limit, rLimit);
@@ -55,8 +55,9 @@ public class AbcHits2 {
         System.out.println("Sum(100000, 0.5): " + abcHits.findSum(100000, 0.5));
         System.out.println("Sum(100000, 0.65): " + abcHits.findSum(100000, 0.65));
         System.out.println("Sum(100000, 0.64): " + abcHits.findSum(100000, 0.64));
+        System.out.println("Sum(120000, 1): " + abcHits.findSum(120000, 1));
 
-        int T = 100000;
+        int T = 2000000;
         double[] rValues = new double[]{0.7, 0.71, 0.075, 0.8, 0.85, 0.9, 0.95, 0.99, 1.0, 1.01, 1.02, 1.03, 1.04, 1.05, 1.06,
                 1.07, 1.08, 1.09, 1.1, 1.15, 1.2, 1.25, 1.3, 1.33, 1.35, 1.36, 1.37, 1.38, 1.39, 1.4, 1.41, 1.42, 1.43, 1.44, 1.45,
                 1.46, 1.47, 1.48, 1.49, 1.5};
@@ -70,7 +71,7 @@ public class AbcHits2 {
             abcHits.findSum(L, r);
         }
         time2 = System.currentTimeMillis();
-        System.out.println("Time in ms: " + (time2 - time1));
+        System.out.println("Time in ms for queries: " + (time2 - time1));
     }
 
     private void init() {
@@ -158,7 +159,10 @@ public class AbcHits2 {
     }
 
     private static long findSum(Segment segment, int L, double r) {
-        if(L > segment.cMax) {
+        if(r <= segment.hits[0].power) {
+           return 0;
+        }
+        else if(L > segment.cMax) {
             return findSum(segment, r);
         }
         else {
