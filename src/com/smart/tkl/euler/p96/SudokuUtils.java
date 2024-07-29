@@ -13,6 +13,7 @@ public class SudokuUtils {
         return excluded;
     }
 
+    @SafeVarargs
     public static Set<Integer> toExcluded(Set<Integer>... sets) {
         Set<Integer> excluded = new TreeSet<>(ALL_VALUES);
         for(Set<Integer> set : sets) {
@@ -36,6 +37,7 @@ public class SudokuUtils {
         return result;
     }
 
+    @SafeVarargs
     public static Set<Integer> commonValuesSet(Set<Integer>... sets) {
         List<Set<Integer>> listOfSets = new ArrayList<>();
         Collections.addAll(listOfSets, sets);

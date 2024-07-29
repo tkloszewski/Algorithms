@@ -131,20 +131,19 @@ public class AbcHits2 {
                 target++;
             }
 
-            for(int k = 0; k < radicalValues.length; k++) {
-                int rada = radicalValues[k];
-                if((long)rada * rada * radicals[c] >= target) {
+            for (int rada : radicalValues) {
+                if ((long) rada * rada * radicals[c] >= target) {
                     break;
                 }
                 int maxRadB = (target - 1) / (rada * radicals[c]);
-                if(MathUtils.GCD(rada, radicals[c]) == 1) {
-                    for(int i = 0; i < radicalsList[rada].length; i++) {
+                if (MathUtils.GCD(rada, radicals[c]) == 1) {
+                    for (int i = 0; i < radicalsList[rada].length; i++) {
                         int a = radicalsList[rada][i];
-                        if(a >= c) {
+                        if (a >= c) {
                             break;
                         }
                         int b = c - a;
-                        if(radicals[b] <= maxRadB && rada < radicals[b]) {
+                        if (radicals[b] <= maxRadB && rada < radicals[b]) {
                             double logc = Math.log10(c);
                             double t = (Math.log10(radicals[a]) + Math.log10(radicals[b]) + Math.log10(radicals[c])) / logc;
                             hits.add(new Hit(c, t));

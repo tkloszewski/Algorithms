@@ -30,7 +30,6 @@ public class AnagramicSquares2 {
         long minNumber = (long)Math.ceil(Math.sqrt(minBound));
         long maxNumber = (long) Math.sqrt(maxBound);
 
-        List<SquareSet> squareSets = new LinkedList<>();
         int largestSize = 0;
         long maxElement = 0;
 
