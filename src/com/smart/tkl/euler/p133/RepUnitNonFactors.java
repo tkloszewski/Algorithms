@@ -3,8 +3,10 @@ package com.smart.tkl.euler.p133;
 import com.smart.tkl.lib.utils.MathUtils;
 import com.smart.tkl.lib.utils.PrimeFactor;
 
+import com.smart.tkl.lib.utils.RepUnitUtils;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class RepUnitNonFactors {
 
@@ -15,7 +17,7 @@ public class RepUnitNonFactors {
     }
 
     public static void main(String[] args) {
-        int primeLimit = 100000;
+        int primeLimit = 454000;
         long time1 = System.currentTimeMillis();
         RepUnitNonFactors repUnitNonFactors = new RepUnitNonFactors(primeLimit);
         long sum = repUnitNonFactors.getSumOfNonFactors();
@@ -28,18 +30,38 @@ public class RepUnitNonFactors {
         time2 = System.currentTimeMillis();
         System.out.println("Sum of non factors 2: " + sum);
         System.out.println("Solution 2 took in ms: " + (time2 - time1));
+
+        int count = 0;
+        Random r = new Random();
+        long t1 = System.currentTimeMillis();
+        for(int i = 0; i < 25000; i++) {
+            for(int j = 0; j < 54307; j++) {
+                if(j != 0 && i % j == 0) {
+                   count++;
+                }
+            }
+        }
+        long t2 = System.currentTimeMillis();
+        System.out.println("Time test in ms: " + (t2 - t1));
     }
 
     public long getSumOfNonFactors() {
         long sum = 10;
         List<Long> primes = MathUtils.generatePrimesUpTo(this.primeLimit);
+        List<Long> primeFactors = new ArrayList<>();
+        System.out.println("Primes size: " + primes.size());
         for(long prime : primes) {
             if(prime > 5) {
-                if(!isPrimeFactor(prime)) {
+                if(!RepUnitUtils.isDecimalPrimeFactor(prime)) {
                    sum += prime;
+                }
+                else {
+                    primeFactors.add(prime);
                 }
             }
         }
+        System.out.println(primeFactors.size());
+        System.out.println(primeFactors);
         return sum;
     }
 
@@ -57,19 +79,6 @@ public class RepUnitNonFactors {
         }
 
         return sum;
-    }
-
-    private boolean isPrimeFactor(long prime) {
-        long n = prime - 1;
-        while (n % 2 == 0) {
-            n = n / 2;
-        }
-        while (n % 5 == 0) {
-            n = n / 5;
-        }
-        long pow = (prime - 1) / n;
-        long modPow = tenPow(pow, prime);
-        return modPow == 1;
     }
 
     private long A(long number) {
@@ -90,21 +99,6 @@ public class RepUnitNonFactors {
             }
             k = result;
         }
-        return result;
-    }
-
-    private static long tenPow(long pow, long prime) {
-        long result = 1;
-
-        long a = 10;
-        while (pow > 0) {
-            if((pow & 1) == 1){
-                result = (a * result) % prime;
-            }
-            a = (a * a) % prime;
-            pow = pow >> 1;
-        }
-
         return result;
     }
 }

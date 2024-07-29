@@ -83,7 +83,7 @@ public class Divisors {
         return getDivisors(primeFactorsList, number);
     }
 
-    private static List<Long> getDivisors(List<List<Long>> primeFactorsList, long number) {
+    public static List<Long> getDivisors(List<List<Long>> primeFactorsList, long number) {
         List<Long> divisors = new ArrayList<>();
         combineDivisors(primeFactorsList, divisors, 0, 1, Math.sqrt(number), number);
         Collections.sort(divisors);

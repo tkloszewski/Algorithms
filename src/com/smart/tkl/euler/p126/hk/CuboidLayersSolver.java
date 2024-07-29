@@ -32,16 +32,10 @@ public class CuboidLayersSolver {
         System.out.println("Fast count:  " + count);
         System.out.println("Fast count time in ms: " + (time2 - time1));
 
-        /*System.out.println(count(22));
-        System.out.println(count(46));
-        System.out.println(count(78));
-        System.out.println(count(114));
-        System.out.println(count(154));*/
-
-        time1 = System.currentTimeMillis();
+       /* time1 = System.currentTimeMillis();
         test3(N);
         time2 = System.currentTimeMillis();
-        System.out.println("Time in ms: " + (time2 - time1));
+        System.out.println("Time in ms: " + (time2 - time1));*/
     }
 
     private static int count(int N) {
@@ -51,7 +45,7 @@ public class CuboidLayersSolver {
         int count = 0;
         int lMax = (int)(Math.sqrt(N - 2) / 2.0);
 
-        int zeroCount = 0;
+        int testCount = 0;
 
         for(int l = 1; l <= lMax; l++) {
             int n = N - 4 * (l - 1) * (l - 2);
@@ -78,24 +72,13 @@ public class CuboidLayersSolver {
                 long sqrtF = (long) Math.sqrt(F);
 
                 int minC = (n - 2 * a * maxB - 4 * (l - 1) * (a + maxB)) / (2 * (a + maxB) + 4 * (l - 1));
-
-                int step = 1;
-                if(a % 2 == 0 && (nb / 2) % 2 == 1) {
-                    step = 2;
-                    if((A  + minC) % 2 == 0) {
-                       minC++;
-                    }
-                }
+                int maxC = (n - 2 * a * minB - 4 * (l - 1) * (a + minB)) / (2 * (a + minB) + 4 * (l - 1));
 
 
-                /*for(long f = A + minC; f <= sqrtF; f += step) {
-                    if(F % f == 0) {
-                        long b = F / f - A;
-                        if(b <= maxB) {
-                      //     count++;
-                        }
-                    }
-                }*/
+
+
+
+                int cnt = 0;
 
 
 
@@ -103,19 +86,22 @@ public class CuboidLayersSolver {
                     int nc = n - 2 * a * b - 4 * (l - 1) * (a + b);
                     int denominator = 2 * (a + b) + 4 * (l - 1);
 
-
-
                     if(nc % denominator == 0) {
                         int c = nc / denominator;
                         if(c <= b) {
                             count++;
+                            cnt++;
                         }
                     }
-                    if(nc < denominator) {
-                       System.out.println("nc < denominator!!!");
-                    }
+
                 }
 
+                if(cnt != 0 && (maxB - minB) >= 0) {
+                    System.out.println("Min C: " + minC + ", maxC: " + maxC);
+                    System.out.println("Min B: " + minB + ", maxB: " + maxB);
+                    System.out.println("---------");
+                    testCount++;
+                }
 
 
                 if(k == 0) {
@@ -142,8 +128,8 @@ public class CuboidLayersSolver {
 
         }
 
+        System.out.println("Test count: " + testCount);
 
-       // System.out.println("Fast solutions: " + cnt);
         return count;
     }
 

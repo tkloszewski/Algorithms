@@ -25,6 +25,19 @@ public class PrimesSieve {
         return sieve[n / 2];
     }
 
+    public List<Long> getPrimes() {
+        List<Long> primes = new ArrayList<>(this.length / 2);
+        primes.add(2L);
+
+        for(int i = 1; i < sieve.length; i++) {
+            if(sieve[i]) {
+                long p = 2L * i + 1;
+                primes.add(p);
+            }
+        }
+        return primes;
+    }
+
     public static List<Long> generatePrimesUpTo(int n) {
         int notPrimesCount = n / 2;
 
