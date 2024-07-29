@@ -146,19 +146,15 @@ public class LargeRepUnit2 {
         }
         else {
            int radical = 10 * this.radicals[s];
-           int i = 1;
            for(RepUnitPrimeFactor repUnitFactor : repUnitPrimeFactors) {
                if(isDivisibleBy(repUnitFactor, a, radical, pow2, pow3)) {
                    sum += repUnitFactor.prime;
                    count++;
                    if(count == k) {
-                       //System.out.println("Found at position: " + i);
                        return sum;
                    }
                }
-               i++;
            }
-           return sum;
         }
         return sum;
     }
