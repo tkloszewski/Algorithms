@@ -1,7 +1,6 @@
 package com.smart.tkl.euler.p135;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class SameDifferences {
 
@@ -38,6 +37,20 @@ public class SameDifferences {
         return count;
     }
 
+    public static long[] countAll(int limit) {
+        long[] tab = new long[limit + 1];
+        for(int p = 1; p < limit; p++) {
+            for(int q = 1; q * p <= limit; q++) {
+                if((p + q) % 4 == 0 && (3 * p - q) > 0 && (3 * p - q) % 4 == 0) {
+                    int n = p * q;
+                    tab[n]++;
+                }
+            }
+        }
+
+        return tab;
+    }
+
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
         SameDifferences sameDifferences = new SameDifferences(1000000, 10);
@@ -45,5 +58,11 @@ public class SameDifferences {
         long time2 = System.currentTimeMillis();
         System.out.println("Number of n values with 10 distinct solutions: " + count);
         System.out.println("Time in ms: " + (time2 - time1));
+
+        time1 = System.currentTimeMillis();
+        long[] counts = countAll(100);
+        time2 = System.currentTimeMillis();
+        System.out.println("Time build in ms: " + (time2 - time1));
+        System.out.println("Counts: " + Arrays.toString(counts));
     }
 }
