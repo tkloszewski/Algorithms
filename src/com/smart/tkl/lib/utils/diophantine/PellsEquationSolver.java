@@ -29,6 +29,7 @@ public class PellsEquationSolver {
         System.out.println("Solution: " + solution);
 
         System.out.println(solve(1011));
+        System.out.println(solve(5));
     }
 
     public static LongPoint solve(long d) {
