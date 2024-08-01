@@ -1,10 +1,13 @@
 package com.smart.tkl.euler.p138;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class IsoscelesTriangle {
 
-    private final int triangleCount;
+    private final long triangleCount;
 
-    public IsoscelesTriangle(int triangleCount) {
+    public IsoscelesTriangle(long triangleCount) {
         this.triangleCount = triangleCount;
     }
 
@@ -21,17 +24,22 @@ public class IsoscelesTriangle {
     public long calcSumOfLegs() {
         long sum = 0;
         long l = 17, y = 38;
-        int currentTrianglesCount = 0;
+        long currentTrianglesCount = 0;
+
+        List<Long> values = new ArrayList<>();
 
         while (currentTrianglesCount < this.triangleCount) {
             if(y % 5 == 2 || y % 5 == 3) {
                 sum += l;
                 currentTrianglesCount++;
+               values.add(l);
             }
             long prevL = l;
             l = 9 * l + 4 * y;
             y = 20 * prevL + 9 * y;
         }
+
+        System.out.println(values);
 
         return sum;
     }
