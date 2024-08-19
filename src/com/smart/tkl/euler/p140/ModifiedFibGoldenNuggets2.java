@@ -139,6 +139,11 @@ public class ModifiedFibGoldenNuggets2 {
         return (modInv5 * f) % mod;
     }
 
+
+    /*
+    * for n even: 7/5 * (F_(2n+2) - n - 1)
+    * for n odd: sum for n - 1 plus 3F_(n+1)^2 - F_(n+1) * F_n
+    * */
     private static long sumOfGoldenNuggets2(long n, long mod, long modInv5) {
         if(n % 2 == 0) {
            long fibNum = findFibNumber(2 * n + 2, mod)[0];
