@@ -18,6 +18,14 @@ public class FibGoldenNuggets2 {
         long mod = (long)Math.pow(10, 9) + 7;
         System.out.println(findNthGoldenNugget(1, mod));
         System.out.println(findNthGoldenNugget(10, mod));
+
+        long time1 = System.currentTimeMillis();
+        long n = (long) Math.pow(10, 18);
+        for(int i = 0; i < 100000; i++) {
+            findNthGoldenNugget(n, mod);
+        }
+        long time2 = System.currentTimeMillis();
+        System.out.println("Time in ms: " + (time2 - time1));
     }
 
     public static long findNthGoldenNugget(long n, long mod) {

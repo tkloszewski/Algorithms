@@ -1,0 +1,35 @@
+This problem can be transformed into a problem of evaluating sums of the form
+
+Sum over e = 1 to all phi / (h * p1 * p2 * p3 * ..pj) : (he - 1)
+over a system of linear congruences
+{ he - 1 = 0, 1 (mod p1), ... he - 1 = 0,1 (mod pi)}
+
+where 5 <= p1 < ... < pi < .... < pj < ... pn
+are distinct prime factors of the Carmichael totient lambda(n)
+and subsequently adding up the sums using the inclusion-exclusion principle
+based on the number of equations chosen in each system. The value of h depends on phi(p *q) (mod 24)
+
+This algorithm can be derived from the constraint
+
+                 gcd(phi(n), e) = 1
+
+ and observation that
+
+                 gcd(lambda(n), e - 1) = 2
+
+ when the number of unconcealed messages for  is minimum. Ergo, this algorithm is equivalent to
+ summing up all potential candidates for  and then subtracting those candidates that fail to meet the constraints.
+  The prime factorization for large numbers in the ballpark of
+
+                lambda(n) < phi(n) <= phi(99999937 * 999999927) ~= 10^18
+
+can be computed rapidly using the Pollard's rho algorithm. Some care is needed to prevent loss of
+precision while dividing big numbers in Pollard's algorithm. Each system of linear congruences can be
+solved via the Chinese remainder theorem.
+
+               Those two pages shall help:
+               https://en.wikipedia.org/wiki/Chinese_remainder_theorem
+               https://math.stackexchange.com/questions/58373/rsa-unconcealed-messages
+
+
+
