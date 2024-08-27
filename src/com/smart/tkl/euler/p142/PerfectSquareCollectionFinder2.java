@@ -15,7 +15,7 @@ public class PerfectSquareCollectionFinder2 {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        int N = 5000;
+        int N = 10000;
         printSolutions(N);
         long time2 = System.currentTimeMillis();
         System.out.println("Time in ms: " + (time2 - time1));
@@ -24,7 +24,6 @@ public class PerfectSquareCollectionFinder2 {
     public static void printSolutions(int N) {
         List<PerfectSquare> solutions = getSolutions(N);
         Set<PerfectSquare> unique = new HashSet<>();
-
 
         for(PerfectSquare solution : solutions) {
             boolean valid = testSolution(solution);
@@ -54,15 +53,19 @@ public class PerfectSquareCollectionFinder2 {
             return false;
         }
         if(!isSquare(solution.x + solution.z)) {
+            System.out.println("Sum x + x is not square");
             return false;
         }
         if(!isSquare(solution.x - solution.z)) {
+            System.out.println("Sum x - z is not square");
             return false;
         }
         if(!isSquare(solution.y + solution.z)) {
+            System.out.println("Sum y + z is not square");
             return false;
         }
         if(!isSquare(solution.y - solution.z)) {
+            System.out.println("y - z is not square");
             return false;
         }
         return true;
@@ -196,6 +199,13 @@ public class PerfectSquareCollectionFinder2 {
         }
 
         long b2 = c * c - e * e;
+
+        if(!isSquare(b2)) {
+           d = tripleDE.l2;
+           e = tripleDE.l1;
+           b2 = c * c - e * e;
+        }
+
         if(isSquare(b2)) {
             for(long k = 1; k * a <= HYPOTENUSE_LIMIT; k++) {
                 long kc = k * c;
