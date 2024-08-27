@@ -4,7 +4,10 @@ import com.smart.tkl.lib.utils.MathUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
@@ -31,11 +34,12 @@ public class SquareProgressiveNumber2 {
         root2 = buildTree(list, queryNumbers, queryDistances);
     }
 
+    //Algorithm seems to be ok. There is sth wrong with hackerrank test cases.
     public static void main(String[] args) {
         long L = 100000000000L;
         int K = 1000000;
 
-        int T = 1000;
+        int T = 2500;
         Random r = new Random();
 
         List<Long> queryNumbers = new ArrayList<>();
@@ -43,7 +47,7 @@ public class SquareProgressiveNumber2 {
         List<Query> queries = new ArrayList<>(T + 1);
 
         for(int i = 0; i < T; i++) {
-            int d = r.nextInt(10) + 1;
+            int d = r.nextInt(K) + 1;
             long number = Math.abs(r.nextLong()) % L;
             queries.add(new Query(number, d));
             queryNumbers.add(number);
@@ -64,22 +68,34 @@ public class SquareProgressiveNumber2 {
         List<Integer> queryDistances = new ArrayList<>(distancesSet);
         SquareProgressiveNumber2 squareProgressiveNumber = new SquareProgressiveNumber2(K, L, queryNumbers, queryDistances);
 
-        squareProgressiveNumber.findBruteForceSum(1, 1000000);
+        List<ProgressiveNumber> progressiveNumbers2 = getProgressiveNumbers2(K, L);
+        List<ProgressiveNumber> progressiveNumbers3 = getProgressiveNumbers3(K, L);
 
         for(Query query : queries) {
             long sum1 = squareProgressiveNumber.findSum(query.distance, query.number);
             long sum2 = squareProgressiveNumber.findSum2(query.distance, query.number);
             long sum3 = squareProgressiveNumber.findBruteForceSum(query.distance, query.number);
+            long sum4 = squareProgressiveNumber.findBruteForceSum2(query.distance, query.number);
+            long sum5 = findBruteForceSum3(query.distance, query.number, progressiveNumbers3);
 
+            System.out.println("Query: " + query);
             System.out.println("Sum1: " + sum1);
             System.out.println("Sum2: " + sum2);
-            System.out.println("Sum3: " + sum2);
+            System.out.println("Sum3: " + sum3);
+            System.out.println("Sum4: " + sum4);
+            System.out.println("Sum5: " + sum5);
             System.out.println("-------------------");
-            if(sum1 != sum2 || sum1 != sum3) {
+            if(sum1 != sum2 || sum1 != sum3 || sum3 != sum4 || sum1 != sum5) {
                 System.out.println("DIFF!!!: " + "sum1: " + sum1 + ", sum2: " + sum2 + ", sum3: " + sum3);
                 break;
             }
         }
+
+        System.out.println(squareProgressiveNumber.findSum2(0, L));
+        System.out.println(squareProgressiveNumber.findSum(0, L));
+
+        System.out.println(findBruteForceSum3(1, 1000000, progressiveNumbers3));
+        System.out.println(findBruteForceSum3(1, 1000000, progressiveNumbers2));
     }
 
     public long findSum(int distance, long limit) {
@@ -98,6 +114,45 @@ public class SquareProgressiveNumber2 {
             }
             if(progressiveNumber.distance <= distance) {
                sum += progressiveNumber.value;
+            }
+        }
+        return sum;
+    }
+
+    public static long findBruteForceSum3(int distance, long limit, List<ProgressiveNumber> progressiveNumbers) {
+        long sum = 0;
+        for(ProgressiveNumber progressiveNumber : progressiveNumbers) {
+            if(progressiveNumber.value >= limit) {
+                break;
+            }
+            if(progressiveNumber.distance <= distance) {
+                sum += progressiveNumber.value;
+            }
+        }
+        return sum;
+    }
+
+    public long findBruteForceSum2(int distance, long limit) {
+        long sum = 0;
+        Set<Long> numbers = new HashSet<>();
+        for(long a = 2; a * a * a < limit; a++) {
+            for(long b = 1; b < a; b++) {
+                if(a * a * a * b + b * b >= limit) {
+                    break;
+                }
+                if(MathUtils.GCD(a, b) != 1) {
+                    continue;
+                }
+                for(long m = 1;;m++) {
+                    long n = a * a * a * m * m * b + m * b * b;
+                    if(n >= limit) {
+                        break;
+                    }
+                    int d = getDistance(n);
+                    if(d <= distance && numbers.add(n)) {
+                        sum += n;
+                    }
+                }
             }
         }
         return sum;
@@ -156,6 +211,53 @@ public class SquareProgressiveNumber2 {
         }
 
         return uniqueProgressiveNumbers;
+    }
+
+    private static List<ProgressiveNumber> getProgressiveNumbers2(int maxDistance, long limit) {
+        Set<ProgressiveNumber> set = new TreeSet<>();
+        List<Long> squares = new ArrayList<>();
+        for (long i = 1; i * i < limit; i++) {
+            squares.add(i * i);
+        }
+        for(long a = 2, a3; (a3=a*a*a) < limit; a++) {
+            long step = 2 - a % 2;
+            for(long b = 1; b < a && b * (a3 + b) < limit; b += step) {
+                if(MathUtils.GCD(a, b) == 1) {
+                   for(long c = 1, n; (n = b * c * (a3 * c + b)) < limit; c++) {
+                       long nearestSquare = findNearestSquare(squares, n);
+                       int distance = (int)Math.abs(n - nearestSquare);
+                       set.add(new ProgressiveNumber(n, distance));
+                   }
+                }
+            }
+        }
+
+        return new ArrayList<>(set);
+    }
+
+    private static List<ProgressiveNumber> getProgressiveNumbers3(int maxDistance, long limit) {
+        Set<ProgressiveNumber> set = new TreeSet<>();
+        Set<ProgressiveNumber> duplicates = new HashSet<>();
+        for(long a = 2, a3; (a3=a*a*a) < limit; a++) {
+            long step = 2 - a % 2;
+            for(long b = 1; b < a && b * (a3 + b) < limit; b += step) {
+                if(MathUtils.GCD(a, b) == 1) {
+                    for(long c = 1, n; (n = b * c * (a3 * c + b)) < limit; c++) {
+                        int distance = getDistance(n);
+                        if(distance <= maxDistance) {
+                            ProgressiveNumber progressiveNumber = new ProgressiveNumber(n, distance);
+                            if (!set.add(progressiveNumber)) {
+                                duplicates.add(progressiveNumber);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        set.removeAll(duplicates);
+
+        return new ArrayList<>(set);
     }
 
     private static long findNearestSquare(List<Long> squares, long value) {

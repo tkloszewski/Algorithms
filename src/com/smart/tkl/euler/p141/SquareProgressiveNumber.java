@@ -20,7 +20,7 @@ public class SquareProgressiveNumber {
         long aLimit = 10000;
 
         Set<Long> progressiveSquares = new TreeSet<>();
-
+        long s = 0;
         for(long a = 1; a <= aLimit; a++) {
             for(long b = 1; b < a; b++) {
                 if(a * a * a * b + b * b > limit) {
@@ -36,6 +36,7 @@ public class SquareProgressiveNumber {
                     }
                     if(isSquare(n)) {
                        progressiveSquares.add(n);
+                       s += n;
                     }
                 }
             }
@@ -45,7 +46,6 @@ public class SquareProgressiveNumber {
         for(long progressiveSquare : progressiveSquares) {
             sum += progressiveSquare;
         }
-
         return sum;
     }
 
