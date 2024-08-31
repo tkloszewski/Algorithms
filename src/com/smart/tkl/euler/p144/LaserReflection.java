@@ -2,27 +2,28 @@ package com.smart.tkl.euler.p144;
 
 public class LaserReflection {
 
+    private static final double GAP_X = 0.01;
+
     public static void main(String[] args) {
-        long time1 = System.currentTimeMillis();
-        int reflectionsCount = new LaserReflection().countReflections();
-        long time2 = System.currentTimeMillis();
-        System.out.println("Reflections count: " + reflectionsCount);
-        System.out.println("Solution took in ms: " + (time2 - time1));
+        System.out.println("Reflections count for (4, 1, 100, 0.0, 10.1, 1.4, -9.6) " + countReflections(4, 1, 100, 0.0, 10.1, 1.4, -9.6));
+        System.out.println("Reflections count for (4, 1, 100, 0.0, 10.1, 0.0, -9.6) " + countReflections(4, 1, 100, 0.0, 10.1, 0.0, -10.0));
+        System.out.println("Reflections count for (75, 77, 720, 0.0, 3.06, -2.70, -1.50) " + countReflections(75, 77, 720, 0.0, 3.06, -2.70, -1.50));
     }
 
-    public int countReflections() {
+    public static int countReflections(int a, int b, int c, double x0, double y0, double x1, double y1) {
+        if(x0 == 0 && x1 == 0) {
+            return 1;
+        }
+
         int reflectionsCount = 0;
 
-        double minX = -0.01;
-        double maxX = 0.01;
-        double minY = Math.sqrt(100 - 4 * maxX * maxX);
+        double minY = Math.sqrt((c - a * GAP_X * GAP_X) / b);
+        double m1 = (y1 - y0) / (x1 - x0);
+        Point p = new Point(x1, y1);
 
-        double m1 = (-9.6 - 10.1) / 1.4;
-
-        Point p = new Point(1.4, -9.6);
-        while (p.x <= minX || p.x >= maxX || p.y < minY) {
+        while (p.x < -GAP_X || p.x > GAP_X || p.y < minY) {
             reflectionsCount++;
-            Intersection intersection = getIntersection(p, m1);
+            Intersection intersection = getIntersection(a, b, p, m1);
             p = intersection.p;
             m1 = intersection.slope;
         }
@@ -30,25 +31,18 @@ public class LaserReflection {
         return reflectionsCount;
     }
 
-    private Intersection getIntersection(Point p, double m1) {
-        double m0 = -4 * p.x / p.y;
-        double a = getNextSlope(m0, m1);
-        double b = p.y - p.x * a;
+    private static Intersection getIntersection(int a, int b, Point p, double m1) {
+        double m0 = - (p.x * a) / (p.y * b);
+        double m2 = getNextSlope(m0, m1);
+        double bk = p.y - m2 * p.x;
 
-        double delta = 25 * a * a - b * b + 100;
-        double deltaSqrt = Math.sqrt(delta);
-        double denominator = a * a + 4;
+        double solutionX = - (2 * b * m2 * bk) / (a + b * m2 * m2) - p.x;
+        double solutionY = m2 * solutionX + bk;
 
-        double x1 = (-a * b - 2 * deltaSqrt) / denominator;
-        double x2 = (-a * b + 2 * deltaSqrt) / denominator;
-
-        double solutionX = Math.abs(x1 - p.x) > Math.abs(x2 - p.x) ? x1 : x2;
-        double solutionY = a * solutionX + b;
-
-        return new Intersection(new Point(solutionX, solutionY), a);
+        return new Intersection(new Point(solutionX, solutionY), m2);
     }
 
-    private double getNextSlope(double m0, double m1) {
+    private static double getNextSlope(double m0, double m1) {
         return (2 * m0 + m1 * (m0 * m0 - 1)) / (1 + 2 * m0 * m1 - m0 * m0);
     }
 
