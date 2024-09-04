@@ -2,6 +2,7 @@ package com.smart.tkl.euler.p145;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class ReversibleNumber2 {
 
@@ -23,6 +24,15 @@ public class ReversibleNumber2 {
         ReversibleNumber2 reversibleNumber = new ReversibleNumber2();
         System.out.println(reversibleNumber.count(33722496859L));
         System.out.println(reversibleNumber.count(754321372713713L));
+
+        long time1 = System.currentTimeMillis();
+        Random random = new Random();
+        for(int i = 0; i < 100000; i++) {
+            long n = Math.abs(random.nextLong());
+            reversibleNumber.count(n);
+        }
+        long time2 = System.currentTimeMillis();
+        System.out.println("Time in ms: " + (time2 - time1));
     }
 
     private void init() {
@@ -131,8 +141,6 @@ public class ReversibleNumber2 {
         return count;
     }
 
-
-
     private long countForOdd3Mod4DigitsSize(DigitsInfo digits) {
         long count = 0;
         int size = digits.size;
@@ -148,13 +156,11 @@ public class ReversibleNumber2 {
 
         count += ODD_SUMS_CARRY_OVER_CUMULATIVE[firstDigit - 1] * pow500 * 5;
 
-
         long[] prefixDigitProduct = new long[size / 2];
         prefixDigitProduct[0] = ODD_SUMS_CARRY_OVER[firstDigit];
 
         int middle = size / 2;
         int reverseIndex = middle - 1;
-        int middleDigit = digits.get(middle);
 
         for(int i = 1; i < size; i++) {
             int digit = digits.get(i);
