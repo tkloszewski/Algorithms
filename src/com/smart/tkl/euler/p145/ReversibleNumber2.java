@@ -1,9 +1,7 @@
 package com.smart.tkl.euler.p145;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 public class ReversibleNumber2 {
 
@@ -16,7 +14,6 @@ public class ReversibleNumber2 {
     private final long[] ODD_SUMS_ZERO_CUMULATIVE = new long[10];
     private final long[] ODD_SUMS_CARRY_OVER_CUMULATIVE = new long[10];
     private final long[] EVEN_SUMS_ZERO_CUMULATIVE = new long[10];
-
 
     public ReversibleNumber2() {
         init();
@@ -57,30 +54,6 @@ public class ReversibleNumber2 {
             counts[k] = counts[k - 1] + decimalCount;
         }
         return counts;
-    }
-
-
-
-    private static boolean allDigitsOdd(long n) {
-        if(n % 10 == 0) {
-            return false;
-        }
-        long reversed = 0;
-        long number = n;
-        while (number > 0) {
-            int digit = (int)(number % 10);
-            reversed = reversed * 10 + digit;
-            number = number / 10;
-        }
-        long sum = n + reversed;
-        while (sum > 0) {
-            int digit = (int)(sum % 10);
-            if((digit % 2) == 0) {
-                return false;
-            }
-            sum = sum / 10;
-        }
-        return true;
     }
 
     public long count(long number) {
@@ -265,22 +238,6 @@ public class ReversibleNumber2 {
         return count;
     }
 
-    private long bruteForceCount(long limit) {
-        int pow = 0;
-        long pow10 = 1;
-        while (pow10 * 10 < limit) {
-            pow10 *= 10;
-            pow++;
-        }
-        long count = DIGIT_COUNTS[pow];
-        for(long n = pow10; n < limit; n++) {
-            if(allDigitsOdd(n)) {
-                count++;
-            }
-        }
-        return count;
-    }
-
     private static DigitsInfo toDigitsInfo(long number) {
         List<Integer> digits = new ArrayList<>();
         while (number > 0) {
@@ -289,21 +246,6 @@ public class ReversibleNumber2 {
             number = number / 10;
         }
         return new DigitsInfo(digits, digits.size());
-    }
-
-    private static long bruteForceCount(int digits) {
-        long limit = (long) Math.pow(10, digits);
-        return bruteForceCountForLimit(limit);
-    }
-
-    private static long bruteForceCountForLimit(long limit) {
-        long count = 0;
-        for(long n = 12; n < limit; n++) {
-            if(allDigitsOdd(n)) {
-                count++;
-            }
-        }
-        return count;
     }
 
     private static class DigitsInfo {
