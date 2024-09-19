@@ -43,6 +43,28 @@ public class LinearEquationsSolver {
         for(double val : solution.getSolutions()) {
             System.out.println(val);
         }
+
+        double[][] equations3 = new double[][] {
+                {1, 1, 1, 1},
+                {8, 4, 2, 5},
+                {27, 9 , 3, 14}
+        };
+        solver = new LinearEquationsSolver(equations3);
+        solution = solver.solve();
+
+        System.out.println("Solutions for sum: " + solution);
+
+        double[][] equations4 = new double[][] {
+                {1, 1, 1, 1, 1, 1},
+                {32, 16, 8, 4, 2, 17},
+                {243, 81, 27, 9, 3, 98},
+                {1024, 256, 64, 16, 4, 354},
+                {3125, 625, 125, 25, 5, 979},
+        };
+        solver = new LinearEquationsSolver(equations4);
+        solution = solver.solve();
+
+        System.out.println("Solutions for sum of 4-th powers: " + solution);
     }
 
     public EquationsSolution solve() {
