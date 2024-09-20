@@ -60,7 +60,6 @@ public class PrimePattern2 {
         }
 
         long sum = 0;
-        List<Long> numbers = new ArrayList<>();
         long step = 1;
         for(long number = 1; number < limit; number += step) {
             boolean valid = true;
@@ -126,7 +125,6 @@ public class PrimePattern2 {
 
                 if(consecutivePrimes) {
                     sum += number;
-                    numbers.add(number);
                 }
             }
             if(number == maxPrime) {
