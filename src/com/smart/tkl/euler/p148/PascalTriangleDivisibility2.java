@@ -194,44 +194,6 @@ public class PascalTriangleDivisibility2 {
         return result;
     }
 
-    private static int[][] getTriangle(int size) {
-        int[][] result = new int[size][];
-
-        int[] values = new int[]{1};
-        result[0] = values;
-        for(int row = 1; row < size; row++) {
-            int[] newValues = new int[row + 1];
-            for(int i = 0; i <= row; i++) {
-                int value;
-                if(i == 0 || i == row) {
-                   value = 1;
-                }
-                else {
-                   value = (values[i - 1] + values[i]) % 7;
-                }
-                newValues[i] = value;
-            }
-
-            values = newValues;
-            result[row] = newValues;
-        }
-
-        return result;
-    }
-
-    private static long triangleCount(int[][] triangle, int row, int col) {
-        long result = 0;
-        for(int i = 0; i < row; i++) {
-            int[] rowValues = triangle[i];
-            for(int j = 0; j < col && j < rowValues.length; j++) {
-                if(triangle[i][j] != 0) {
-                   result++;
-                }
-            }
-        }
-        return result;
-    }
-
     private static long[] getModPowers28() {
         long[] result = new long[31];
         long value = 1;
