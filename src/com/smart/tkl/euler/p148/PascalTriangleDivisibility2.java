@@ -12,7 +12,7 @@ public class PascalTriangleDivisibility2 {
     public static void main(String[] args) {
          long rowsColumns = 1000000000000000000L;
          long time1 = System.currentTimeMillis();
-         for(int i = 0; i < 1; i++) {
+         for(int i = 0; i < 30000; i++) {
              count(rowsColumns, rowsColumns);
          }
          long time2 = System.currentTimeMillis();
@@ -33,7 +33,6 @@ public class PascalTriangleDivisibility2 {
         int size = rows.length;
         int maxPower = size - 1;
         long maxPow7 = POWERS7[maxPower];
-        System.out.println("Max power: " + maxPower);
         long colValueFrom = 0;
         for(int m = 0; m < columns.length; m++) {
             int col = columns[m];
