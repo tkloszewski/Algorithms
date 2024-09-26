@@ -129,7 +129,6 @@ public class PascalTriangleDivisibility2 {
             }
 
             long multiplier = countSameDimensionElements(row1, row2, col1, col2);
-            //System.out.println("(" + row1 + ":" + row2 + ") x (" + col1 + ":" + col2 + ") = " + multiplier);
 
             if(multiplier == 0) {
                return 0;
