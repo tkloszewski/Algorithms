@@ -25,7 +25,7 @@ public class ArrangedProbability2 {
     private static final BigInteger PELLS_CONVERGENT_THRESHOLD = ULTIMATE_THRESHOLD.multiply(BigInteger.TEN);
 
     private final List<ArrangedProbabilityInput> inputList;
-    private ReducedHyperbolicSolver solver;
+    private final ReducedHyperbolicSolver solver;
 
     public ArrangedProbability2() {
         this(List.of());

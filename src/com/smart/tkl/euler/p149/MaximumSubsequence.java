@@ -11,7 +11,7 @@ public class MaximumSubsequence {
 
     private final int limit;
     private final TriFunction<long[][], Integer, Integer, Long> nextElementResolver;
-    private final long[][] tab;
+    final long[][] tab;
     private final long[] rowSums;
     private final long[] columnSums;
     private final long[] diagonalSums;
@@ -36,7 +36,7 @@ public class MaximumSubsequence {
         System.out.println("Time : " + (time2 - time1));
 
         time1 = System.currentTimeMillis();
-        maximumSubsequence = new MaximumSubsequence(3000, MaximumSubsequence::nextElement);
+        maximumSubsequence = new MaximumSubsequence(10, MaximumSubsequence::nextElement);
         max = maximumSubsequence.resolveMax();
         time2 = System.currentTimeMillis();
         System.out.println("Max: " + max);
@@ -75,7 +75,7 @@ public class MaximumSubsequence {
         return max;
     }
 
-    private static long nextElement(long[][] tab, int k, int limit) {
+    static long nextElement(long[][] tab, int k, int limit) {
         if(k <= 55) {
           return (100003 - 200003L * k + 300007L * k * k * k) % 1000000 - 500000;
         }
