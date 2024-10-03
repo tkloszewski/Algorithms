@@ -8,14 +8,14 @@ import java.util.List;
 public class SpecialSubsetFinder {
 
     public static void main(String[] args) {
-        boolean subsetSumsUnique = areSubsetSumsUnique(new ArrayList<>(List.of(157, 150, 164, 119, 79, 159, 161, 139, 158)));
-        System.out.println("Subset sums unique: " + subsetSumsUnique);
+        boolean subsetSumsUnique = isSpecialSumSet(new ArrayList<>(List.of(157, 150, 164, 119, 79, 159, 161, 139, 158)));
+        System.out.println("Special sums: " + subsetSumsUnique);
 
-        subsetSumsUnique = areSubsetSumsUnique(new ArrayList<>(List.of(81, 88, 75, 42, 87, 84, 86, 65)));
-        System.out.println("Subset sums unique: " + subsetSumsUnique);
+        subsetSumsUnique = isSpecialSumSet(new ArrayList<>(List.of(81, 88, 75, 42, 87, 84, 86, 65)));
+        System.out.println("Special sums: " + subsetSumsUnique);
 
-        subsetSumsUnique = areSubsetSumsUnique(new ArrayList<>(List.of(81)));
-        System.out.println("Subset sums unique: " + subsetSumsUnique);
+        subsetSumsUnique = isSpecialSumSet(new ArrayList<>(List.of(81)));
+        System.out.println("Special sums: " + subsetSumsUnique);
     }
 
     public static boolean isSpecialSumSet(List<Integer> set) {
