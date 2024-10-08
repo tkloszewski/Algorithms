@@ -71,6 +71,14 @@ public class SquareProgressiveNumber2 {
         List<ProgressiveNumber> progressiveNumbers2 = getProgressiveNumbers2(K, L);
         List<ProgressiveNumber> progressiveNumbers3 = getProgressiveNumbers3(K, L);
 
+        System.out.println(squareProgressiveNumber.progressiveNumbers.equals(progressiveNumbers2));
+
+        System.out.println(progressiveNumbers2.equals(progressiveNumbers3));
+
+        System.out.println(squareProgressiveNumber.progressiveNumbers.size());
+        System.out.println(progressiveNumbers2.size());
+        System.out.println(progressiveNumbers3.size());
+
         for(Query query : queries) {
             long sum1 = squareProgressiveNumber.findSum(query.distance, query.number);
             long sum2 = squareProgressiveNumber.findSum2(query.distance, query.number);
@@ -255,7 +263,7 @@ public class SquareProgressiveNumber2 {
             }
         }
 
-        set.removeAll(duplicates);
+      //  set.removeAll(duplicates);
 
         return new ArrayList<>(set);
     }

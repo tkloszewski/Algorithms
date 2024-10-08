@@ -1,5 +1,6 @@
 package com.smart.tkl.euler.p149;
 
+import com.smart.tkl.lib.utils.ModuloUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,6 +136,10 @@ public class MaximumSubsequence2 {
         maxSquareValues = maximumSubsequence2.getConsecutiveMaxSquareValues();
         System.out.println(maxSquareValues);
         System.out.println("------------------");
+
+        double d = 1.5;
+        long l = (long)(d % 1000000007);
+        System.out.println(ModuloUtils.modInv(2, 1000000007));
     }
 
     public List<Long> getConsecutiveMaxSquareValues() {

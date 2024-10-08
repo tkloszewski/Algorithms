@@ -50,7 +50,9 @@ public class Fraction implements Comparable<Fraction> {
     }
 
     public static Fraction multiply(Fraction a, Fraction b) {
-        return new Fraction(a.p * b.p, a.q * b.q);
+        Fraction fraction1 = new Fraction(a.p, b.q);
+        Fraction fraction2 = new Fraction(b.p, a.q);
+        return new Fraction(fraction1.p * fraction2.p, fraction1.q * fraction2.q, true);
     }
 
     public static Fraction geometricAvg(Fraction a, Fraction b) {

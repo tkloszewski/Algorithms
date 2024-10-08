@@ -16,7 +16,7 @@ public class SingleSheetExpectedValue {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        SingleSheetExpectedValue singleSheetExpectedValue = new SingleSheetExpectedValue(16);
+        SingleSheetExpectedValue singleSheetExpectedValue = new SingleSheetExpectedValue(4);
         BigDecimal expectedValue = singleSheetExpectedValue.calcExpectedValue();
         long time2 = System.currentTimeMillis();
 
@@ -31,11 +31,11 @@ public class SingleSheetExpectedValue {
     public BigDecimal calcExpectedValue() {
        List<Integer> sheets = new ArrayList<>();
        sheets.add(initialSize);
-       BigDecimal exactValue = calcExpectedValue(sheets, BigDecimal.ONE, 1);
+       BigDecimal exactValue = calcExpectedValue(sheets, BigDecimal.ONE);
        return exactValue.round(new MathContext(6));
     }
 
-    private BigDecimal calcExpectedValue(List<Integer> sheets, BigDecimal accumulatedProbability, int level) {
+    private BigDecimal calcExpectedValue(List<Integer> sheets, BigDecimal accumulatedProbability) {
         CachedValue cachedValue = memo.get(sheets);
         if(cachedValue != null) {
            return cachedValue.calculatedValue
@@ -51,7 +51,7 @@ public class SingleSheetExpectedValue {
            }
            if(sheet != 1) {
               sheets = cutSheet(sheet);
-              result = result.add(calcExpectedValue(sheets, accumulatedProbability, level + 1));
+              result = result.add(calcExpectedValue(sheets, accumulatedProbability));
            }
         }
         else {
@@ -70,7 +70,7 @@ public class SingleSheetExpectedValue {
                     newSheets.sort(Comparator.reverseOrder());
                 }
 
-                result = result.add(calcExpectedValue(newSheets, accumulatedProbability.multiply(currentProbability), level + 1));
+                result = result.add(calcExpectedValue(newSheets, accumulatedProbability.multiply(currentProbability)));
 
                 i = j - 1;
             }

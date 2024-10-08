@@ -4,12 +4,12 @@ import java.util.Arrays;
 
 public class PseudoRandomGenerator implements TriFunction<long[][], Integer, Integer, Long> {
 
-    private int l;
-    private int[] a;
-    private int[] f;
-    private int m;
-    private int[] b;
-    private int[] g;
+    private final int l;
+    private final int[] a;
+    private final int[] f;
+    private final int m;
+    private final int[] b;
+    private final int[] g;
 
     private int fSum;
     private int gSum;
